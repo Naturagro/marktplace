@@ -1,17 +1,23 @@
 package naturagro.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 
 @Data
-@Embeddable
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Operador {
 
+    @Id
     private Long id;
     private String nome;
     private String cpf;
-    private String senha;
 
 
 }
