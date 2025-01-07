@@ -5,7 +5,7 @@
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
     <persistence-unit name="naturagro">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <mapping-file>META-INF/queries.xml</mapping-file>
+        <!-- <mapping-file>META-INF/queries.xml</mapping-file> -->
 
         <class>naturagro.models.Produto</class>
 
