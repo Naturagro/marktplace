@@ -15,9 +15,11 @@ public class Venda {
     private Long id;
     private LocalDateTime dataCompra;
 
+    @ManyToOne
+    @JoinColumn(name="operador_id")
     private Operador operador;
 
-    @OneToMany(mappedBy = "venda", fetch = FetchType.EAGER)
+    @OneToMany
     private List<Produto> produtos;
     private Double valorTotal;
 
