@@ -1,36 +1,16 @@
 package swing;
 
-import java.awt.EventQueue;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import java.awt.Font;
 import javax.swing.*;
-import java.awt.event.ActionListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.Color;
+import java.awt.event.ActionListener;
 
-public class MainSwing extends JFrame {
+public class SwingCredencial extends JFrame {
     private static final long serialVersionUID = 1L;
     private JTextField textField;
 
-    public static void main(String[] args) {
-        //todos os testes do swing devem ser realizados aqui
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    MainSwing frame = new MainSwing();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
     // criando frame
-    public MainSwing() {
+    public SwingCredencial() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 597, 399);
 
