@@ -14,16 +14,22 @@ public class SwingPaginaInicial extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Página Inicial");
 
-        setUndecorated(false);
         // Localização e Tamanho
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(screenSize.width,screenSize.height);
 
         // Definição de Layout
-        getContentPane().setLayout(null);
+        getContentPane().setLayout(new GridLayout(6,7,10,10));
 
         // Forçar tela cheia
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setUndecorated(false);
+
+        // Criando um "Header"
+        JPanel header = new JPanel();
+        header.setBounds(0,0,1920,90);
+        header.setBackground(Color.decode("#487307"));
+
+        getContentPane().add(header);
     }
 }
