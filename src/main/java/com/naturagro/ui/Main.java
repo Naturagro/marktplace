@@ -14,10 +14,10 @@ public class Main extends JFrame {
                 try {
                     // Instancie o objeto com a classe da tela aqui
                     SwingCredencial credencial = new SwingCredencial();
-                    SwingPaginaInicial inicial = new SwingPaginaInicial();
+                    SwingCadastro cadastro = new SwingCadastro();
                     // Abrir ou não a tela
                     credencial.setVisible(false);
-                    inicial.setVisible(true);
+                    cadastro.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
