@@ -1,12 +1,9 @@
 package naturagro.DAO;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.List;
 
-public class DAO <E>{
+public abstract class DAO <E>{
     private static EntityManagerFactory emf;
     private EntityManager em;
     private Class<E> classe;
@@ -35,14 +32,22 @@ public class DAO <E>{
         return this;
     }
 
+    public EntityTransaction obterTransaction() {
+        return em.getTransaction();
+    }
     public DAO<E> fecharT() {
         em.getTransaction().commit();
         return this;
     }
+    //getTransaction().begin().getTransaction().commit().getTransaction().close()
 
     public DAO<E> incluir(E entidade) {
         em.persist(entidade);
         return this;
+    }
+
+    public Object mesclar(E entidade) {
+        return em.merge(entidade);
     }
 
     public DAO<E> incluirAtomico(E entidade) {
