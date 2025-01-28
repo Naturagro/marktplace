@@ -39,6 +39,11 @@
             <version>5.6.0.Final</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.jgoodies</groupId>
+            <artifactId>forms</artifactId>
+            <version>1.2.1</version>
+        </dependency>
 
 
     </dependencies>
