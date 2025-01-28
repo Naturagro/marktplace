@@ -1,14 +1,9 @@
-package naturagro.service;
+package com.naturagro.service;
 
-import naturagro.DAO.DAO;
-import naturagro.models.Operador;
-import naturagro.models.Produto;
-import naturagro.models.Venda;
+import com.naturagro.DAO.DAO;
+import com.naturagro.models.Produto;
+import com.naturagro.models.Venda;
 
-import javax.persistence.EntityTransaction;
-import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
 
 public class VendaService extends DAO<Venda> {
 
@@ -17,7 +12,6 @@ public class VendaService extends DAO<Venda> {
     public VendaService() {
         super(Venda.class);
     }
-
 
 
     public void salvarVenda(Venda venda) {
