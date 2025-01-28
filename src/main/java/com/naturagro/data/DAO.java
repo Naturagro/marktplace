@@ -1,4 +1,4 @@
-package naturagro.DAO;
+package com.naturagro.data;
 
 import javax.persistence.*;
 import java.util.List;

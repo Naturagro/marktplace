@@ -1,7 +1,7 @@
-package naturagro.service;
+package com.naturagro.service;
 
-import naturagro.DAO.DAO;
-import naturagro.models.Produto;
+import com.naturagro.data.DAO;
+import com.naturagro.models.Produto;
 
 public class ProdutoService extends DAO<Produto> {
 

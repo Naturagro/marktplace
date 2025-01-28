@@ -1,7 +1,7 @@
-package naturagro.service;
+package com.naturagro.service;
 
-import naturagro.DAO.DAO;
-import naturagro.models.Operador;
+import com.naturagro.data.DAO;
+import com.naturagro.models.Operador;
 
 public class OperadorService extends DAO<Operador> {
 

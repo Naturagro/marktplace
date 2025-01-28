@@ -1,10 +1,11 @@
-package naturagro.example;
+package com.naturagro.example;
 
-import naturagro.models.Operador;
-import naturagro.models.Produto;
-import naturagro.service.OperadorService;
-import naturagro.service.ProdutoService;
 import java.time.LocalDate;
+
+import com.naturagro.models.Operador;
+import com.naturagro.models.Produto;
+import com.naturagro.service.OperadorService;
+import com.naturagro.service.ProdutoService;
 
 
 public class Main {

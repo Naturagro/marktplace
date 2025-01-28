@@ -1,4 +1,4 @@
-package naturagro.models;
+package com.naturagro.models;
 
 
 import lombok.AllArgsConstructor;
