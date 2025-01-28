@@ -1,19 +1,4 @@
-# Default ignored files
-/shelf/
-/workspace.xml
-# Editor-based HTTP Client requests
-/httpRequests/
-# Datasource local storage ignored files
-/dataSources/
-/dataSources.local.xml
-/vcs.xml
-/misc.xml
-
-
-
-
-
-
+/target/classes/com/intellij/uiDesigner/core/SupportCode$TextWithMnemonic.class
 
 # Created by https://www.toptal.com/developers/gitignore/api/maven,intellij,eclipse,java
 # Edit at https://www.toptal.com/developers/gitignore?templates=maven,intellij,eclipse,java
