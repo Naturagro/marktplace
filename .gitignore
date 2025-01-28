@@ -185,9 +185,10 @@ fabric.properties
 ### Java ###
 # Compiled class file
 *.class
-
+.classpath
 # Log file
 *.log
+.settings
 
 # BlueJ files
 *.ctxt
