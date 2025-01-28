@@ -8,6 +8,10 @@
         <!-- <mapping-file>META-INF/queries.xml</mapping-file> -->
 
         <class>naturagro.models.Produto</class>
+        <class>naturagro.models.Venda</class>
+        <class>naturagro.models.Operador</class>
+
+
 
         <properties>
             <property name="javax.persistence.jdbc.driver"
