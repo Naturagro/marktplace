@@ -12,7 +12,7 @@ import java.awt.Font;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.layout.FormSpecs;
+import com.jgoodies.forms.factories.FormFactory;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
@@ -67,23 +67,23 @@ public class SwingCadastro extends JFrame {
 		RegisterInfoPanel.setBounds(159, 191, 291, 75);
 		contentPane.add(RegisterInfoPanel);
 		RegisterInfoPanel.setLayout(new FormLayout(new ColumnSpec[] {
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),},
 			new RowSpec[] {
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,}));
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		JLabel UserLabel = new JLabel("Usuário:");
 		UserLabel.setForeground(new Color(255, 255, 255));
@@ -104,9 +104,9 @@ public class SwingCadastro extends JFrame {
 		RegisterSenhaPasswordField = new JPasswordField();
 		RegisterInfoPanel.add(RegisterSenhaPasswordField, "3, 4, 6, 1, fill, default");
 		
-		ImageIcon logo = new ImageIcon(getClass().getResource("/com/naturagro/ui/images/logonaturagro.png"));
+		ImageIcon logo = new ImageIcon(getClass().getResource("/com/naturagro/ui/images/logo.png"));
 		JLabel logoLabel = new JLabel(logo);
-		logoLabel.setBounds(230, 11, 152, 115);
+		logoLabel.setBounds(195, 22, 190, 93);
 		contentPane.add(logoLabel);
 		
 		JButton EntrarJButton = new JButton("Cadastrar");
