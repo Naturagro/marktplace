@@ -13,9 +13,9 @@ public class Main extends JFrame {
             public void run() {
                 try {
                     // Instancie o objeto com a classe da tela aqui
-                    SwingCadastro cadastro = new SwingCadastro();
+                    SwingCadastroProdutos cadastroProduto = new SwingCadastroProdutos();
                     // Abrir ou não a tela
-                    cadastro.setVisible(true);
+                    cadastroProduto.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

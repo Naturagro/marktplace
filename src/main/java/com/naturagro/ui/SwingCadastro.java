@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+
 import java.awt.Font;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -25,6 +27,7 @@ public class SwingCadastro extends JFrame {
 	private JPanel contentPane;
 	private JTextField RegisterUserTextField;
 	private JPasswordField RegisterSenhaPasswordField;
+	private JPasswordField passwordField;
 
 	/**
 	 * Launch the application.
@@ -48,7 +51,7 @@ public class SwingCadastro extends JFrame {
 	public SwingCadastro() {
 		setBackground(new Color(112, 140, 52));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 630, 390);
+		setBounds(0, 0, 630, 390);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(112, 140, 52));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -56,58 +59,40 @@ public class SwingCadastro extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel LogoLabel = new JLabel("Naturagro™");
-		LogoLabel.setBounds(195, 126, 234, 54);
-		LogoLabel.setFont(new Font("Tahoma", Font.PLAIN, 44));
-		LogoLabel.setForeground(new Color(255, 255, 255));
-		contentPane.add(LogoLabel);
-		
-		JPanel RegisterInfoPanel = new JPanel();
-		RegisterInfoPanel.setBackground(new Color(112, 140, 52));
-		RegisterInfoPanel.setBounds(159, 191, 291, 75);
-		contentPane.add(RegisterInfoPanel);
-		RegisterInfoPanel.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),},
-			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+		JLayeredPane camadas = new JLayeredPane();
+		contentPane.add(camadas);
+		camadas.setBounds(0,0,614,351);
 		
 		JLabel UserLabel = new JLabel("Usuário:");
 		UserLabel.setForeground(new Color(255, 255, 255));
 		UserLabel.setFont(new Font("Tekton Pro", Font.PLAIN, 25));
-		RegisterInfoPanel.add(UserLabel, "2, 2");
+		UserLabel.setSize(88, 30);
+		UserLabel.setLocation(156, 198);
+		camadas.add(UserLabel, Integer.valueOf(1));
 		
+		ImageIcon background1 = new ImageIcon(getClass().getResource("/com/naturagro/ui/images/background1edit.png"));
+		JLabel backgroundLabel = new JLabel(background1);
+		backgroundLabel.setBounds(0, 0, 614, 351);
+		camadas.add(backgroundLabel,Integer.valueOf(0));
 
 		// Nota: Se eu tiver MUITA coragem, eu crio uma subclasse de JTextField e faço uma classe onde o text field tem border radius
 		RegisterUserTextField = new JTextField();
-		RegisterInfoPanel.add(RegisterUserTextField, "4, 2, 5, 1, fill, default");
-		RegisterUserTextField.setColumns(10);
+		RegisterUserTextField.setBounds(248, 199, 202, 20);
+		camadas.add(RegisterUserTextField, Integer.valueOf(1));
 		
 		JLabel PassWordLabel = new JLabel("Senha:");
+		PassWordLabel.setSize(70, 30);
+		PassWordLabel.setLocation(169, 230);
 		PassWordLabel.setForeground(Color.WHITE);
 		PassWordLabel.setFont(new Font("Tekton Pro", Font.PLAIN, 25));
-		RegisterInfoPanel.add(PassWordLabel, "2, 4");
+		camadas.add(PassWordLabel, Integer.valueOf(1));
 		
 		RegisterSenhaPasswordField = new JPasswordField();
-		RegisterInfoPanel.add(RegisterSenhaPasswordField, "3, 4, 6, 1, fill, default");
+		camadas.add(RegisterSenhaPasswordField, Integer.valueOf(1));
+		RegisterSenhaPasswordField.setBounds(248, 232, 202, 20);
+
 		
 		ImageIcon logo = new ImageIcon(getClass().getResource("/com/naturagro/ui/images/logo.png"));
-		JLabel logoLabel = new JLabel(logo);
-		logoLabel.setBounds(195, 22, 190, 93);
-		contentPane.add(logoLabel);
 		
 		JButton EntrarJButton = new JButton("Cadastrar");
 		EntrarJButton.addActionListener(new ActionListener() {
@@ -117,13 +102,26 @@ public class SwingCadastro extends JFrame {
 		EntrarJButton.setBackground(new Color(124, 188, 52));
 		EntrarJButton.setForeground(new Color(255, 255, 255));
 		EntrarJButton.setBounds(257, 301, 89, 23);
-		contentPane.add(EntrarJButton);
+		camadas.add(EntrarJButton, Integer.valueOf(1));
 		
-		JLabel ConfirmationPasswordLabel = new JLabel("Confirmação da Senha");
-		ConfirmationPasswordLabel.setBounds(10, 263, 227, 30);
-		contentPane.add(ConfirmationPasswordLabel);
+		JLabel ConfirmationPasswordLabel = new JLabel("Confirmação da Senha:");
+		ConfirmationPasswordLabel.setBounds(10, 263, 234, 30);
+		camadas.add(ConfirmationPasswordLabel, Integer.valueOf(1));
 		ConfirmationPasswordLabel.setForeground(Color.WHITE);
 		ConfirmationPasswordLabel.setFont(new Font("Tekton Pro", Font.PLAIN, 25));
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(248, 266, 202, 20);
+		camadas.add(passwordField, Integer.valueOf(1));
+		JLabel logoLabel = new JLabel(logo);
+		logoLabel.setBounds(190, 11, 190, 93);
+		camadas.add(logoLabel, Integer.valueOf(1));
+		
+		JLabel LogoLabel = new JLabel("Naturagro™");
+		LogoLabel.setBounds(190, 115, 234, 54);
+		camadas.add(LogoLabel, Integer.valueOf(1));
+		LogoLabel.setFont(new Font("Tahoma", Font.PLAIN, 44));
+		LogoLabel.setForeground(new Color(255, 255, 255));
 		
 	}
 }
