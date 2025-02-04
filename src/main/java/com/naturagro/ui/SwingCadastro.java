@@ -110,9 +110,9 @@ public class SwingCadastro extends JFrame {
 		passwordField = new JPasswordField();
 		passwordField.setBounds(248, 266, 202, 20);
 		camadas.add(passwordField, Integer.valueOf(1));
-		//JLabel logoLabel = new JLabel(logo);
-		//logoLabel.setBounds(190, 11, 190, 93);
-		//camadas.add(logoLabel, Integer.valueOf(1));
+		JLabel logoLabel = new JLabel(logo);
+		logoLabel.setBounds(190, 11, 190, 93);
+		camadas.add(logoLabel, Integer.valueOf(1));
 		
 		JLabel LogoLabel = new JLabel("Naturagro™");
 		LogoLabel.setBounds(190, 115, 234, 54);
