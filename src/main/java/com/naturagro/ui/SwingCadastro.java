@@ -45,9 +45,6 @@ public class SwingCadastro extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public SwingCadastro() {
 		setBackground(new Color(112, 140, 52));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,10 +67,10 @@ public class SwingCadastro extends JFrame {
 		UserLabel.setLocation(156, 198);
 		camadas.add(UserLabel, Integer.valueOf(1));
 		
-		//ImageIcon background1 = new ImageIcon(getClass().getResource("/com/naturagro/ui/images/background1edit.png"));
-		//JLabel backgroundLabel = new JLabel(background1);
-		//backgroundLabel.setBounds(0, 0, 614, 351);
-		//camadas.add(backgroundLabel,Integer.valueOf(0));
+		ImageIcon background1 = new ImageIcon(getClass().getResource("/images/background1edit.png"));
+		JLabel backgroundLabel = new JLabel(background1);
+		backgroundLabel.setBounds(0, 0, 614, 351);
+		camadas.add(backgroundLabel,Integer.valueOf(0));
 
 		// Nota: Se eu tiver MUITA coragem, eu crio uma subclasse de JTextField e faço uma classe onde o text field tem border radius
 		RegisterUserTextField = new JTextField();
@@ -92,7 +89,7 @@ public class SwingCadastro extends JFrame {
 		RegisterSenhaPasswordField.setBounds(248, 232, 202, 20);
 
 		
-		//ImageIcon logo = new ImageIcon(getClass().getResource("/com/naturagro/ui/images/logo.png"));
+		ImageIcon logo = new ImageIcon(getClass().getResource("/images/logo.png"));
 		
 		JButton EntrarJButton = new JButton("Cadastrar");
 		EntrarJButton.addActionListener(new ActionListener() {

@@ -21,7 +21,7 @@ public class Main {
         System.out.println();
         System.out.println(dataEntrada);
         System.out.println(dataVencimento);
-        Produto produto = new Produto(1l, "Produto test", "Produto test", "Produto test",dataEntrada, dataVencimento,
+        Produto produto = new Produto("Produto test", "Produto test", "Produto test",dataEntrada, dataVencimento,
                 100, 105.5, 110.1);
         //produtoService.incluirAtomico(produto);
 
