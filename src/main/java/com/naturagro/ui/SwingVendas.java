@@ -8,7 +8,7 @@ public class SwingVendas extends JFrame {
 
 	public SwingVendas() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Menu Inicial");
+		setTitle("Menu Inicial ");
 		setBounds(0, 0, 1280, 720);
 
 
