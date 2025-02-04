@@ -30,7 +30,7 @@ public class SwingCadastroProdutos extends JFrame {
 		camadas.setBounds(0,0,1280,720);
 		
 		//ImageIcon logo = new ImageIcon(getClass().getResource("/com/naturagro/ui/images/logo.png"));
-		//JLabel logoLabel = new JLabel(logo);
+		//JLabel logoLabel = new JLabel(logo); ;
 		//logoLabel.setBounds(15,23,98,100);
 		//camadas.add(logoLabel,Integer.valueOf(1));
 		
