@@ -34,32 +34,32 @@ public class SwingVendas extends JFrame {
 		logoLabel.setBounds(15,23,98,100);
 		camadas.add(logoLabel,Integer.valueOf(1));
 		
-		JLabel CadastroProdutosLabel = new JLabel("Cadastro de Produtos");
-		CadastroProdutosLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 36));
-		CadastroProdutosLabel.setForeground(new Color(255, 255, 255));
-		CadastroProdutosLabel.setBounds(123, 46, 362, 44);
-		camadas.add(CadastroProdutosLabel,Integer.valueOf(1));
+		JLabel VendasLabel = new JLabel("Vendas");
+		VendasLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 36));
+		VendasLabel.setForeground(new Color(255, 255, 255));
+		VendasLabel.setBounds(123, 46, 362, 44);
+		camadas.add(VendasLabel,Integer.valueOf(1));
 		
-		JButton SalvarButton = new JButton("Salvar");
-		SalvarButton.setBackground(new Color(133,179,58));
-		SalvarButton.setForeground(new Color(255,255,255));
-		SalvarButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-		SalvarButton.setBounds(119, 595, 240, 50);
-		camadas.add(SalvarButton, Integer.valueOf(3));
+		JButton AdicionarButton = new JButton("Adicionar");
+		AdicionarButton.setBackground(new Color(133,179,58));
+		AdicionarButton.setForeground(new Color(255,255,255));
+		AdicionarButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+		AdicionarButton.setBounds(119, 595, 240, 50);
+		camadas.add(AdicionarButton, Integer.valueOf(3));
 		
-		JButton EditarButton = new JButton("Editar");
-		EditarButton.setForeground(Color.WHITE);
-		EditarButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-		EditarButton.setBackground(new Color(133, 179, 58));
-		EditarButton.setBounds(378, 595, 240, 50);
-		camadas.add(EditarButton);
+		JButton RemoverButton = new JButton("Remover");
+		RemoverButton.setForeground(Color.WHITE);
+		RemoverButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+		RemoverButton.setBackground(new Color(133, 179, 58));
+		RemoverButton.setBounds(378, 595, 240, 50);
+		camadas.add(RemoverButton);
 		
-		JButton ExcluirButton = new JButton("Excluir");
-		ExcluirButton.setForeground(Color.WHITE);
-		ExcluirButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-		ExcluirButton.setBackground(new Color(133, 179, 58));
-		ExcluirButton.setBounds(637, 595, 240, 50);
-		camadas.add(ExcluirButton);
+		JButton FinalizarButton = new JButton("Finalizar");
+		FinalizarButton.setForeground(Color.WHITE);
+		FinalizarButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+		FinalizarButton.setBackground(new Color(133, 179, 58));
+		FinalizarButton.setBounds(637, 595, 240, 50);
+		camadas.add(FinalizarButton);
 		
 		JButton CancelarButton = new JButton("Cancelar");
 		CancelarButton.setForeground(Color.WHITE);
