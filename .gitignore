@@ -227,7 +227,8 @@ buildNumber.properties
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
-
+.idea/misc.xml
+.idea/modules.xml
 # End of https://www.toptal.com/developers/gitignore/api/maven,intellij,eclipse,java
 
 /jarRepositories.xml
