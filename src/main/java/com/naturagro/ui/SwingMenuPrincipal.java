@@ -72,16 +72,16 @@ public class SwingMenuPrincipal extends JFrame {
 		GridPanel.setLayout(gbl_GridPanel);
 		
 		// Adiciona imagem de fundo
-		ImageIcon background2 = new ImageIcon(getClass().getResource("/com/naturagro/ui/images/background2edit.png"));
-		JLabel backgroundLabel = new JLabel(background2);
-		backgroundLabel.setBounds(0, 0, 1270, 681);
-		camadas.add(backgroundLabel,Integer.valueOf(0));
+		//ImageIcon background2 = new ImageIcon(getClass().getResource("/com/naturagro/ui/images/background2edit.png"));
+		//JLabel backgroundLabel = new JLabel(background2);
+		//backgroundLabel.setBounds(0, 0, 1270, 681);
+		//camadas.add(backgroundLabel,Integer.valueOf(0));
 		
 		// Adiciona logo
-		ImageIcon logo = new ImageIcon(getClass().getResource("/com/naturagro/ui/images/logo.png"));
-		JLabel logoLabel = new JLabel(logo);
-		logoLabel.setBounds(15,23,98,100);
-		camadas.add(logoLabel,Integer.valueOf(1));
+		//ImageIcon logo = new ImageIcon(getClass().getResource("/com/naturagro/ui/images/logo.png"));
+		//JLabel logoLabel = new JLabel(logo);
+		//logoLabel.setBounds(15,23,98,100);
+		//camadas.add(logoLabel,Integer.valueOf(1));
 		
 		JLabel MenuPrincipalLabel = new JLabel("Menu Principal");
 		MenuPrincipalLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 36));

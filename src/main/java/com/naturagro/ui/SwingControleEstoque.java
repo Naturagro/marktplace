@@ -29,10 +29,10 @@ public class SwingControleEstoque extends JFrame {
 		contentPane.add(camadas);
 		camadas.setBounds(0,0,1280,720);
 		
-		ImageIcon logo = new ImageIcon(getClass().getResource("/com/naturagro/ui/images/logo.png"));
-		JLabel logoLabel = new JLabel(logo);
-		logoLabel.setBounds(15,23,98,100);
-		camadas.add(logoLabel,Integer.valueOf(1));
+		//ImageIcon logo = new ImageIcon(getClass().getResource("/com/naturagro/ui/images/logo.png"));
+		//JLabel logoLabel = new JLabel(logo);
+		//logoLabel.setBounds(15,23,98,100);
+		//camadas.add(logoLabel,Integer.valueOf(1));
 		
 		JLabel ControleEstoqueLabel = new JLabel("Controle de Estoque");
 		ControleEstoqueLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 36));
@@ -65,10 +65,10 @@ public class SwingControleEstoque extends JFrame {
 		scrollPane.setBounds(122, 125, 1014, 433);
 		camadas.add(scrollPane);
 		
-		ImageIcon background2 = new ImageIcon(getClass().getResource("/com/naturagro/ui/images/background2edit.png"));
-		JLabel backgroundLabel = new JLabel(background2);
-		backgroundLabel.setBounds(0, 0, 1270, 681);
-		camadas.add(backgroundLabel,Integer.valueOf(0));
+		//ImageIcon background2 = new ImageIcon(getClass().getResource("/com/naturagro/ui/images/background2edit.png"));
+		//JLabel backgroundLabel = new JLabel(background2);
+		//backgroundLabel.setBounds(0, 0, 1270, 681);
+		//camadas.add(backgroundLabel,Integer.valueOf(0));
 		
 		EstoqueTable = new JTable();
 		scrollPane.setViewportView(EstoqueTable);
