@@ -29,10 +29,10 @@ public class SwingRelatorios extends JFrame {
 		contentPane.add(camadas);
 		camadas.setBounds(0,0,1280,720);
 		
-//		ImageIcon logo = new ImageIcon(getClass().getResource("/com/naturagro/ui/images/logo.png"));
-//		JLabel logoLabel = new JLabel(logo);
-//		logoLabel.setBounds(15,23,98,100);
-//		camadas.add(logoLabel,Integer.valueOf(1));
+		ImageIcon logo = new ImageIcon(getClass().getResource("/com/naturagro/ui/images/logo.png"));
+		JLabel logoLabel = new JLabel(logo);
+		logoLabel.setBounds(15,23,98,100);
+		camadas.add(logoLabel,Integer.valueOf(1));
 		
 		JLabel RelatoriosLabel = new JLabel("Relatorios");
 		RelatoriosLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 36));
@@ -54,10 +54,10 @@ public class SwingRelatorios extends JFrame {
 		CancelarButton.setBounds(633, 527, 240, 50);
 		camadas.add(CancelarButton);
 		
-//		ImageIcon background2 = new ImageIcon(getClass().getResource("/com/naturagro/ui/images/background2edit.png"));
-//		JLabel backgroundLabel = new JLabel(background2);
-//		backgroundLabel.setBounds(0, 0, 1270, 681);
-//		camadas.add(backgroundLabel,Integer.valueOf(0));
+		ImageIcon background2 = new ImageIcon(getClass().getResource("/com/naturagro/ui/images/background2edit.png"));
+		JLabel backgroundLabel = new JLabel(background2);
+		backgroundLabel.setBounds(0, 0, 1270, 681);
+		camadas.add(backgroundLabel,Integer.valueOf(0));
 		
 		JComboBox comboBox = new JComboBox();
 		comboBox.setBackground(new Color(133, 179, 58));
