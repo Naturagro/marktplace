@@ -1,14 +1,31 @@
 package com.naturagro.ui;
 import javax.swing.JFrame;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ControladorSwing {
-    SwingCadastro cadastro = new SwingCadastro();
-    SwingLogin login = new SwingLogin();
-    SwingMenuPrincipal menuPrincipal = new SwingMenuPrincipal();
-    SwingCadastroProdutos cadastroProdutos = new SwingCadastroProdutos();
+    // HashMap tem valores String e JFrame, servindo pra identificar o frame e setar ele como visivel
+    private Map<String, JFrame> janelas = new HashMap<>();
+    private JFrame janelaAtual;
 
-    void abrirJanela(JFrame janela) {
-        janela.setVisible(true);
+    // Método para adicionar todas as Janelas existentes no main
+    public void adicionarJanela(String nome, JFrame janela) {
+        janelas.put(nome, janela);
+    }
+
+    // Método para trocar as janelas durante a execução do programa
+    void abrirJanela(String nome) {
+        // se a variavel já tiver uma janela (ou seja, se o programa já tiver mostrando algo) ele escondera a janela atual
+        if (janelaAtual != null) {
+            janelaAtual.setVisible(false);
+        }
+        // depois define o nome da janela que foi adicionada no main como parametro
+        janelaAtual = janelas.get(nome);
+
+        // Abre a janela
+        if (janelaAtual != null) {
+            janelaAtual.setVisible(true);
+        }
     }
 
 

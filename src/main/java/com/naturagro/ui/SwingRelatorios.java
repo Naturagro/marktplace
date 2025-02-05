@@ -12,9 +12,11 @@ public class SwingRelatorios extends JFrame {
     private static final long serialVersionUID = 1L;
     private JTextField textField;
     private JLabel label;
+	private ControladorSwing controlador;
 
-    // Criando a Tela
-    public SwingRelatorios() {
+
+	// Criando a Tela
+    public SwingRelatorios(ControladorSwing controlador) {
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Menu Inicial");
 		setBounds(0, 0, 1280, 720);

@@ -2,6 +2,7 @@ package com.naturagro.ui;
 
 import java.awt.EventQueue;
 
+import javax.naming.ldap.Control;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -27,27 +28,11 @@ public class SwingLogin extends JFrame {
 	private JPanel contentPane;
 	private JTextField LoginUserTextField;
 	private JPasswordField LoginSenhaPasswordField;
+	private ControladorSwing controlador;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SwingCadastro frame = new SwingCadastro();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the frame.
-	 */
-	public SwingLogin() {
+	public SwingLogin(ControladorSwing controlador) {
+		this.controlador = controlador;
 		setBackground(new Color(112, 140, 52));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 630, 390);
@@ -96,6 +81,7 @@ public class SwingLogin extends JFrame {
 		JButton LoginJButton = new JButton("Entrar");
 		LoginJButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				controlador.abrirJanela("menuPrincipal");
 			}
 		});
 		LoginJButton.setBackground(new Color(124, 188, 52));

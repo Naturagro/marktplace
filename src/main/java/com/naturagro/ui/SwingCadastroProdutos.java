@@ -12,9 +12,11 @@ public class SwingCadastroProdutos extends JFrame {
     private JTextField textField;
     private JLabel label;
     private JTable table;
+	private ControladorSwing controlador;
 
-    // Criando a Tela
-    public SwingCadastroProdutos() {
+
+	// Criando a Tela
+    public SwingCadastroProdutos(ControladorSwing controlador) {
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Menu Inicial");
 		setBounds(0, 0, 1280, 720);

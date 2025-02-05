@@ -28,24 +28,10 @@ public class SwingCadastro extends JFrame {
 	private JTextField RegisterUserTextField;
 	private JPasswordField RegisterSenhaPasswordField;
 	private JPasswordField passwordField;
+	private ControladorSwing controlador;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SwingCadastro frame = new SwingCadastro();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	public SwingCadastro(ControladorSwing controlador) {
 
-	public SwingCadastro() {
 		setBackground(new Color(112, 140, 52));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 630, 390);
@@ -94,6 +80,7 @@ public class SwingCadastro extends JFrame {
 		JButton EntrarJButton = new JButton("Cadastrar");
 		EntrarJButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				controlador.abrirJanela("login");
 			}
 		});
 		EntrarJButton.setBackground(new Color(124, 188, 52));

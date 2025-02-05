@@ -18,33 +18,18 @@ import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 public class SwingMenuPrincipal extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private ControladorSwing controlador;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SwingMenuPrincipal frame = new SwingMenuPrincipal();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the frame.
-	 */
-	public SwingMenuPrincipal() {
+	public SwingMenuPrincipal(ControladorSwing controlador) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Menu Inicial");
 		setBounds(0, 0, 1280, 720);
@@ -71,17 +56,15 @@ public class SwingMenuPrincipal extends JFrame {
 		gbl_GridPanel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		GridPanel.setLayout(gbl_GridPanel);
 		
-		// Adiciona imagem de fundo
-		//ImageIcon background2 = new ImageIcon(getClass().getResource("/com/naturagro/ui/images/background2edit.png"));
-		//JLabel backgroundLabel = new JLabel(background2);
-		//backgroundLabel.setBounds(0, 0, 1270, 681);
-		//camadas.add(backgroundLabel,Integer.valueOf(0));
-		
-		// Adiciona logo
-		//ImageIcon logo = new ImageIcon(getClass().getResource("/com/naturagro/ui/images/logo.png"));
-		//JLabel logoLabel = new JLabel(logo);
-		//logoLabel.setBounds(15,23,98,100);
-		//camadas.add(logoLabel,Integer.valueOf(1));
+		ImageIcon background2 = new ImageIcon(getClass().getResource("/images/background2edit.png"));
+		JLabel backgroundLabel = new JLabel(background2);
+		backgroundLabel.setBounds(0, 0, 1270, 681);
+		camadas.add(backgroundLabel,Integer.valueOf(0));
+
+		ImageIcon logo = new ImageIcon(getClass().getResource("/images/logo.png"));
+		JLabel logoLabel = new JLabel(logo);
+		logoLabel.setBounds(15,23,98,100);
+		camadas.add(logoLabel,Integer.valueOf(1));
 		
 		JLabel MenuPrincipalLabel = new JLabel("Menu Principal");
 		MenuPrincipalLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 36));
@@ -95,6 +78,11 @@ public class SwingMenuPrincipal extends JFrame {
 		CadastroProdutosButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
 		CadastroProdutosButton.setBounds(86, 192, 482, 93);
 		camadas.add(CadastroProdutosButton, Integer.valueOf(3));
+		CadastroProdutosButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controlador.abrirJanela("cadastroProdutos");
+			}
+		});
 		
 		JButton VendasButton = new JButton("Vendas");
 		VendasButton.setBackground(new Color(133,179,58));
@@ -102,6 +90,11 @@ public class SwingMenuPrincipal extends JFrame {
 		VendasButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
 		VendasButton.setBounds(86, 357, 482, 93);
 		camadas.add(VendasButton, Integer.valueOf(3));
+		VendasButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controlador.abrirJanela("vendas");
+			}
+		});
 		
 		JButton btnNewButton_1_1 = new JButton("New button");
 		btnNewButton_1_1.setBounds(86, 522, 482, 93);
@@ -113,6 +106,11 @@ public class SwingMenuPrincipal extends JFrame {
 		ControleEstoqueButton.setBackground(new Color(133, 179, 58));
 		ControleEstoqueButton.setBounds(695, 192, 482, 93);
 		camadas.add(ControleEstoqueButton, Integer.valueOf(3));
+		ControleEstoqueButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controlador.abrirJanela("controleEstoque");
+			}
+		});
 		
 		JButton RelatoriosButton = new JButton("Relatórios");
 		RelatoriosButton.setForeground(Color.WHITE);
@@ -120,6 +118,11 @@ public class SwingMenuPrincipal extends JFrame {
 		RelatoriosButton.setBackground(new Color(133, 179, 58));
 		RelatoriosButton.setBounds(695, 357, 482, 93);
 		camadas.add(RelatoriosButton, Integer.valueOf(3));
+		RelatoriosButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controlador.abrirJanela("relatorios");
+			}
+		});
 		
 		JButton SairButton = new JButton("Sair ->|");
 		SairButton.setForeground(Color.WHITE);

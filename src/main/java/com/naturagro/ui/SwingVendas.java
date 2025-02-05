@@ -5,8 +5,10 @@ import java.awt.*;
 
 public class SwingVendas extends JFrame {
 	private static final long serialVersionUID = 1L;
+	private ControladorSwing controlador;
 
-	public SwingVendas() {
+
+	public SwingVendas(ControladorSwing controlador) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Menu Inicial");
 		setBounds(0, 0, 1280, 720);

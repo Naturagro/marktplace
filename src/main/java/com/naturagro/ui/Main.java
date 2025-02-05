@@ -12,13 +12,27 @@ public class Main extends JFrame {
             // Todos os testes do swing devem ser realizados aqui
             public void run() {
                 try {
-                    // Instancie o objeto com a classe da tela aqui
-                	SwingLogin login = new SwingLogin();
-                    SwingCadastro cadastro = new SwingCadastro();
+                    // Cria um objeto para cada tela
+                    ControladorSwing controlador = new ControladorSwing();
+                    SwingMenuPrincipal menuPrincipal = new SwingMenuPrincipal(controlador);
+                    SwingCadastro cadastro = new SwingCadastro(controlador);
+                    SwingCadastroProdutos cadastroProdutos = new SwingCadastroProdutos(controlador);
+                    SwingControleEstoque controleEstoque = new SwingControleEstoque(controlador);
+                    SwingLogin login = new SwingLogin(controlador);
+                    SwingRelatorios relatorios = new SwingRelatorios(controlador);
+                    SwingVendas vendas = new SwingVendas(controlador);
 
-                    // Abrir ou não a tela
-                    login.setVisible(true);
-                    cadastro.setVisible(true);
+                    // Adiciona cada tela ao objeto controlador
+                    controlador.adicionarJanela("login",login);
+                    controlador.adicionarJanela("menuPrincipal",menuPrincipal);
+                    controlador.adicionarJanela("cadastro", cadastro);
+                    controlador.adicionarJanela("cadastroProdutos", cadastroProdutos);
+                    controlador.adicionarJanela("controleEstoque", controleEstoque);
+                    controlador.adicionarJanela("relatorios", relatorios);
+                    controlador.adicionarJanela("vendas", vendas);
+
+                    // Inicia já com a tela de login
+                    controlador.abrirJanela("login");
 
                 } catch (Exception e) {
                     e.printStackTrace();

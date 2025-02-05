@@ -12,9 +12,11 @@ public class SwingControleEstoque extends JFrame {
     private JTextField textField;
     private JLabel label;
     private JTable EstoqueTable;
+	private ControladorSwing controlador;
 
-    // Criando a Tela
-    public SwingControleEstoque() {
+
+	// Criando a Tela
+    public SwingControleEstoque(ControladorSwing controlador) {
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Menu Inicial");
 		setBounds(0, 0, 1280, 720);
