@@ -78,18 +78,20 @@ public class SwingCadastro extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// action listener pra pegar as informações preenchidas nos campos
 				String nomeUser = SwingCadastro.this.RegisterUserTextField.getText();
-				String password = SwingCadastro.this.RegisterUserTextField.getText();
-				String confirmacaopassword = String.valueOf(SwingCadastro.this.RegisterSenhaPasswordField);
+				String password = String.valueOf(SwingCadastro.this.RegisterSenhaPasswordField.getPassword());
+				String confirmacaopassword = String.valueOf(SwingCadastro.this.passwordField.getPassword());
 
 				//try catch pra validar campos, e caso tenha algum erro, mostra uma janela com a exceção
 				try{
 					AccessControlController controller = new AccessControlController();
 					controller.registerUser(nomeUser, password, confirmacaopassword);
+					JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+					controlador.abrirJanela(("login"));
 				} catch (ControlException exception){
-					JOptionPane.showMessageDialog(EntrarJButton, e);
+					//vai mostrar o erro que foi tratado lá no access control
+					JOptionPane.showMessageDialog(EntrarJButton, exception.getMessage());
 				}
 
-				controlador.abrirJanela("login");
 			}
 		});
 		EntrarJButton.setBackground(new Color(124, 188, 52));
