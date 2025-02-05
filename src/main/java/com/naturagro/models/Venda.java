@@ -1,18 +1,12 @@
 package com.naturagro.models;
 
-import lombok.*;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
-@NoArgsConstructor
-@Transactional
 public class Venda {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,6 +25,48 @@ public class Venda {
         this.dataCompra = dataCompra;
         this.valorTotal = valorTotal;
         this.operador = operador;
+        this.produtos = produtos;
+    }
+
+    public Venda() {}
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getDataCompra() {
+        return dataCompra;
+    }
+
+    public void setDataCompra(LocalDateTime dataCompra) {
+        this.dataCompra = dataCompra;
+    }
+
+    public Double getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(Double valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
+    public Operador getOperador() {
+        return operador;
+    }
+
+    public void setOperador(Operador operador) {
+        this.operador = operador;
+    }
+
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(List<Produto> produtos) {
         this.produtos = produtos;
     }
 
