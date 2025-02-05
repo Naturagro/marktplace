@@ -25,7 +25,7 @@ public class Main {
                 100, 105.5, 110.1);
         //produtoService.incluirAtomico(produto);
 
-        Operador operador = new Operador(1l, "Operador Test", "CPF test");
+        Operador operador = new Operador("Operador Test", "CPF test");
         OperadorService oS = new OperadorService();
         oS.incluirAtomico(operador);
 

@@ -2,22 +2,18 @@ package com.naturagro.ui;
 
 import java.awt.EventQueue;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 
 import java.awt.Font;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import javax.swing.JButton;
+import com.naturagro.controllers.AccessControlController;
+import com.naturagro.controllers.ControlException;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -80,6 +76,19 @@ public class SwingCadastro extends JFrame {
 		JButton EntrarJButton = new JButton("Cadastrar");
 		EntrarJButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// action listener pra pegar as informações preenchidas nos campos
+				String nomeUser = SwingCadastro.this.RegisterUserTextField.getText();
+				String password = SwingCadastro.this.RegisterUserTextField.getText();
+				String confirmacaopassword = String.valueOf(SwingCadastro.this.RegisterSenhaPasswordField);
+
+				//try catch pra validar campos, e caso tenha algum erro, mostra uma janela com a exceção
+				try{
+					AccessControlController controller = new AccessControlController();
+					controller.registerUser(nomeUser, password, confirmacaopassword);
+				} catch (ControlException exception){
+					JOptionPane.showMessageDialog(EntrarJButton, e);
+				}
+
 				controlador.abrirJanela("login");
 			}
 		});
