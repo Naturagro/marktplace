@@ -49,18 +49,22 @@ public class SwingCadastroProdutos extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				// Pra chamar a tela do botão adicionar precisa definir uma hashmap "campos" com esses tipos para key e value
-				Map<JTextField, String> campos = new HashMap<>();
+				Map<JComponent, String> campos = new HashMap<>();
 				// Instanciar todos os textfields que a tela vai ter em uma variavel
+				JComboBox<String> categoria = new JComboBox<>(new String[]{"Frutas", "Verduras", "Carnes","Peixes","Laticinios","Bebidas","Alimentos","Higiene","Limpeza","Cosmeticos"});
 				JTextField nomeProduto = new JTextField();
 				JTextField preco = new JTextField();
 				JTextField codigo = new JTextField();
 				JTextField validade = new JTextField();
+				JTextField fornecedor = new JTextField();
 
 				// depois é só preencher o Map com o objeto txtfield criado e a string das labels a esquerda deles
+				campos.put(categoria,"Categorias:");
+				campos.put(codigo, "Código:");
 				campos.put(nomeProduto, "Nome do Produto:");
 				campos.put(preco, "Preço:");
-				campos.put(codigo, "Código:");
 				campos.put(validade, "Validade do produto:");
+				campos.put(fornecedor, "Fornecedor:");
 
 				// Agora, cria o JDialog e exibe ele
 				SwingAdicionar dialog = new SwingAdicionar(campos);

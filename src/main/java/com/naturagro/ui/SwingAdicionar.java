@@ -4,12 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.HashMap;
@@ -25,7 +21,7 @@ public class SwingAdicionar extends JDialog {
 	public static void main(String[] args) {
 	}
 
-	public SwingAdicionar(Map<JTextField, String> camposLabels) {
+	public SwingAdicionar(Map<JComponent, String> camposLabels) {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setLayout(new FlowLayout());
@@ -35,8 +31,8 @@ public class SwingAdicionar extends JDialog {
         contentPanel.setLayout(new GridLayout(camposLabels.size(), 2, 10, 10));
 		setModal(true);
 		
-		 for (Map.Entry<JTextField, String> entry : camposLabels.entrySet()) {
-	            JTextField nomeVariavel = entry.getKey();
+		 for (Map.Entry<JComponent, String> entry : camposLabels.entrySet()) {
+			 JComponent componente = entry.getKey();
 	            String labelTexto = entry.getValue();
 
 	            JLabel lbl = new JLabel(labelTexto);		
@@ -44,7 +40,7 @@ public class SwingAdicionar extends JDialog {
 	    		lbl.setForeground(new Color(255, 255, 255));
 	            contentPanel.add(lbl);
 
-	            contentPanel.add(nomeVariavel);
+	            contentPanel.add(componente);
 	        }
 
 		
