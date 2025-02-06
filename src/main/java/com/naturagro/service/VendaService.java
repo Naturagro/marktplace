@@ -8,7 +8,7 @@ import com.naturagro.models.Venda;
 public class VendaService extends DAO<Venda> {
 
     ProdutoService produtoService = new ProdutoService();
-    OperadorService operadorService = new OperadorService();
+    FuncionarioService funcionarioService = new FuncionarioService();
     public VendaService() {
         super(Venda.class);
     }
@@ -23,10 +23,10 @@ public class VendaService extends DAO<Venda> {
                 produtoService.obterPorID(produto.getId());  // Reatachar produtos desanexados
             }
         }
-        if(venda.getOperador().getId() == null) {
-            operadorService.incluirAtomico(venda.getOperador());
+        if(venda.getOperador().getCpf() == null) {
+            funcionarioService.incluirAtomico(venda.getOperador());
         } else {
-            operadorService.obterPorID(venda.getOperador().getId());
+            funcionarioService.obterPorID(venda.getOperador().getCpf());
         }
         mesclar(venda);
         fecharT();
@@ -44,8 +44,8 @@ public class VendaService extends DAO<Venda> {
 
 
         if(venda.getOperador().getId() == null) {
-            operadorService.incluirAtomico();
+            funcionarioService.incluirAtomico();
         } else {
-            operadorService.obterPorID();
+            funcionarioService.obterPorID();
         }
   */
