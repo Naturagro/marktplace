@@ -1,7 +1,6 @@
 package com.naturagro.controllers;
 
-import com.naturagro.models.Operador;
-import com.naturagro.service.OperadorService;
+import com.naturagro.service.FuncionarioService;
 
 //lança a exceção de cadastro
 public class AccessControlController {
@@ -29,4 +28,12 @@ public class AccessControlController {
         // esta como true temporariamente
         return true;
     }
+
+    /*
+        Para verificar a existência de um usuário no sistema
+        só é necessário chamar o método obterPorId() da classe
+        FuncionarioService e passar o id como parâmetro
+
+        se o retorno for != null o objeto existe no bd, se for == null é só persisti-lo com incluirAtomico()
+    */
 }
