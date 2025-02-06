@@ -22,6 +22,9 @@ public class SwingAdicionar extends JDialog {
 	private JTextField textField;
     private Map<JTextField, String> campos = new HashMap<>();
 
+	public static void main(String[] args) {
+	}
+
 	public SwingAdicionar(Map<JTextField, String> camposLabels) {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
