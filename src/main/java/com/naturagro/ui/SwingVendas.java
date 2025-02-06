@@ -2,13 +2,15 @@ package com.naturagro.ui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class SwingVendas extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private ControladorSwing controlador;
 
 
-	public SwingVendas(ControladorSwing controlador) {
+	public SwingVendas(ControladorSwing controladorDeTela) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Menu Inicial");
 		setBounds(0, 0, 1280, 720);
@@ -46,11 +48,17 @@ public class SwingVendas extends JFrame {
 		BotaoFinalizar.setForeground(new Color(255,255,255));
 		BotaoFinalizar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
 
-		JButton BotaoCancelar = new JButton("Cancelar");
-		BotaoCancelar.setBackground(new Color(133,179,58));
-		BotaoCancelar.setForeground(new Color(255,255,255));
-		BotaoCancelar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-
+		// Botão Voltar
+		JButton BotaoVoltar = new JButton("Voltar");
+		BotaoVoltar.setBackground(new Color(133,179,58));
+		BotaoVoltar.setForeground(new Color(255,255,255));
+		BotaoVoltar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+		// Função do botão voltar
+		BotaoVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controladorDeTela.abrirJanela("menuPrincipal");
+			}
+		});
 
 		// Tabela
 		JTable table = new JTable();
@@ -78,12 +86,13 @@ public class SwingVendas extends JFrame {
 		gbc.gridx = 2;
 		PainelPrincipal.add(BotaoFinalizar, gbc);
 
-		// Colocando botao cancelar (foi colocado com uma configuração diferente dos outros )
+		// Colocando botao Voltar (foi colocado com uma configuração diferente dos outros )
 		gbc.gridx = 3;
 		gbc.gridy = 0;
 		gbc.weightx = 0;
 		gbc.fill = GridBagConstraints.NONE;
-		PainelPrincipal.add(BotaoCancelar, gbc);
+		PainelPrincipal.add(BotaoVoltar, gbc);
+		// Função do botão Voltar
 
 		// Colocando tabela dentro de um JScrollPane
 		gbc.gridx = 0;

@@ -18,7 +18,7 @@ public class SwingCadastroProdutos extends JFrame {
 
 
 	// Criando a Tela
-	public SwingCadastroProdutos(ControladorSwing controlador) {
+	public SwingCadastroProdutos(ControladorSwing controladorDeTela) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Menu Inicial");
 		setBounds(0, 0, 1280, 720);
@@ -89,12 +89,20 @@ public class SwingCadastroProdutos extends JFrame {
 		ExcluirButton.setBounds(637, 595, 240, 50);
 		camadas.add(ExcluirButton);
 
-		JButton CancelarButton = new JButton("Cancelar");
-		CancelarButton.setForeground(Color.WHITE);
-		CancelarButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-		CancelarButton.setBackground(new Color(133, 179, 58));
-		CancelarButton.setBounds(896, 595, 240, 50);
-		camadas.add(CancelarButton);
+		// Botão Voltar
+		JButton BotaoVoltar = new JButton("Voltar");
+		BotaoVoltar.setForeground(Color.WHITE);
+		BotaoVoltar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+		BotaoVoltar.setBackground(new Color(133, 179, 58));
+		BotaoVoltar.setBounds(896, 595, 240, 50);
+		camadas.add(BotaoVoltar);
+		// Função do botão Voltar
+		BotaoVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controladorDeTela.abrirJanela("menuPrincipal");
+			}
+		});
+
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(122, 125, 1014, 433);

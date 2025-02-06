@@ -16,7 +16,7 @@ public class SwingRelatorios extends JFrame {
 
 
 	// Criando a Tela
-    public SwingRelatorios(ControladorSwing controlador) {
+    public SwingRelatorios(ControladorSwing controladorDeTela) {
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Menu Inicial");
 		setBounds(0, 0, 1280, 720);
@@ -48,13 +48,20 @@ public class SwingRelatorios extends JFrame {
 		GerarRelatorioButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
 		GerarRelatorioButton.setBounds(339, 527, 268, 50);
 		camadas.add(GerarRelatorioButton, Integer.valueOf(3));
-		
-		JButton CancelarButton = new JButton("Cancelar");
-		CancelarButton.setForeground(Color.WHITE);
-		CancelarButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-		CancelarButton.setBackground(new Color(133, 179, 58));
-		CancelarButton.setBounds(633, 527, 240, 50);
-		camadas.add(CancelarButton);
+
+		// Botão voltar
+		JButton BotaoVoltar = new JButton("Voltar");
+		BotaoVoltar.setForeground(Color.WHITE);
+		BotaoVoltar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+		BotaoVoltar.setBackground(new Color(133, 179, 58));
+		BotaoVoltar.setBounds(633, 527, 240, 50);
+		camadas.add(BotaoVoltar);
+		// Função do botão voltar
+		BotaoVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controladorDeTela.abrirJanela("menuPrincipal");
+			}
+		});
 		
 		ImageIcon background2 = new ImageIcon(getClass().getResource("/images/background2edit.png"));
 		JLabel backgroundLabel = new JLabel(background2);
