@@ -1,102 +1,92 @@
 package com.naturagro.ui;
 
-import java.awt.EventQueue;
-
-import javax.naming.ldap.Control;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-
-import java.awt.Font;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.factories.FormFactory;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.*;
+import java.awt.*;
 
 public class SwingLogin extends JFrame {
-
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
 	private JTextField LoginUserTextField;
 	private JPasswordField LoginSenhaPasswordField;
-	private ControladorSwing controlador;
 
-
-	public SwingLogin(ControladorSwing controlador) {
-		this.controlador = controlador;
-		setBackground(new Color(112, 140, 52));
+	public SwingLogin(ControladorSwing controladorDeTela) {
+		setTitle("Login - Naturagro");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, 630, 390);
-		contentPane = new JPanel();
-		contentPane.setBackground(new Color(112, 140, 52));
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setSize(630, 390);
+		setLocationRelativeTo(null);
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JLayeredPane camadas = new JLayeredPane();
-		contentPane.add(camadas);
-		camadas.setBounds(0,0,614,351);
-		
-		JLabel UserLabel = new JLabel("Usuário:");
-		UserLabel.setForeground(new Color(255, 255, 255));
-		UserLabel.setFont(new Font("Tekton Pro", Font.PLAIN, 25));
-		UserLabel.setSize(88, 30);
-		UserLabel.setLocation(156, 198);
-		camadas.add(UserLabel, Integer.valueOf(1));
-		
-		ImageIcon background1 = new ImageIcon(getClass().getResource("/images/background1edit.png"));
-		JLabel backgroundLabel = new JLabel(background1);
-		backgroundLabel.setBounds(0, 0, 614, 351);
-		camadas.add(backgroundLabel,Integer.valueOf(0));
-
-		// Nota: Se eu tiver MUITA coragem, eu crio uma subclasse de JTextField e faço uma classe onde o text field tem border radius
-		LoginUserTextField = new JTextField();
-		LoginUserTextField.setBounds(248, 199, 202, 20);
-		camadas.add(LoginUserTextField, Integer.valueOf(1));
-		
-		JLabel PassWordLabel = new JLabel("Senha:");
-		PassWordLabel.setSize(70, 30);
-		PassWordLabel.setLocation(169, 230);
-		PassWordLabel.setForeground(Color.WHITE);
-		PassWordLabel.setFont(new Font("Tekton Pro", Font.PLAIN, 25));
-		camadas.add(PassWordLabel, Integer.valueOf(1));
-		
-		LoginSenhaPasswordField = new JPasswordField();
-		camadas.add(LoginSenhaPasswordField, Integer.valueOf(1));
-		LoginSenhaPasswordField.setBounds(248, 232, 202, 20);
-
-		
-		ImageIcon logo = new ImageIcon(getClass().getResource("/images/logo.png"));
-		
-		JButton LoginJButton = new JButton("Entrar");
-		LoginJButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controlador.abrirJanela("menuPrincipal");
+		JPanel painelPrincipal = new JPanel() {
+			private static final long serialVersionUID = 1L;
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				ImageIcon background = new ImageIcon(getClass().getResource("/images/background1edit.png"));
+				g.drawImage(background.getImage(), 0, 0, getWidth(), getHeight(), this);
 			}
-		});
-		LoginJButton.setBackground(new Color(124, 188, 52));
-		LoginJButton.setForeground(new Color(255, 255, 255));
-		LoginJButton.setBounds(257, 301, 89, 23);
-		camadas.add(LoginJButton, Integer.valueOf(1));
+		};
+		painelPrincipal.setLayout(new GridBagLayout());
+		painelPrincipal.setBackground(new Color(112, 140, 52));
+		setContentPane(painelPrincipal);
+
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.insets = new Insets(10, 10, 10, 10);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+
+		// Logo
+		ImageIcon logo = new ImageIcon(getClass().getResource("/images/logo.png"));
 		JLabel logoLabel = new JLabel(logo);
-		logoLabel.setBounds(190, 11, 190, 93);
-		camadas.add(logoLabel, Integer.valueOf(1));
-		
-		JLabel LogoLabel = new JLabel("Naturagro™");
-		LogoLabel.setBounds(190, 115, 234, 54);
-		camadas.add(LogoLabel, Integer.valueOf(1));
-		LogoLabel.setFont(new Font("Tahoma", Font.PLAIN, 44));
-		LogoLabel.setForeground(new Color(255, 255, 255));
-		
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.gridwidth = 2;
+		gbc.anchor = GridBagConstraints.CENTER;
+		painelPrincipal.add(logoLabel, gbc);
+
+		// Título
+		JLabel titleLabel = new JLabel("Naturagro™");
+		titleLabel.setFont(new Font("Tahoma", Font.PLAIN, 36));
+		titleLabel.setForeground(Color.WHITE);
+		gbc.gridy = 1;
+		painelPrincipal.add(titleLabel, gbc);
+
+		// Usuário
+		JLabel usuarioLabel = new JLabel("Usuário:");
+		usuarioLabel.setForeground(Color.WHITE);
+		usuarioLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		gbc.gridwidth = 1;
+		gbc.anchor = GridBagConstraints.LINE_END;
+		gbc.gridy = 2;
+		painelPrincipal.add(usuarioLabel, gbc);
+
+		LoginUserTextField = new JTextField(30);
+		gbc.gridx = 1;
+		gbc.anchor = GridBagConstraints.LINE_START;
+		LoginUserTextField.setMinimumSize(new Dimension(200, 23));
+		LoginUserTextField.setPreferredSize(new Dimension(250, 23));
+		painelPrincipal.add(LoginUserTextField, gbc);
+
+		// Senha
+		JLabel senhaLabel = new JLabel("Senha:");
+		senhaLabel.setForeground(Color.WHITE);
+		senhaLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		gbc.gridx = 0;
+		gbc.gridy = 3;
+		gbc.anchor = GridBagConstraints.LINE_END;
+		painelPrincipal.add(senhaLabel, gbc);
+
+		LoginSenhaPasswordField = new JPasswordField(30);
+		gbc.gridx = 1;
+		gbc.anchor = GridBagConstraints.LINE_START;
+		LoginSenhaPasswordField.setMinimumSize(new Dimension(200, 23));
+		LoginSenhaPasswordField.setPreferredSize(new Dimension(250, 23));
+		painelPrincipal.add(LoginSenhaPasswordField, gbc);
+
+		// Botão
+		JButton loginButton = new JButton("Entrar");
+		loginButton.setBackground(new Color(124, 188, 52));
+		loginButton.setForeground(Color.WHITE);
+		gbc.gridx = 0;
+		gbc.gridy = 4;
+		gbc.gridwidth = 2;
+		gbc.anchor = GridBagConstraints.CENTER;
+		painelPrincipal.add(loginButton, gbc);
 	}
-}
+
+	}

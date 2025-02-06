@@ -15,7 +15,7 @@ public class SwingCadastroProdutos extends JFrame {
 	private ControladorSwing controlador;
 
 
-	// Criando a Tela
+	// Tela
     public SwingCadastroProdutos(ControladorSwing controlador) {
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Menu Inicial");
