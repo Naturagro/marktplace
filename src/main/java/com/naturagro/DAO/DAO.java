@@ -90,6 +90,14 @@ public abstract class DAO <E>{
         List<E> lista = consultar(nomeConsulta, params);
         return lista.isEmpty() ? null : lista.get(0);
     }
+    public void remover(E entidade) {
+        em.getTransaction().begin();
+        if (!em.contains(entidade)) {
+            entidade = em.merge(entidade);
+        }
+        em.remove(entidade);
+        em.getTransaction().commit();
+    }
 
     public void fechar() {
         em.close();
