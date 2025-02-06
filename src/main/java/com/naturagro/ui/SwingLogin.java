@@ -2,6 +2,8 @@ package com.naturagro.ui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class SwingLogin extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -78,7 +80,7 @@ public class SwingLogin extends JFrame {
 		LoginSenhaPasswordField.setPreferredSize(new Dimension(250, 23));
 		painelPrincipal.add(LoginSenhaPasswordField, gbc);
 
-		// Botão
+		// Botão login
 		JButton loginButton = new JButton("Entrar");
 		loginButton.setBackground(new Color(124, 188, 52));
 		loginButton.setForeground(Color.WHITE);
@@ -87,6 +89,13 @@ public class SwingLogin extends JFrame {
 		gbc.gridwidth = 2;
 		gbc.anchor = GridBagConstraints.CENTER;
 		painelPrincipal.add(loginButton, gbc);
+		// Ação do botão login
+		JButton LoginJButton = new JButton("Entrar");
+		loginButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controladorDeTela.abrirJanela("menuPrincipal");
+			}
+		});
 	}
 
 	}

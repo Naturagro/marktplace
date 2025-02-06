@@ -1,7 +1,12 @@
 package com.naturagro.ui;
 
+import com.naturagro.controllers.AccessControlController;
+import com.naturagro.controllers.ControlException;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class SwingCadastro extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -16,6 +21,7 @@ public class SwingCadastro extends JFrame {
 
 		JPanel painelPrincipal = new JPanel() {
 			private static final long serialVersionUID = 1L;
+
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				ImageIcon background = new ImageIcon(getClass().getResource("/images/background1edit.png"));
@@ -94,7 +100,7 @@ public class SwingCadastro extends JFrame {
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		painelPrincipal.add(passwordField, gbc);
 
-		// Botão
+		// Botão cadastro
 		JButton cadastrarButton = new JButton("Cadastrar");
 		cadastrarButton.setBackground(new Color(124, 188, 52));
 		cadastrarButton.setForeground(Color.WHITE);
@@ -103,5 +109,24 @@ public class SwingCadastro extends JFrame {
 		gbc.gridwidth = 2;
 		gbc.anchor = GridBagConstraints.CENTER;
 		painelPrincipal.add(cadastrarButton, gbc);
+		// Ação do botão cadastro
+		cadastrarButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// action listener pra pegar as informações preenchidas nos campos
+				String nomeUser = SwingCadastro.this.RegisterUserTextField.getText();
+				String password = String.valueOf(SwingCadastro.this.RegisterSenhaPasswordField.getPassword());
+				String confirmacaopassword = String.valueOf(SwingCadastro.this.passwordField.getPassword());
+				//try catch pra validar campos, e caso tenha algum erro, mostra uma janela com a exceção
+				try {
+					AccessControlController controller = new AccessControlController();
+					controller.registerUser(nomeUser, password, confirmacaopassword);
+					JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+					controladorDeTela.abrirJanela(("login"));
+				} catch (ControlException exception) {
+					//vai mostrar o erro que foi tratado lá no access control
+					JOptionPane.showMessageDialog(cadastrarButton, exception.getMessage());
+				}
+			}
+		});
 	}
-}
+	}
