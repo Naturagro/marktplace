@@ -16,12 +16,12 @@ public class Venda {
 
     @ManyToOne
     @JoinColumn(name="operador_id")
-    private Operador operador;
+    private Funcionario operador;
 
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Produto> produtos = new ArrayList<>();
 
-    public Venda(LocalDateTime dataCompra, Double valorTotal, Operador operador, List<Produto> produtos) {
+    public Venda(LocalDateTime dataCompra, Double valorTotal, Funcionario operador, List<Produto> produtos) {
         this.dataCompra = dataCompra;
         this.valorTotal = valorTotal;
         this.operador = operador;
@@ -54,11 +54,11 @@ public class Venda {
         this.valorTotal = valorTotal;
     }
 
-    public Operador getOperador() {
+    public Funcionario getOperador() {
         return operador;
     }
 
-    public void setOperador(Operador operador) {
+    public void setOperador(Funcionario operador) {
         this.operador = operador;
     }
 
