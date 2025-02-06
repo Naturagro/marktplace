@@ -1,15 +1,13 @@
 package com.naturagro.models;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 
 @Entity
-public class Operador {
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Operador extends Funcionario {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,7 +19,9 @@ public class Operador {
     public Operador(String nome, String cpf) {
         this.nome = nome;
         this.cpf = cpf;
+        this.cargo = Cargo.Operador;
     }
+
 
     public String getNome() {
         return nome;
