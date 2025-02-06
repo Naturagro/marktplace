@@ -1,5 +1,8 @@
 package com.naturagro.controllers;
 
+import com.naturagro.models.Operador;
+import com.naturagro.service.OperadorService;
+
 //lança a exceção de cadastro
 public class AccessControlController {
     public void registerUser(String userName, String password, String passwordConfirmation) throws ControlException {
@@ -19,5 +22,11 @@ public class AccessControlController {
         if (!password.equals(passwordConfirmation)) {
             throw new ControlException("As senhas não coincidem!");
         }
+    }
+
+    // Método pra verificar se é o primeiro cadastro
+    public boolean isFirstRegister() {
+        // esta como true temporariamente
+        return true;
     }
 }

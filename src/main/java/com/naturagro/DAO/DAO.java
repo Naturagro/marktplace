@@ -27,11 +27,12 @@ public abstract class DAO <E>{
         em = emf.createEntityManager();
     }
 
+    // Execute antes de fazer qualquer operação no Banco que não seja uma consulta
     public DAO<E> abrirT() {
         em.getTransaction().begin();
         return this;
     }
-
+    // Execute no fim do código, depois do codigo que mexe no Banco
     public EntityTransaction obterTransaction() {
         return em.getTransaction();
     }
@@ -41,6 +42,7 @@ public abstract class DAO <E>{
     }
     //getTransaction().begin().getTransaction().commit().getTransaction().close()
 
+    // Execute passando um objeto entidade como parametro para adicionar o objeto na sua tabela
     public DAO<E> incluir(E entidade) {
         em.persist(entidade);
         return this;

@@ -1,5 +1,7 @@
 package com.naturagro.ui;
 
+import com.naturagro.controllers.AccessControlController;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -13,26 +15,35 @@ public class Main extends JFrame {
             public void run() {
                 try {
                     // Cria um objeto para cada tela
-                    ControladorSwing controlador = new ControladorSwing();
-                    SwingMenuPrincipal menuPrincipal = new SwingMenuPrincipal(controlador);
-                    SwingCadastro cadastro = new SwingCadastro(controlador);
-                    SwingCadastroProdutos cadastroProdutos = new SwingCadastroProdutos(controlador);
-                    SwingControleEstoque controleEstoque = new SwingControleEstoque(controlador);
-                    SwingLogin login = new SwingLogin(controlador);
-                    SwingRelatorios relatorios = new SwingRelatorios(controlador);
-                    SwingVendas vendas = new SwingVendas(controlador);
+                    ControladorSwing controladorDeTela = new ControladorSwing();
+                    SwingMenuPrincipal menuPrincipal = new SwingMenuPrincipal(controladorDeTela);
+                    SwingCadastro cadastro = new SwingCadastro(controladorDeTela);
+                    SwingCadastroProdutos cadastroProdutos = new SwingCadastroProdutos(controladorDeTela);
+                    SwingControleEstoque controleEstoque = new SwingControleEstoque(controladorDeTela);
+                    SwingLogin login = new SwingLogin(controladorDeTela);
+                    SwingRelatorios relatorios = new SwingRelatorios(controladorDeTela);
+                    SwingVendas vendas = new SwingVendas(controladorDeTela);
 
                     // Adiciona cada tela ao objeto controlador
-                    controlador.adicionarJanela("login",login);
-                    controlador.adicionarJanela("menuPrincipal",menuPrincipal);
-                    controlador.adicionarJanela("cadastro", cadastro);
-                    controlador.adicionarJanela("cadastroProdutos", cadastroProdutos);
-                    controlador.adicionarJanela("controleEstoque", controleEstoque);
-                    controlador.adicionarJanela("relatorios", relatorios);
-                    controlador.adicionarJanela("vendas", vendas);
+                    controladorDeTela.adicionarJanela("login",login);
+                    controladorDeTela.adicionarJanela("menuPrincipal",menuPrincipal);
+                    controladorDeTela.adicionarJanela("cadastro", cadastro);
+                    controladorDeTela.adicionarJanela("cadastroProdutos", cadastroProdutos);
+                    controladorDeTela.adicionarJanela("controleEstoque", controleEstoque);
+                    controladorDeTela.adicionarJanela("relatorios", relatorios);
+                    controladorDeTela.adicionarJanela("vendas", vendas);
 
-                    // Inicia já com a tela de login
-                    controlador.abrirJanela("login");
+                    // Se quiser apenas testar uma tela especifica, comente a linha 41 até a linha 46 e descomente a linha 38
+                    // Inicie a tela colocando o nome da tela que você quer na String
+                    // controladorDeTela.abrirJanela("cadastro");
+
+                    // Faz a checagem se é o primeiro cadastro do banco de dados, e a depender, redireciona pra tela certa
+                    AccessControlController controladorDeAcesso = new AccessControlController();
+                    if (controladorDeAcesso.isFirstRegister()) {
+                        controladorDeTela.abrirJanela("cadastro");
+                    } else {
+                        controladorDeTela.abrirJanela("login");
+                    }
 
                 } catch (Exception e) {
                     e.printStackTrace();
