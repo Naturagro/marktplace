@@ -9,7 +9,7 @@
 
         <class>com.naturagro.models.Produto</class>
         <class>com.naturagro.models.Venda</class>
-        <class>com.naturagro.models.Operador</class>
+        <class>com.naturagro.models.Funcionario</class>
 
 
 
