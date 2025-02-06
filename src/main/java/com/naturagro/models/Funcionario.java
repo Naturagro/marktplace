@@ -17,25 +17,25 @@ public class Funcionario {
 
     public Funcionario() {}
 
-    public Funcionario(String nome, String cpf, String senha) {
+    protected Funcionario(String nome, String cpf, String senha) {
         this.nome = nome;
         this.cpf = cpf;
         this.senha = senha;
     }
 
-    public Funcionario gerente(String nome, String cpf, String senha) {
+    protected Funcionario gerente(String nome, String cpf, String senha) {
         Funcionario f = new Funcionario(nome, cpf, senha);
         f.setCargo(Cargo.GERENTE);
         return f;
     }
 
-    public Funcionario operador(String nome, String cpf, String senha) {
+    protected Funcionario operador(String nome, String cpf, String senha) {
         Funcionario o = new Funcionario(nome, cpf, senha);
         o.setCargo(Cargo.OPERADOR);
         return o;
     }
 
-    public Funcionario estoquista(String nome, String cpf, String senha) {
+    protected Funcionario estoquista(String nome, String cpf, String senha) {
         Funcionario e = new Funcionario(nome, cpf, senha);
         e.setCargo(Cargo.ESTOQUISTA);
         return e;
