@@ -13,14 +13,15 @@ public class ProdutoService extends DAO<Produto> {
 
     // Buscar Produtos Próximos do Vencimento (menos de 5 dias para vencer)
     public List<Produto> buscarProdutosPertoVencimento() {
-        return consultar("Produto.buscarPertoVencimento", "hoje", LocalDate.now(), "limite", LocalDate.now().plusDays(5));
+        String jpql = "SELECT p FROM Produto p WHERE p.dataVencimento BETWEEN :hoje AND :limite";
+        return consultar(jpql, "hoje", LocalDate.now(), "limite", LocalDate.now().plusDays(5));
     }
 
     // Buscar Produtos com Estoque Baixo (menos de 10 unidades)
     public List<Produto> buscarProdutosComEstoqueBaixo() {
-        return consultar("Produto.buscarEstoqueBaixo", "quantidade", 10);
+        String jpql = "SELECT p FROM Produto p WHERE p.quantidadeEmEstoque < :quantidade";
+        return consultar(jpql, "quantidade", 10);
     }
-
     // Atualizar Estoque após Venda
     public void atualizarEstoque(Long id, int quantidadeVendida) {
         Produto produto = obterPorID(id);

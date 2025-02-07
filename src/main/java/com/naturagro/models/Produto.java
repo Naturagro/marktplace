@@ -8,7 +8,16 @@ import java.util.List;
 
 
 @Entity
-
+@NamedQueries({
+        @NamedQuery(
+                name = "Produto.buscarPertoVencimento",
+                query = "SELECT p FROM Produto p WHERE p.dataVencimento BETWEEN :hoje AND :limite"
+        ),
+        @NamedQuery(
+                name = "Produto.buscarEstoqueBaixo",
+                query = "SELECT p FROM Produto p WHERE p.quantidadeEmEstoque < :quantidade"
+        )
+})
 public class Produto {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
