@@ -9,10 +9,10 @@ public class FuncionarioFactory {
     }
 
     public Funcionario criarOperador(String nome, String cpf, String senha) {
-        return funcionario.gerente(nome, cpf, senha);
+        return funcionario.operador(nome, cpf, senha);
     }
 
     public Funcionario criarEstoquista(String nome, String cpf, String senha) {
-        return funcionario.gerente(nome, cpf, senha);
+        return funcionario.estoquista(nome, cpf, senha);
     }
 }
