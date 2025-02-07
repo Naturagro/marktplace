@@ -1,9 +1,17 @@
 package com.naturagro.controllers;
 
 import com.naturagro.service.FuncionarioService;
+import com.naturagro.models.Funcionario;
 
 //lança a exceção de cadastro
 public class AccessControlController {
+
+    private FuncionarioService funcionarioService;
+
+    public AccessControlController(FuncionarioService funcionarioService) {
+        this.funcionarioService = funcionarioService;
+    }
+
     public void registerUser(String userName, String password, String passwordConfirmation) throws ControlException {
         //verificações dos campos
         if (userName == null || userName.isBlank()) {
@@ -21,6 +29,11 @@ public class AccessControlController {
         if (!password.equals(passwordConfirmation)) {
             throw new ControlException("As senhas não coincidem!");
         }
+        Funcionario funcionarioExistente = funcionarioService.obterPorID(userName); // Usando userName como ID
+        if (funcionarioExistente != null) {
+            throw new ControlException("O usuário já existe!");
+        }
+
     }
 
     // Método pra verificar se é o primeiro cadastro
