@@ -2,6 +2,7 @@ package com.naturagro.ui;
 
 import com.naturagro.controllers.AccessControlController;
 import com.naturagro.controllers.ControlException;
+import com.naturagro.service.FuncionarioService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,8 +13,12 @@ public class SwingCadastro extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JTextField RegisterUserTextField;
 	private JPasswordField RegisterSenhaPasswordField, passwordField;
+	private ControladorSwing controladorDeTela;
+	private FuncionarioService funcionarioService;
 
-	public SwingCadastro(ControladorSwing controladorDeTela) {
+	public SwingCadastro(ControladorSwing controladorDeTela, FuncionarioService funcionarioService) {
+		this.controladorDeTela = controladorDeTela;
+		this.funcionarioService = funcionarioService;
 		setTitle("Cadastro - Naturagro");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(630, 500);
@@ -118,7 +123,7 @@ public class SwingCadastro extends JFrame {
 				String confirmacaopassword = String.valueOf(SwingCadastro.this.passwordField.getPassword());
 				//try catch pra validar campos, e caso tenha algum erro, mostra uma janela com a exceção
 				try {
-					AccessControlController controller = new AccessControlController();
+					AccessControlController controller = new AccessControlController(funcionarioService);
 					controller.registerUser(nomeUser, password, confirmacaopassword);
 					JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 					controladorDeTela.abrirJanela(("login"));

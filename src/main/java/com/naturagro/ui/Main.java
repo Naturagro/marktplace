@@ -1,6 +1,7 @@
 package com.naturagro.ui;
 
 import com.naturagro.controllers.AccessControlController;
+import com.naturagro.service.FuncionarioService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +18,8 @@ public class Main extends JFrame {
                     // Cria um objeto para cada tela
                     ControladorSwing controladorDeTela = new ControladorSwing();
                     SwingMenuPrincipal menuPrincipal = new SwingMenuPrincipal(controladorDeTela);
-                    SwingCadastro cadastro = new SwingCadastro(controladorDeTela);
+                    FuncionarioService funcionarioService = new FuncionarioService();
+                    SwingCadastro cadastro = new SwingCadastro(controladorDeTela, funcionarioService);
                     SwingCadastroProdutos cadastroProdutos = new SwingCadastroProdutos(controladorDeTela);
                     SwingControleEstoque controleEstoque = new SwingControleEstoque(controladorDeTela);
                     SwingLogin login = new SwingLogin(controladorDeTela);
@@ -38,7 +40,8 @@ public class Main extends JFrame {
                     // controladorDeTela.abrirJanela("cadastro");
 
                     // Faz a checagem se é o primeiro cadastro do banco de dados, e a depender, redireciona pra tela certa
-                    AccessControlController controladorDeAcesso = new AccessControlController();
+
+                    AccessControlController controladorDeAcesso = new AccessControlController(funcionarioService);
                     if (controladorDeAcesso.isFirstRegister()) {
                         controladorDeTela.abrirJanela("cadastro");
                     } else {
