@@ -123,7 +123,7 @@ public class SwingCadastro extends JFrame {
 				String confirmacaopassword = String.valueOf(SwingCadastro.this.passwordField.getPassword());
 				//try catch pra validar campos, e caso tenha algum erro, mostra uma janela com a exceção
 				try {
-					AccessControlController controller = new AccessControlController(funcionarioService);
+					AccessControlController controller = new AccessControlController();
 					controller.registerUser(nomeUser, password, confirmacaopassword);
 					JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 					controladorDeTela.abrirJanela(("login"));

@@ -41,8 +41,8 @@ public class Main extends JFrame {
 
                     // Faz a checagem se é o primeiro cadastro do banco de dados, e a depender, redireciona pra tela certa
 
-                    AccessControlController controladorDeAcesso = new AccessControlController(funcionarioService);
-                    if (controladorDeAcesso.isFirstRegister()) {
+                    AccessControlController controladorDeAcesso = new AccessControlController();
+                    if (true) {
                         controladorDeTela.abrirJanela("cadastro");
                     } else {
                         controladorDeTela.abrirJanela("login");

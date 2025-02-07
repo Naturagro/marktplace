@@ -8,7 +8,7 @@ public class AccessControlController {
 
     private FuncionarioService funcionarioService;
 
-    public AccessControlController(FuncionarioService funcionarioService) {
+    public AccessControlController() {
         this.funcionarioService = funcionarioService;
     }
 
@@ -29,18 +29,19 @@ public class AccessControlController {
         if (!password.equals(passwordConfirmation)) {
             throw new ControlException("As senhas não coincidem!");
         }
+        /*
+
+
         Funcionario funcionarioExistente = funcionarioService.obterPorID(userName); // Usando userName como ID
+
         if (funcionarioExistente != null) {
             throw new ControlException("O usuário já existe!");
+            */
         }
 
     }
 
-    // Método pra verificar se é o primeiro cadastro
-    public boolean isFirstRegister() {
-        // esta como true temporariamente
-        return true;
-    }
+
 
     /*
         Para verificar a existência de um usuário no sistema
@@ -49,4 +50,4 @@ public class AccessControlController {
 
         se o retorno for != null o objeto existe no bd, se for == null é só persisti-lo com incluirAtomico()
     */
-}
+
