@@ -24,12 +24,13 @@ public class Produto {
     private Long id;
     private String nome;
     private String descricao;
-    private String categoria;
     private LocalDate dataEntrada;
     private LocalDate dataVencimento;
     private Integer quantidadeEmEstoque;
     private Double precoVarejo;
     private Double precoAtacado;
+    @Enumerated(EnumType.STRING)
+    private CategoriaProduto categoria;
 
     @ManyToMany(mappedBy = "produtos")
     private List<Venda> vendas = new ArrayList<>();
@@ -37,26 +38,29 @@ public class Produto {
     public Produto(
             String nome,
             String descricao,
-            String categoria,
+            CategoriaProduto categoria,
             LocalDate dataEntrada,
-            LocalDate dataVencimento,
+            //LocalDate dataVencimento,
             Integer quantidadeEmEstoque,
             Double precoVarejo,
-            Double precoAtacado) {
+            Double precoAtacado,
+            CategoriaProduto categoriaProduto) {
         this.precoAtacado = precoAtacado;
         this.precoVarejo = precoVarejo;
         this.quantidadeEmEstoque = quantidadeEmEstoque;
         //this.dataVencimento = calcularVencimento(dataEntrada);
-        this.dataVencimento = dataVencimento;
+        this.dataVencimento = dataEntrada.plusDays(40);
         this.dataEntrada = dataEntrada;
         this.categoria = categoria;
         this.descricao = descricao;
         this.nome = nome;
+        //calcularVencimento(dataEntrada, categoriaProduto)
     }
 
     public Produto() {}
 
-    private LocalDate calcularVencimento(LocalDate dataEntrada) {
+    private LocalDate calcularVencimento(LocalDate dataEntrada, CategoriaProduto categoriaProduto) {
+        //todo adicionar diferentes datas de vencimento para cada categoria
         LocalDate dataVence = dataEntrada.plusDays(20);
         return dataVence;
     }
@@ -85,11 +89,11 @@ public class Produto {
         this.descricao = descricao;
     }
 
-    public String getCategoria() {
+    public CategoriaProduto getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(String categoria) {
+    public void setCategoria(CategoriaProduto categoria) {
         this.categoria = categoria;
     }
 
