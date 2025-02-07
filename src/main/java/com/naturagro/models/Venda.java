@@ -18,7 +18,7 @@ public class Venda {
     @JoinColumn(name="operador_id")
     private Funcionario operador;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL) //todo revisar a necessidade do CascadeType.ALL
     private List<Produto> produtos = new ArrayList<>();
 
     public Venda(LocalDateTime dataCompra, Double valorTotal, Funcionario operador, List<Produto> produtos) {
