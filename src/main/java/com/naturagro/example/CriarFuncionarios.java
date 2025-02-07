@@ -4,6 +4,9 @@ import com.naturagro.models.Funcionario;
 import com.naturagro.models.FuncionarioFactory;
 import com.naturagro.service.FuncionarioService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CriarFuncionarios {
     public static void main(String[] args) {
 
@@ -27,10 +30,18 @@ public class CriarFuncionarios {
         */
         FuncionarioFactory funcionarioFactory = new FuncionarioFactory();
         Funcionario o = funcionarioFactory.criarOperador("Carlos Batista", "00000000", "abacaxi");
-        //funcionarioService.incluirAtomico(o);
-        Funcionario e = funcionarioFactory.criarEstoquista("Júlio Iglesias", "2130278", "patrickestrela");
-        //funcionarioService.incluirAtomico(e);
 
+        Funcionario e = funcionarioFactory.criarEstoquista("Júlio Iglesias", "2130278", "patrickestrela");
+
+        Funcionario g = funcionarioFactory.criarGerente("Sr Sirigueijo","221354687", "perola");
+
+        List<Funcionario> funcionarios = new ArrayList<>();
+        funcionarios.add(o);
+        funcionarios.add(e);
+        funcionarios.add(g);
+        for (Funcionario f : funcionarios) {
+            funcionarioService.incluirAtomico(f);
+        }
         /*
         Descomente a chamada dos métodos de funcionarioService para adicioná-los ao banco
          */
