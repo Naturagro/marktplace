@@ -1,6 +1,5 @@
-package com.naturagro.ui;
+package com.naturagro.ui.components;
 
-import com.naturagro.controllers.AccessControlController;
 import com.naturagro.controllers.CadastroProdutoController;
 import com.naturagro.controllers.ControlException;
 

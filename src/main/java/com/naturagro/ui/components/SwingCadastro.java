@@ -1,8 +1,9 @@
-package com.naturagro.ui;
+package com.naturagro.ui.components;
 
 import com.naturagro.controllers.AccessControlController;
 import com.naturagro.controllers.ControlException;
 import com.naturagro.service.FuncionarioService;
+import com.naturagro.ui.ControladorSwing;
 
 import javax.swing.*;
 import java.awt.*;

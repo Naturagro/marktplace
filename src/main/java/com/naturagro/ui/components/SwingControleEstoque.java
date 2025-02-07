@@ -1,4 +1,6 @@
-package com.naturagro.ui;
+package com.naturagro.ui.components;
+
+import com.naturagro.ui.ControladorSwing;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

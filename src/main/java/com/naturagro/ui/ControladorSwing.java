@@ -14,7 +14,7 @@ public class ControladorSwing {
     }
 
     // Método para trocar as janelas durante a execução do programa
-    void abrirJanela(String nome) {
+    public void abrirJanela(String nome) {
         // se a variavel já tiver uma janela (ou seja, se o programa já tiver mostrando algo) ele escondera a janela atual
         if (janelaAtual != null) {
             janelaAtual.setVisible(false);

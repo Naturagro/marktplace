@@ -1,19 +1,14 @@
-package com.naturagro.ui;
-
-import java.awt.EventQueue;	
+package com.naturagro.ui.components;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.FlowLayout;
 import javax.swing.JLayeredPane;
 import java.awt.Color;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.factories.FormFactory;
-import java.awt.GridLayout;
+
+import com.naturagro.ui.ControladorSwing;
+
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;

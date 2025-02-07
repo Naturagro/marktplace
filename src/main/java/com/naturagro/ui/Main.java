@@ -2,6 +2,7 @@ package com.naturagro.ui;
 
 import com.naturagro.controllers.AccessControlController;
 import com.naturagro.service.FuncionarioService;
+import com.naturagro.ui.components.*;
 
 import javax.swing.*;
 import java.awt.*;
