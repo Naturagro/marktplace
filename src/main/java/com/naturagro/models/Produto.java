@@ -101,8 +101,8 @@ public class Produto {
         return dataEntrada;
     }
 
-    public void setDataEntrada(LocalDate dataEntrada) {
-        this.dataEntrada = dataEntrada;
+    public void setDataEntrada() {
+        this.dataEntrada = LocalDate.now();
     }
 
     public LocalDate getDataVencimento() {

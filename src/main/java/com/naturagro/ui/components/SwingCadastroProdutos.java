@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class SwingCadastroProdutos extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -49,30 +50,8 @@ public class SwingCadastroProdutos extends JFrame {
 		JButton AdicionarButton = new JButton("Adicionar");
 		AdicionarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				// Pra chamar a tela do botão adicionar precisa definir uma hashmap "campos" com esses tipos para key e value
-				Map<JComponent, String> campos = new HashMap<>();
-				// Instanciar todos os textfields que a tela vai ter em uma variavel
-				JComboBox<String> categoria = new JComboBox<>(new String[]{"Frutas", "Verduras", "Carnes","Peixes","Laticinios","Bebidas","Alimentos","Higiene","Limpeza","Cosmeticos"});
-				JTextField nomeProduto = new JTextField();
-				JTextField preco = new JTextField();
-				JTextField codigo = new JTextField();
-				JTextField validade = new JTextField();
-				JTextField fornecedor = new JTextField();
-
-				// depois é só preencher o Map com o objeto txtfield criado e a string das labels a esquerda deles
-				campos.put(categoria,"Categorias:");
-				campos.put(codigo, "Código:");
-				campos.put(nomeProduto, "Nome do Produto:");
-				campos.put(preco, "Preço:");
-				campos.put(validade, "Validade do produto:");
-				campos.put(fornecedor, "Fornecedor:");
-
-				// Agora, cria o JDialog e exibe ele
-				SwingAdicionar dialog = new SwingAdicionar(campos);
-				dialog.setVisible(true); // Exibe o JDialog
-
-				// OBS: Pra pegar as informações dos textFields continua igual EX: nomeProduto.getText()
+				JDialogCadastroProdutos dialog = new JDialogCadastroProdutos();
+				dialog.setVisible(true);
 			}
 		});
 		AdicionarButton.setBackground(new Color(133,179,58));
@@ -109,7 +88,6 @@ public class SwingCadastroProdutos extends JFrame {
 			}
 		});
 
-
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(122, 125, 1014, 433);
 		camadas.add(scrollPane);
@@ -121,7 +99,6 @@ public class SwingCadastroProdutos extends JFrame {
 
 		table = new JTable();
 		scrollPane.setViewportView(table);
-
 
 	}
 }

@@ -2,6 +2,8 @@ package com.naturagro.ui.components;
 
 import com.naturagro.controllers.CadastroProdutoController;
 import com.naturagro.controllers.ControlException;
+import com.naturagro.models.CategoriaProduto;
+import com.naturagro.models.Produto;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -16,27 +18,45 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SwingAdicionar extends JDialog {
-
+public class JDialogCadastroProdutos extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField;
 	private Map<JTextField, String> campos = new HashMap<>();
 
 	public static void main(String[] args) {
+		JDialogCadastroProdutos teste = new JDialogCadastroProdutos();
+		teste.setVisible(true);
 	}
 
-	public SwingAdicionar(Map<JComponent, String> camposLabels) {
+	public JDialogCadastroProdutos() {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setLayout(new FlowLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setBackground(new Color(124, 188, 52));
-		contentPanel.setLayout(new GridLayout(camposLabels.size(), 2, 10, 10));
+		contentPanel.setLayout(new GridLayout(campos.size(), 2, 10, 10));
 		setModal(true);
 
-		for (Map.Entry<JComponent, String> entry : camposLabels.entrySet()) {
+		Map<JComponent, String> campos = new HashMap<>();
+
+		// Instanciar todos os JComponents que a tela vai ter
+		JComboBox<CategoriaProduto> categoria = new JComboBox<>(CategoriaProduto.values());
+		JTextField nomeProduto = new JTextField();
+		JTextField precoVarejo = new JTextField();
+		JTextField descricao = new JTextField();
+		JTextField precoAtacado = new JTextField();
+
+		// depois é só preencher o Map com o objeto JComponent criado e a string das labels que vai explicar eles.
+		campos.put(categoria,"Categorias:");
+		campos.put(nomeProduto, "Nome do Produto:");
+		campos.put(descricao,"Descrição do produto:");
+		campos.put(precoVarejo, "Preço no Varejo:");
+		campos.put(precoAtacado, "Preço no Atacado:");
+
+		// Monta a configuração de exibição da janela com base nos que setado acima
+		for (Map.Entry<JComponent, String> entry : campos.entrySet()) {
 			JComponent componente = entry.getKey();
 			String labelTexto = entry.getValue();
 
@@ -48,7 +68,6 @@ public class SwingAdicionar extends JDialog {
 			contentPanel.add(componente);
 		}
 
-
 		{
 			// Area relativa aos botões
 			JPanel buttonPane = new JPanel();
@@ -56,57 +75,55 @@ public class SwingAdicionar extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.CENTER));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
+				// Definindo o botão Salvar
 				JButton salvarButton = new JButton("Salvar");
 				salvarButton.setActionCommand("SalvarProduto");
 				buttonPane.add(salvarButton);
 				getRootPane().setDefaultButton(salvarButton);
 
-				//todo: revisar essa parte das labels
 				salvarButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						Map<String, String> valoresPreenchidos = new HashMap<>();
-
-						//ajeitar pra ele pegar as informações da label certinho
-						for (JComponent componente : campos.keySet()) {
-							String label = campos.get(componente); // nome da label associada ao campo (eu acho)
-							String valor = "";
-
-							// ver se é jcombobox ou textfield
-							if (componente instanceof JTextField) {
-								valor = ((JTextField) componente).getText();
-							} else if (componente instanceof JComboBox) {
-								//converter a escolha do usuario pra string
-								valor = ((JComboBox<?>) componente).getSelectedItem().toString();
-							}
-
-							// adicionando ao map criado no inicio
-							valoresPreenchidos.put(label, valor);
-						}
-						// pegando valores específicos do Map
-						String categoria = valoresPreenchidos.get("Categorias:");
-						String codigo = valoresPreenchidos.get("Código:");
-						String nomeProduto = valoresPreenchidos.get("Nome do Produto:");
-						String preco = valoresPreenchidos.get("Preço:");
-						String validade = valoresPreenchidos.get("Validade do produto:");
-						String fornecedor = valoresPreenchidos.get("Fornecedor:");
-
 						try {
-							//validando os campos com controller
+							Produto produto = new Produto();
+
+							// Passando os valores dos campos para o objeto produto
+							produto.setCategoria(CategoriaProduto.valueOf(categoria.getSelectedItem().toString()));
+							produto.setNome(nomeProduto.getText());
+							produto.setDescricao(descricao.getText());
+							produto.setPrecoVarejo(Double.valueOf(precoVarejo.getText()));
+							produto.setPrecoAtacado(Double.valueOf(precoAtacado.getText()));
+							produto.setDataEntrada();
+							produto.setQuantidadeEmEstoque(0);
+
+							// Chamando o controlador de cadastro para registrar o produto no BD após as validações de campo
 							CadastroProdutoController controller = new CadastroProdutoController();
-							controller.registerProduto(categoria, codigo, nomeProduto, preco, validade, fornecedor);
+							controller.registerProduto(produto);
+
 							JOptionPane.showMessageDialog(null, "Produto adicionado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-							//todo: funcionalidade pra limpar os campos para usuario adicionar novo produto
+							// Limpando Campos Após adição
+							nomeProduto.setText("");
+							descricao.setText("");
+							precoVarejo.setText("");
+							precoAtacado.setText("");
+
 						} catch (ControlException exception) {
 							JOptionPane.showMessageDialog(salvarButton, exception.getMessage());
+						} catch (NumberFormatException exception) {
+							JOptionPane.showMessageDialog(salvarButton, "Os preços devem ser valores numéricos!");
 						}
 					}
 				});
-
 			}
+
 			{
 				JButton cancelButton = new JButton("Cancelar");
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 			}
 		}
 	}

@@ -1,11 +1,21 @@
 package com.naturagro.controllers;
+import com.naturagro.models.Produto;
+import com.naturagro.service.ProdutoService;
 
 public class CadastroProdutoController {
-    public void registerProduto (String categoria, String codigo, String nomeProduto, String preco, String validade, String fornecedor) throws ControlException{
-        if (codigo == null || codigo.isBlank()){
-            throw new ControlException("Preencha um código para o produto!");
-        }
-        //todo: mais validações para cadastro do produto
+    private Produto produto;
 
+    public void registerProduto (Produto produto) throws ControlException {
+
+        if (produto.getNome() == null || produto.getNome().isBlank()) {
+            throw new ControlException("Preencha um nome para o produto!");
+        }
+        if (produto.getCategoria() == null) {
+            throw new ControlException("Selecione uma Categoria");
+
+        } else { // Se tudo der certo, amém, senhor, gloria a deus, o produto é adicionado
+            ProdutoService produtoService = new ProdutoService();
+            produtoService.incluirAtomico(produto);
+        }
     }
 }
