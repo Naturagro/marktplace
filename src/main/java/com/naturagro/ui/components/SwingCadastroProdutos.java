@@ -1,16 +1,20 @@
 package com.naturagro.ui.components;
 
+import com.naturagro.service.ProdutoService;
 import com.naturagro.ui.ControladorSwing;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.List;
 
 public class SwingCadastroProdutos extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -18,7 +22,7 @@ public class SwingCadastroProdutos extends JFrame {
 	private JLabel label;
 	private JTable table;
 	private ControladorSwing controlador;
-
+	ProdutoService produtoService = new ProdutoService();
 
 	// Criando a Tela
 	public SwingCadastroProdutos(ControladorSwing controladorDeTela) {
@@ -88,17 +92,59 @@ public class SwingCadastroProdutos extends JFrame {
 			}
 		});
 
+		// Definindo o modelo de dados da tabela
+		DefaultTableModel model = new DefaultTableModel();
+		model.addColumn("ID");
+		model.addColumn("Categoria");
+		model.addColumn("Descrição");
+		model.addColumn("Nome");
+		model.addColumn("Preço Atacado");
+		model.addColumn("Preço Varejo");
+
+		// Armazenando a consulta do BD na variavel
+		List<Object[]> consulta = produtoService.buscarPerfilProduto();
+
+		// Definindo um ScrollPane para colocar a tabela
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(122, 125, 1014, 433);
 		camadas.add(scrollPane);
+
+		// Colocando as rows no modelo de dados
+		for (Object[] linha : consulta) {
+			model.addRow(linha);
+		}
+
+		table = new JTable(model);
+		scrollPane.setViewportView(table);
+
+		// Botão de recarregar
+		ImageIcon reloadIcon = new ImageIcon(getClass().getResource("/images/reloadIcon50.png"));
+		JButton atualizarButton = new JButton(reloadIcon);
+		atualizarButton.setForeground(Color.WHITE);
+		atualizarButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+		atualizarButton.setBackground(new Color(133, 179, 58));
+		atualizarButton.setBounds(1155, 595, 50, 50);
+		camadas.add(atualizarButton);
+		// Função do botão recarregar
+		atualizarButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.setRowCount(0); // Remove todas as linhas
+
+				List<Object[]> consulta = produtoService.buscarPerfilProduto();
+
+				for (Object[] linha : consulta) {
+					model.addRow(linha);
+				}
+
+				table = new JTable(model);
+				scrollPane.setViewportView(table);
+			}
+		});
 
 		ImageIcon background2 = new ImageIcon(getClass().getResource("/images/background2edit.png"));
 		JLabel backgroundLabel = new JLabel(background2);
 		backgroundLabel.setBounds(0, 0, 1270, 681);
 		camadas.add(backgroundLabel,Integer.valueOf(0));
-
-		table = new JTable();
-		scrollPane.setViewportView(table);
-
 	}
 }

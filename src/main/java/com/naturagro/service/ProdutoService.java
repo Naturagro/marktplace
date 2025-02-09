@@ -2,6 +2,9 @@ package com.naturagro.service;
 
 import com.naturagro.DAO.DAO;
 import com.naturagro.models.Produto;
+
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -35,5 +38,13 @@ public class ProdutoService extends DAO<Produto> {
         } else {
             throw new RuntimeException("Produto não encontrado!");
         }
+    }
+
+    public List<Object[]> buscarPerfilProduto() {
+        ProdutoService produtoService = new ProdutoService();
+        EntityManager em = produtoService.getEntityManager();
+        String jpql = "SELECT p.id, p.categoria, p.descricao, p.nome, p.precoAtacado, p.precoVarejo FROM Produto p";
+        TypedQuery<Object[]> query = em.createQuery(jpql, Object[].class);
+        return query.getResultList();
     }
 }

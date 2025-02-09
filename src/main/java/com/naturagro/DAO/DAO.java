@@ -99,6 +99,10 @@ public abstract class DAO <E>{
         em.getTransaction().commit();
     }
 
+    public EntityManager getEntityManager() {
+        return em;
+    }
+
     public void fechar() {
         em.close();
     }

@@ -92,7 +92,6 @@ public class JDialogCadastroProdutos extends JDialog {
 							produto.setDescricao(descricao.getText());
 							produto.setPrecoVarejo(Double.valueOf(precoVarejo.getText()));
 							produto.setPrecoAtacado(Double.valueOf(precoAtacado.getText()));
-							produto.setDataEntrada();
 							produto.setQuantidadeEmEstoque(0);
 
 							// Chamando o controlador de cadastro para registrar o produto no BD após as validações de campo
