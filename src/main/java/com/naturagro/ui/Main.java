@@ -38,16 +38,8 @@ public class Main extends JFrame {
 
                     // Se quiser apenas testar uma tela especifica, comente a linha 41 até a linha 46 e descomente a linha 38
                     // Inicie a tela colocando o nome da tela que você quer na String
-                    // controladorDeTela.abrirJanela("cadastro");
+                     controladorDeTela.abrirJanela("login");
 
-                    // Faz a checagem se é o primeiro cadastro do banco de dados, e a depender, redireciona pra tela certa
-
-                    AccessControlController controladorDeAcesso = new AccessControlController();
-                    if (true) {
-                        controladorDeTela.abrirJanela("cadastro");
-                    } else {
-                        controladorDeTela.abrirJanela("login");
-                    }
 
                 } catch (Exception e) {
                     e.printStackTrace();

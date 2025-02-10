@@ -3,6 +3,7 @@ package com.naturagro.ui.components;
 import com.naturagro.service.ProdutoService;
 import com.naturagro.ui.ControladorSwing;
 
+import javax.persistence.TypedQuery;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -51,6 +52,7 @@ public class SwingCadastroProdutos extends JFrame {
 		CadastroProdutosLabel.setBounds(123, 46, 362, 44);
 		camadas.add(CadastroProdutosLabel,Integer.valueOf(1));
 
+		// Função do botão adicionar
 		JButton AdicionarButton = new JButton("Adicionar");
 		AdicionarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -58,25 +60,50 @@ public class SwingCadastroProdutos extends JFrame {
 				dialog.setVisible(true);
 			}
 		});
+		// Botão adicionar
 		AdicionarButton.setBackground(new Color(133,179,58));
 		AdicionarButton.setForeground(new Color(255,255,255));
 		AdicionarButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
 		AdicionarButton.setBounds(119, 595, 240, 50);
 		camadas.add(AdicionarButton, Integer.valueOf(3));
 
+		// Botão Editar
 		JButton EditarButton = new JButton("Editar");
 		EditarButton.setForeground(Color.WHITE);
 		EditarButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
 		EditarButton.setBackground(new Color(133, 179, 58));
 		EditarButton.setBounds(378, 595, 240, 50);
 		camadas.add(EditarButton);
+		// Função do botão editar
+		EditarButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int coluna = table.getSelectedColumn();
+				int linha = table.getSelectedRow();
+				Object celula = table.getValueAt(linha,coluna);
 
+			}
+		});
+
+		// Botão Excluir
 		JButton ExcluirButton = new JButton("Excluir");
 		ExcluirButton.setForeground(Color.WHITE);
 		ExcluirButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
 		ExcluirButton.setBackground(new Color(133, 179, 58));
 		ExcluirButton.setBounds(637, 595, 240, 50);
 		camadas.add(ExcluirButton);
+		// Função do botão excluir
+		ExcluirButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int coluna = table.getSelectedColumn();
+				int linha = table.getSelectedRow();
+				// Pega o valor na linha selecionada e na coluna 0 (ou seja, o id do produto selecionado)
+				String celula = table.getValueAt(linha,0).toString();
+				// Converte pra Long
+				Long id = Long.parseLong(celula);
+				produtoService.excluirProduto(id);
+
+			}
+		});
 
 		// Botão Voltar
 		JButton BotaoVoltar = new JButton("Voltar");
