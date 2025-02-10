@@ -29,6 +29,7 @@ import java.util.List;
                 name = "Produto.buscarPorFaixaDePreco",
                 query = "SELECT p FROM Produto p WHERE p.precoVarejo BETWEEN :precoMin AND :precoMax"
         )
+
 })
 public class Produto {
 
