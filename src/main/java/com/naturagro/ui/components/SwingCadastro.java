@@ -2,6 +2,7 @@ package com.naturagro.ui.components;
 
 import com.naturagro.controllers.AccessControlController;
 import com.naturagro.controllers.ControlException;
+import com.naturagro.models.Cadastro;
 import com.naturagro.service.FuncionarioService;
 import com.naturagro.ui.ControladorSwing;
 
@@ -127,6 +128,11 @@ public class SwingCadastro extends JFrame {
 					AccessControlController controller = new AccessControlController();
 					controller.registerUser(nomeUser, password, confirmacaopassword);
 					JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
+					Cadastro cadastro = new Cadastro(nomeUser, password);
+					//todo: ajeitar tabela funcionario no banco de dados
+					cadastro.adicionarCadastroBanco(cadastro);
+
 					controladorDeTela.abrirJanela(("login"));
 				} catch (ControlException exception) {
 					//vai mostrar o erro que foi tratado lá no access control

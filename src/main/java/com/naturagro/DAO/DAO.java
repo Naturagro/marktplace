@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 public abstract class DAO <E>{
-    private static EntityManagerFactory emf;
+    public static EntityManagerFactory emf;
     private EntityManager em;
     private Class<E> classe;
 
