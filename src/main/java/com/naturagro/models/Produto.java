@@ -9,26 +9,7 @@ import java.util.List;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(
-                name = "Produto.buscarPertoVencimento",
-                query = "SELECT p FROM Produto p WHERE p.dataVencimento BETWEEN :hoje AND :limite"
-        ),
-        @NamedQuery(
-                name = "Produto.buscarEstoqueBaixo",
-                query = "SELECT p FROM Produto p WHERE p.quantidadeEmEstoque < :quantidade"
-        ),
-        @NamedQuery(
-                name = "Produto.buscarPorNome",
-                query = "SELECT p FROM Produto p WHERE LOWER(p.nome) LIKE LOWER(:nome)"
-        ),
-        @NamedQuery(
-                name = "Produto.buscarPorCategoria",
-                query = "SELECT p FROM Produto p WHERE p.categoria = :categoria"
-        ),
-        @NamedQuery(
-                name = "Produto.buscarPorFaixaDePreco",
-                query = "SELECT p FROM Produto p WHERE p.precoVarejo BETWEEN :precoMin AND :precoMax"
-        )
+
 
 })
 public class Produto {
