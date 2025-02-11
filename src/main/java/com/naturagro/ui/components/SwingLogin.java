@@ -51,7 +51,7 @@ public class SwingLogin extends JFrame {
 		painelPrincipal.add(titleLabel, gbc);
 
 		// Usuário
-		JLabel usuarioLabel = new JLabel("Usuário:");
+		JLabel usuarioLabel = new JLabel("CPF:");
 		usuarioLabel.setForeground(Color.WHITE);
 		usuarioLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		gbc.gridwidth = 1;

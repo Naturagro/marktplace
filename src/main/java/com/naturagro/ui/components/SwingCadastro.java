@@ -15,6 +15,7 @@ public class SwingCadastro extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JTextField RegisterUserTextField;
 	private JPasswordField RegisterSenhaPasswordField, passwordField;
+	private JTextField CpfTextField;
 	private ControladorSwing controladorDeTela;
 	private FuncionarioService funcionarioService;
 
@@ -75,12 +76,29 @@ public class SwingCadastro extends JFrame {
 		gbc.anchor = GridBagConstraints.LINE_START;
 		painelPrincipal.add(RegisterUserTextField, gbc);
 
+		// CPF
+		JLabel CpfLabel = new JLabel("CPF:");
+		CpfLabel.setForeground(Color.WHITE);
+		CpfLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		gbc.gridwidth = 1;
+		gbc.anchor = GridBagConstraints.LINE_END;
+		gbc.gridy = 3;
+		gbc.gridx = 0;
+		painelPrincipal.add(CpfLabel, gbc);
+
+		CpfTextField = new JTextField(30);
+		CpfTextField.setPreferredSize(new Dimension(202, 23));  // Definindo altura similar ao código de login
+		CpfTextField.setMinimumSize(new Dimension(202, 23));  // Tamanho mínimo igual
+		gbc.gridx = 1;
+		gbc.anchor = GridBagConstraints.LINE_START;
+		painelPrincipal.add(CpfTextField, gbc);
+
 		// Senha
 		JLabel senhaLabel = new JLabel("Senha:");
 		senhaLabel.setForeground(Color.WHITE);
 		senhaLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		gbc.gridx = 0;
-		gbc.gridy = 3;
+		gbc.gridy = 4;
 		gbc.anchor = GridBagConstraints.LINE_END;
 		painelPrincipal.add(senhaLabel, gbc);
 
@@ -102,7 +120,7 @@ public class SwingCadastro extends JFrame {
 		cargoComboBox.addItem("Operador");
 
 		gbc.gridx = 0;
-		gbc.gridy = 5;
+		gbc.gridy = 6;
 		gbc.gridwidth = 2;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		painelPrincipal.add(cargoComboBox, gbc);
@@ -112,7 +130,7 @@ public class SwingCadastro extends JFrame {
 		confirmarSenhaLabel.setForeground(Color.WHITE);  // Cor da fonte
 		confirmarSenhaLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));  // Fonte maior
 		gbc.gridx = 0;
-		gbc.gridy = 4;
+		gbc.gridy = 5;
 		gbc.anchor = GridBagConstraints.LINE_END;
 		painelPrincipal.add(confirmarSenhaLabel, gbc);
 
@@ -128,7 +146,7 @@ public class SwingCadastro extends JFrame {
 		cadastrarButton.setBackground(new Color(124, 188, 52));
 		cadastrarButton.setForeground(Color.WHITE);
 		gbc.gridx = 0;
-		gbc.gridy = 6;
+		gbc.gridy = 7;
 		gbc.gridwidth = 2;
 		gbc.anchor = GridBagConstraints.CENTER;
 		painelPrincipal.add(cadastrarButton, gbc);
