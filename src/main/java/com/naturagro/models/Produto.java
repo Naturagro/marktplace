@@ -34,28 +34,59 @@ public class Produto {
             String descricao,
             CategoriaProduto categoria,
             LocalDate dataEntrada,
-            //LocalDate dataVencimento,
             Integer quantidadeEmEstoque,
             Double precoVarejo,
             Double precoAtacado,
             CategoriaProduto categoriaProduto) {
+
         this.precoAtacado = precoAtacado;
         this.precoVarejo = precoVarejo;
         this.quantidadeEmEstoque = quantidadeEmEstoque;
-        //this.dataVencimento = calcularVencimento(dataEntrada);
-        this.dataVencimento = dataEntrada.plusDays(40);
         this.dataEntrada = dataEntrada;
         this.categoria = categoria;
         this.descricao = descricao;
         this.nome = nome;
-        //calcularVencimento(dataEntrada, categoriaProduto)
+        this.dataEntrada = LocalDate.now();
+        this.dataVencimento = calcularVencimento(categoriaProduto);
     }
 
     public Produto() {}
 
-    private LocalDate calcularVencimento(LocalDate dataEntrada, CategoriaProduto categoriaProduto) {
+    private LocalDate calcularVencimento(CategoriaProduto categoriaProduto) {
         //todo adicionar diferentes datas de vencimento para cada categoria
         LocalDate dataVence = dataEntrada.plusDays(20);
+        switch (categoria) {
+            case Frutas:
+                dataVence = dataVence.plusDays(7);
+                break;
+            case Carnes:
+                dataVence = dataVence.plusDays(30);
+                break;
+            case Peixes:
+                dataVence = dataVence.plusDays(20);
+                break;
+            case Bebidas:
+                dataVence = dataVence.plusDays(365);
+                break;
+            case Higiene:
+                dataVence = dataVence.plusDays(830);
+                break;
+            case Limpeza:
+                dataVence = dataVence.plusDays(830);
+                break;
+            case Verduras:
+                dataVence = dataVence.plusDays(7);
+                break;
+            case Alimentos:
+                dataVence = dataVence.plusDays(180);
+                break;
+            case Cosmeticos:
+                dataVence = dataVence.plusDays(1095);
+                break;
+            case Laticinios:
+                dataVence = dataVence.plusDays(15);
+                break;
+        }
         return dataVence;
     }
 
