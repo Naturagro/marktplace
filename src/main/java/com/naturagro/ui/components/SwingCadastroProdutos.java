@@ -74,6 +74,7 @@ public class SwingCadastroProdutos extends JFrame {
 		EditarButton.setBackground(new Color(133, 179, 58));
 		EditarButton.setBounds(378, 595, 240, 50);
 		camadas.add(EditarButton);
+
 		// Função do botão editar
 		EditarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -91,6 +92,7 @@ public class SwingCadastroProdutos extends JFrame {
 		ExcluirButton.setBackground(new Color(133, 179, 58));
 		ExcluirButton.setBounds(637, 595, 240, 50);
 		camadas.add(ExcluirButton);
+
 		// Função do botão excluir
 		ExcluirButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

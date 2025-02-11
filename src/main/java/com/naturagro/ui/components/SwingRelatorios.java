@@ -11,107 +11,138 @@ import java.awt.event.ActionListener;
 import java.text.ParseException;
 
 public class SwingRelatorios extends JFrame {
-    private static final long serialVersionUID = 1L;
-    private JTextField textField;
-    private JLabel label;
+	private static final long serialVersionUID = 1L;
 	private ControladorSwing controlador;
 
+	// Tela
+	public SwingRelatorios(ControladorSwing controladorDeTela) {
+		this.controlador = controladorDeTela;
 
-	// Criando a Tela
-    public SwingRelatorios(ControladorSwing controladorDeTela) {
-    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Menu Inicial");
-		setBounds(0, 0, 1280, 720);
+		// Configurações da janela
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Relatórios");
+		setSize(900, 600);
+
+		// Centralizar a janela na tela
+		setLocationRelativeTo(null);
+
+		// Painel principal
 		JPanel contentPane = new JPanel();
 		contentPane.setBackground(new Color(124, 188, 52));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JLayeredPane camadas = new JLayeredPane();
-		contentPane.add(camadas);
-		camadas.setBounds(0,0,1280,720);
-		
+
+		contentPane.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.insets = new Insets(10, 10, 10, 10);  // Espaçamento entre os componentes
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+
+		// Logo
 		ImageIcon logo = new ImageIcon(getClass().getResource("/images/logo.png"));
 		JLabel logoLabel = new JLabel(logo);
-		logoLabel.setBounds(15,23,98,100);
-		camadas.add(logoLabel,Integer.valueOf(1));
-		
-		JLabel RelatoriosLabel = new JLabel("Relatorios");
-		RelatoriosLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 36));
-		RelatoriosLabel.setForeground(new Color(255, 255, 255));
-		RelatoriosLabel.setBounds(123, 46, 362, 44);
-		camadas.add(RelatoriosLabel,Integer.valueOf(1));
-		
-		JButton GerarRelatorioButton = new JButton("Gerar Relatorio");
-		GerarRelatorioButton.setBackground(new Color(133,179,58));
-		GerarRelatorioButton.setForeground(new Color(255,255,255));
-		GerarRelatorioButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-		GerarRelatorioButton.setBounds(339, 527, 268, 50);
-		camadas.add(GerarRelatorioButton, Integer.valueOf(3));
+		gbc.gridx = 2;
+		gbc.gridy = 0;
+		gbc.gridwidth = 3;
+		gbc.anchor = GridBagConstraints.CENTER;
+		contentPane.add(logoLabel, gbc);
 
-		// Botão voltar
-		JButton BotaoVoltar = new JButton("Voltar");
-		BotaoVoltar.setForeground(Color.WHITE);
-		BotaoVoltar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-		BotaoVoltar.setBackground(new Color(133, 179, 58));
-		BotaoVoltar.setBounds(633, 527, 240, 50);
-		camadas.add(BotaoVoltar);
+		// Título
+		JLabel relatoriosLabel = new JLabel("Relatórios");
+		relatoriosLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 36));
+		relatoriosLabel.setForeground(Color.WHITE);
+		gbc.gridx = 2;
+		gbc.gridy = 1;
+		gbc.gridwidth = 3;
+		gbc.anchor = GridBagConstraints.CENTER;
+		contentPane.add(relatoriosLabel, gbc);
+
+		// ComboBox de Seleção de Relatório
+		JComboBox<String> comboBox = new JComboBox<>();
+		comboBox.setBackground(new Color(133, 179, 58));
+		comboBox.setFont(new Font("Comic Sans MS", Font.PLAIN, 24));
+		comboBox.setForeground(Color.WHITE);
+		comboBox.setModel(new DefaultComboBoxModel<>(new String[] {"Movimentação de Estoque", "Produtos Mais Vendidos"}));
+		gbc.gridx = 2;
+		gbc.gridy = 2;
+		gbc.gridwidth = 1;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		contentPane.add(comboBox, gbc);
+
+		// Campo de Data
+		JLabel dataLabel = new JLabel("Data:");
+		dataLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+		dataLabel.setForeground(Color.WHITE);
+		gbc.gridx = 2;
+		gbc.gridy = 3;
+		gbc.gridwidth = 1;
+		gbc.anchor = GridBagConstraints.EAST;
+		contentPane.add(dataLabel, gbc);
+
+		try {
+			// Mascara de data
+			MaskFormatter dateMask = new MaskFormatter("##/##/####");
+			dateMask.setPlaceholderCharacter('_');
+			dateMask.setAllowsInvalid(false);
+			dateMask.setOverwriteMode(true);
+
+			JFormattedTextField formattedTextField = new JFormattedTextField(dateMask);
+			formattedTextField.setBackground(new Color(133, 179, 58));
+			formattedTextField.setForeground(Color.WHITE);
+			formattedTextField.setHorizontalAlignment(SwingConstants.CENTER);
+			formattedTextField.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+			formattedTextField.setText("__/__/__");
+			gbc.gridx = 2;
+			gbc.gridy = 3;
+			gbc.gridwidth = 2;
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			contentPane.add(formattedTextField, gbc);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		// Botão Gerar Relatório
+		JButton gerarRelatorioButton = new JButton("Gerar Relatório");
+		gerarRelatorioButton.setBackground(new Color(133, 179, 58));
+		gerarRelatorioButton.setForeground(Color.WHITE);
+		gerarRelatorioButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+		gbc.gridx = 2;
+		gbc.gridy = 4;
+		gbc.gridwidth = 1;  // Botão ocupa toda a largura
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		contentPane.add(gerarRelatorioButton, gbc);
+
+		// Botão Voltar
+		JButton botaoVoltar = new JButton("Voltar");
+		botaoVoltar.setForeground(Color.WHITE);
+		botaoVoltar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+		botaoVoltar.setBackground(new Color(133, 179, 58));
+		gbc.gridx = 2;
+		gbc.gridy = 5;
+		gbc.gridwidth = 1;  // Botão ocupa toda a largura
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		contentPane.add(botaoVoltar, gbc);
+
 		// Função do botão voltar
-		BotaoVoltar.addActionListener(new ActionListener() {
+		botaoVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controladorDeTela.abrirJanela("menuPrincipal");
 			}
 		});
-		
+
+		// Adicionando a imagem de fundo
 		ImageIcon background2 = new ImageIcon(getClass().getResource("/images/background2edit.png"));
 		JLabel backgroundLabel = new JLabel(background2);
-		backgroundLabel.setBounds(0, 0, 1270, 681);
-		camadas.add(backgroundLabel,Integer.valueOf(0));
-		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBackground(new Color(133, 179, 58));
-		comboBox.setFont(new Font("Comic Sans MS", Font.PLAIN, 24));
-		comboBox.setForeground(new Color(255, 255, 255));
-		camadas.setLayer(comboBox, 1);
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Movimentação de Estoque", "Produtos Mais Vendidos"}));
-		comboBox.setBounds(474, 231, 268, 50);
-		camadas.add(comboBox);
-		
-		 try {
-	            MaskFormatter dateMask = new MaskFormatter("##/##/####");
-	            dateMask.setPlaceholderCharacter('_'); // Define o placeholder como "_"
-	            dateMask.setAllowsInvalid(false); // Não permite caracteres inválidos
-	            dateMask.setOverwriteMode(true); // Garante que os caracteres encaixem certo
-		
-				JFormattedTextField formattedTextField = new JFormattedTextField(dateMask);
-				formattedTextField.setBackground(new Color(133, 179, 58));
-				formattedTextField.setForeground(new Color(255, 255, 255));
-				formattedTextField.setHorizontalAlignment(SwingConstants.CENTER);
-				formattedTextField.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-				formattedTextField.setText("__/__/__");
-				camadas.setLayer(formattedTextField, 1);
-				formattedTextField.setBounds(615, 394, 200, 60);
-				camadas.add(formattedTextField);
-				
-				JFormattedTextField formattedTextField_1 = new JFormattedTextField();
-				formattedTextField_1.setEditable(false);
-				camadas.setLayer(formattedTextField_1, 1);
-				formattedTextField_1.setText("Data:");
-				formattedTextField_1.setHorizontalAlignment(SwingConstants.CENTER);
-				formattedTextField_1.setForeground(Color.WHITE);
-				formattedTextField_1.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-				formattedTextField_1.setBackground(new Color(133, 179, 58));
-				formattedTextField_1.setBounds(413, 394, 200, 60);
-				camadas.add(formattedTextField_1);
-				
-			 } catch (ParseException e) {
-		            e.printStackTrace();
-		        }
-				
-				
+		contentPane.add(backgroundLabel, new GridBagConstraints() {{
+			gridx = 0;
+			gridy = 0;
+			gridwidth = 3;
+			gridheight = 6;
+			weightx = 1.0;
+			weighty = 1.0;
+			fill = GridBagConstraints.BOTH;
+		}});
 
-		
-    }
+		// Ajustar o tamanho da imagem para preencher toda a tela
+		contentPane.repaint();
+	}
 }

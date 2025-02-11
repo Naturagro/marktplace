@@ -15,7 +15,7 @@ public class SwingLogin extends JFrame {
 	public SwingLogin(ControladorSwing controladorDeTela) {
 		setTitle("Login - Naturagro");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(630, 390);
+		setSize(630, 500);
 		setLocationRelativeTo(null);
 
 		JPanel painelPrincipal = new JPanel() {
@@ -100,4 +100,4 @@ public class SwingLogin extends JFrame {
 		});
 	}
 
-	}
+}

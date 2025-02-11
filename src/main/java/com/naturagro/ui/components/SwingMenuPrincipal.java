@@ -1,133 +1,122 @@
 package com.naturagro.ui.components;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLayeredPane;
-import java.awt.Color;
-
-import com.naturagro.ui.ControladorSwing;
-
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
-import java.awt.GridBagConstraints;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
+import com.naturagro.ui.ControladorSwing;
 
 public class SwingMenuPrincipal extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private ControladorSwing controlador;
-
+	private JLabel backgroundLabel;
 
 	public SwingMenuPrincipal(ControladorSwing controlador) {
+		this.controlador = controlador;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Menu Inicial");
-		setBounds(0, 0, 1280, 720);
-		contentPane = new JPanel();
+		setTitle("Menu Principal");
+		setSize(1280, 720);
+		setLocationRelativeTo(null);
+
+		contentPane = new JPanel(new GridBagLayout());
 		contentPane.setBackground(new Color(124, 188, 52));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JLayeredPane camadas = new JLayeredPane();
-		contentPane.add(camadas);
-		camadas.setBounds(0,0,1280,720);
-		
-		// GridPanel Meramente pra se localizar no editor em alguns casos
-		JPanel GridPanel = new JPanel();
-		GridPanel.setBackground(new Color(124, 188, 52));
-		GridPanel.setBounds(0, 0, 1280, 720);
-		contentPane.add(GridPanel);
-		GridBagLayout gbl_GridPanel = new GridBagLayout();
-		gbl_GridPanel.columnWidths = new int[]{0, 0};
-		gbl_GridPanel.rowHeights = new int[]{0, 0};
-		gbl_GridPanel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-		gbl_GridPanel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-		GridPanel.setLayout(gbl_GridPanel);
-		
-		ImageIcon background2 = new ImageIcon(getClass().getResource("/images/background2edit.png"));
-		JLabel backgroundLabel = new JLabel(background2);
-		backgroundLabel.setBounds(0, 0, 1270, 681);
-		camadas.add(backgroundLabel,Integer.valueOf(0));
 
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.insets = new Insets(10, 10, 10, 10);
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.weightx = 1.0;
+		gbc.weighty = 1.0;
+
+		// Fundo (imagem que acompanha o redimensionamento)
+		backgroundLabel = new JLabel(new ImageIcon(getClass().getResource("/images/background2edit.png")));
+		backgroundLabel.setLayout(new GridBagLayout());
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.gridwidth = 2;
+		gbc.gridheight = 4;
+		contentPane.add(backgroundLabel, gbc);
+
+		// Painel de componentes
+		JPanel panel = new JPanel(new GridBagLayout());
+		panel.setOpaque(false);
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+		backgroundLabel.add(panel, gbc);
+
+		GridBagConstraints innerGbc = new GridBagConstraints();
+		innerGbc.insets = new Insets(10, 10, 10, 10);
+		innerGbc.fill = GridBagConstraints.BOTH;
+		innerGbc.weightx = 1.0;
+		innerGbc.weighty = 1.0;
+
+		// Logo
 		ImageIcon logo = new ImageIcon(getClass().getResource("/images/logo.png"));
 		JLabel logoLabel = new JLabel(logo);
-		logoLabel.setBounds(15,23,98,100);
-		camadas.add(logoLabel,Integer.valueOf(1));
-		
-		JLabel MenuPrincipalLabel = new JLabel("Menu Principal");
-		MenuPrincipalLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 36));
-		MenuPrincipalLabel.setForeground(new Color(255, 255, 255));
-		MenuPrincipalLabel.setBounds(123, 46, 252, 44);
-		camadas.add(MenuPrincipalLabel,Integer.valueOf(2));
-		
-		JButton CadastroProdutosButton = new JButton("Cadastro de Produtos");
-		CadastroProdutosButton.setBackground(new Color(133, 179, 58));
-		CadastroProdutosButton.setForeground(new Color(255, 255, 255));
-		CadastroProdutosButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-		CadastroProdutosButton.setBounds(86, 192, 482, 93);
-		camadas.add(CadastroProdutosButton, Integer.valueOf(3));
-		CadastroProdutosButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controlador.abrirJanela("cadastroProdutos");
+		innerGbc.gridx = 0;
+		innerGbc.gridy = 0;
+		innerGbc.gridwidth = 1;
+		innerGbc.anchor = GridBagConstraints.WEST;
+		panel.add(logoLabel, innerGbc);
+
+		// Título
+		JLabel menuLabel = new JLabel("Menu Principal");
+		menuLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 50));
+		menuLabel.setForeground(Color.WHITE);
+		innerGbc.gridx = 1;
+		innerGbc.gridy = 0;
+		innerGbc.gridwidth = 3;
+		innerGbc.anchor = GridBagConstraints.CENTER;
+		panel.add(menuLabel, innerGbc);
+
+		// Botões
+		String[] botoes = {"Cadastro de Produtos", "Vendas", "Controle de Estoque", "Relatórios", "Cadastrar", "Sair"};
+		String[] acoes = {"cadastroProdutos", "vendas", "controleEstoque", "relatorios", "cadastrar", "sair"};
+
+		innerGbc.gridwidth = 1;
+		innerGbc.anchor = GridBagConstraints.CENTER;
+		innerGbc.fill = GridBagConstraints.BOTH;
+
+		for (int i = 0; i < botoes.length; i++) {
+			JButton button = new JButton(botoes[i]);
+			button.setBackground(new Color(96, 145, 2));
+			button.setForeground(Color.WHITE);
+			button.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));  // Tamanho da fonte reduzido
+			button.setPreferredSize(new Dimension(200, 30));  // Tamanho fixo para os botões
+			button.addActionListener(new BotaoListener(acoes[i]));
+
+			innerGbc.gridx = i % 2;
+			innerGbc.gridy = (i / 2) + 1;
+			panel.add(button, innerGbc);
+		}
+
+		// Listener para redimensionar a imagem
+		addComponentListener(new java.awt.event.ComponentAdapter() {
+			public void componentResized(java.awt.event.ComponentEvent componentEvent) {
+				ImageIcon imageIcon = new ImageIcon(getClass().getResource("/images/background2edit.png"));
+				Image img = imageIcon.getImage();
+				Image newImg = img.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
+				backgroundLabel.setIcon(new ImageIcon(newImg));
 			}
 		});
-		
-		JButton VendasButton = new JButton("Vendas");
-		VendasButton.setBackground(new Color(133,179,58));
-		VendasButton.setForeground(new Color(255,255,255));
-		VendasButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-		VendasButton.setBounds(86, 357, 482, 93);
-		camadas.add(VendasButton, Integer.valueOf(3));
-		VendasButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controlador.abrirJanela("vendas");
-			}
-		});
-		
-		JButton btnNewButton_1_1 = new JButton("New button");
-		btnNewButton_1_1.setBounds(86, 522, 482, 93);
-		camadas.add(btnNewButton_1_1, Integer.valueOf(3));
-		
-		JButton ControleEstoqueButton = new JButton("Controle de Estoque");
-		ControleEstoqueButton.setForeground(Color.WHITE);
-		ControleEstoqueButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-		ControleEstoqueButton.setBackground(new Color(133, 179, 58));
-		ControleEstoqueButton.setBounds(695, 192, 482, 93);
-		camadas.add(ControleEstoqueButton, Integer.valueOf(3));
-		ControleEstoqueButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controlador.abrirJanela("controleEstoque");
-			}
-		});
-		
-		JButton RelatoriosButton = new JButton("Relatórios");
-		RelatoriosButton.setForeground(Color.WHITE);
-		RelatoriosButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-		RelatoriosButton.setBackground(new Color(133, 179, 58));
-		RelatoriosButton.setBounds(695, 357, 482, 93);
-		camadas.add(RelatoriosButton, Integer.valueOf(3));
-		RelatoriosButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controlador.abrirJanela("relatorios");
-			}
-		});
-		
-		JButton SairButton = new JButton("Sair ->|");
-		SairButton.setForeground(Color.WHITE);
-		SairButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-		SairButton.setBackground(new Color(133, 179, 58));
-		SairButton.setBounds(695, 522, 482, 93);
-		camadas.add(SairButton, Integer.valueOf(3));
-		
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.gridx = 0;
-		gbc_lblNewLabel.gridy = 0;
+	}
+
+	private class BotaoListener implements ActionListener {
+		private String acao;
+
+		public BotaoListener(String acao) {
+			this.acao = acao;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			controlador.abrirJanela(acao);
+		}
 	}
 }

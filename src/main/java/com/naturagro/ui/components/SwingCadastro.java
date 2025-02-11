@@ -91,6 +91,22 @@ public class SwingCadastro extends JFrame {
 		gbc.anchor = GridBagConstraints.LINE_START;
 		painelPrincipal.add(RegisterSenhaPasswordField, gbc);
 
+		// ComboBox
+		JComboBox<String> cargoComboBox = new JComboBox<>();
+		cargoComboBox.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		cargoComboBox.setForeground(Color.WHITE);
+		cargoComboBox.setBackground(new Color(133, 179, 58));
+
+		cargoComboBox.addItem("Gerente");
+		cargoComboBox.addItem("Estoquista");
+		cargoComboBox.addItem("Operador");
+
+		gbc.gridx = 0;
+		gbc.gridy = 5;
+		gbc.gridwidth = 2;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		painelPrincipal.add(cargoComboBox, gbc);
+
 		// Confirmar senha
 		JLabel confirmarSenhaLabel = new JLabel("Confirmar Senha:");
 		confirmarSenhaLabel.setForeground(Color.WHITE);  // Cor da fonte
@@ -112,10 +128,11 @@ public class SwingCadastro extends JFrame {
 		cadastrarButton.setBackground(new Color(124, 188, 52));
 		cadastrarButton.setForeground(Color.WHITE);
 		gbc.gridx = 0;
-		gbc.gridy = 5;
+		gbc.gridy = 6;
 		gbc.gridwidth = 2;
 		gbc.anchor = GridBagConstraints.CENTER;
 		painelPrincipal.add(cadastrarButton, gbc);
+
 		// Ação do botão cadastro
 		cadastrarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -141,4 +158,4 @@ public class SwingCadastro extends JFrame {
 			}
 		});
 	}
-	}
+}
