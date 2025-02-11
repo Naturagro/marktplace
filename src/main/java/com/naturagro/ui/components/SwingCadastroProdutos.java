@@ -100,7 +100,7 @@ public class SwingCadastroProdutos extends JFrame {
 				String celula = table.getValueAt(linha,0).toString();
 				// Converte pra Long
 				Long id = Long.parseLong(celula);
-				produtoService.excluirProduto(id);
+				//produtoService.excluirProduto(id);
 
 			}
 		});
