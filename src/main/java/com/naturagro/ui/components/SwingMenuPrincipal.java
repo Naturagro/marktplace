@@ -82,10 +82,10 @@ public class SwingMenuPrincipal extends JFrame {
 		innerGbc.gridwidth = 1;
 		innerGbc.anchor = GridBagConstraints.CENTER;
 		innerGbc.fill = GridBagConstraints.BOTH;
-
+		// Botoes adicionados em sequencia
 		for (int i = 0; i < botoes.length; i++) {
 			JButton button = new JButton(botoes[i]);
-			button.setBackground(new Color(96, 145, 2));
+			button.setBackground(new Color(83, 131, 5));
 			button.setForeground(Color.WHITE);
 			button.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));  // Tamanho da fonte reduzido
 			button.setPreferredSize(new Dimension(200, 30));  // Tamanho fixo para os botões

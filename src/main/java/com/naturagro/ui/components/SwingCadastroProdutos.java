@@ -36,6 +36,8 @@ public class SwingCadastroProdutos extends JFrame {
 		contentPane.setBackground(new Color(124, 188, 52));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
+		setLocationRelativeTo(null);
+
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
@@ -63,7 +65,7 @@ public class SwingCadastroProdutos extends JFrame {
 			}
 		});
 		// Botão adicionar
-		AdicionarButton.setBackground(new Color(133,179,58));
+		AdicionarButton.setBackground(new Color(83, 131, 5));
 		AdicionarButton.setForeground(new Color(255,255,255));
 		AdicionarButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
 		AdicionarButton.setBounds(119, 595, 240, 50);
@@ -73,7 +75,7 @@ public class SwingCadastroProdutos extends JFrame {
 		JButton EditarButton = new JButton("Editar");
 		EditarButton.setForeground(Color.WHITE);
 		EditarButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-		EditarButton.setBackground(new Color(133, 179, 58));
+		EditarButton.setBackground(new Color(83, 131, 5));
 		EditarButton.setBounds(378, 595, 240, 50);
 		camadas.add(EditarButton);
 		// Função do botão editar
@@ -90,7 +92,7 @@ public class SwingCadastroProdutos extends JFrame {
 		JButton ExcluirButton = new JButton("Excluir");
 		ExcluirButton.setForeground(Color.WHITE);
 		ExcluirButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-		ExcluirButton.setBackground(new Color(133, 179, 58));
+		ExcluirButton.setBackground(new Color(83, 131, 5));
 		ExcluirButton.setBounds(637, 595, 240, 50);
 		camadas.add(ExcluirButton);
 		// Função do botão excluir
@@ -114,7 +116,7 @@ public class SwingCadastroProdutos extends JFrame {
 		JButton BotaoVoltar = new JButton("Voltar");
 		BotaoVoltar.setForeground(Color.WHITE);
 		BotaoVoltar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-		BotaoVoltar.setBackground(new Color(133, 179, 58));
+		BotaoVoltar.setBackground(new Color(83, 131, 5));
 		BotaoVoltar.setBounds(896, 595, 240, 50);
 		camadas.add(BotaoVoltar);
 		// Função do botão Voltar
@@ -154,7 +156,7 @@ public class SwingCadastroProdutos extends JFrame {
 		JButton atualizarButton = new JButton(reloadIcon);
 		atualizarButton.setForeground(Color.WHITE);
 		atualizarButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-		atualizarButton.setBackground(new Color(133, 179, 58));
+		atualizarButton.setBackground(new Color(83, 131, 5));
 		atualizarButton.setBounds(1155, 595, 50, 50);
 		camadas.add(atualizarButton);
 		// Função do botão recarregar

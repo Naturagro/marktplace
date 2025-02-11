@@ -58,7 +58,7 @@ public class SwingRelatorios extends JFrame {
 
 		// ComboBox de Seleção de Relatório
 		JComboBox<String> comboBox = new JComboBox<>();
-		comboBox.setBackground(new Color(133, 179, 58));
+		comboBox.setBackground(new Color(83, 131, 5));
 		comboBox.setFont(new Font("Comic Sans MS", Font.PLAIN, 24));
 		comboBox.setForeground(Color.WHITE);
 		comboBox.setModel(new DefaultComboBoxModel<>(new String[] {"Movimentação de Estoque", "Produtos Mais Vendidos"}));
@@ -86,7 +86,7 @@ public class SwingRelatorios extends JFrame {
 			dateMask.setOverwriteMode(true);
 
 			JFormattedTextField formattedTextField = new JFormattedTextField(dateMask);
-			formattedTextField.setBackground(new Color(133, 179, 58));
+			formattedTextField.setBackground(new Color(83, 131, 5));
 			formattedTextField.setForeground(Color.WHITE);
 			formattedTextField.setHorizontalAlignment(SwingConstants.CENTER);
 			formattedTextField.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
@@ -102,7 +102,7 @@ public class SwingRelatorios extends JFrame {
 
 		// Botão Gerar Relatório
 		JButton gerarRelatorioButton = new JButton("Gerar Relatório");
-		gerarRelatorioButton.setBackground(new Color(133, 179, 58));
+		gerarRelatorioButton.setBackground(new Color(83, 131, 5));
 		gerarRelatorioButton.setForeground(Color.WHITE);
 		gerarRelatorioButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
 		gbc.gridx = 2;
@@ -115,7 +115,7 @@ public class SwingRelatorios extends JFrame {
 		JButton botaoVoltar = new JButton("Voltar");
 		botaoVoltar.setForeground(Color.WHITE);
 		botaoVoltar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-		botaoVoltar.setBackground(new Color(133, 179, 58));
+		botaoVoltar.setBackground(new Color(83, 131, 5));
 		gbc.gridx = 2;
 		gbc.gridy = 5;
 		gbc.gridwidth = 1;  // Botão ocupa toda a largura

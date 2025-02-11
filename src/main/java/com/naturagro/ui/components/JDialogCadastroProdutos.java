@@ -71,7 +71,7 @@ public class JDialogCadastroProdutos extends JDialog {
 		{
 			// Area relativa aos botões
 			JPanel buttonPane = new JPanel();
-			buttonPane.setBackground(new Color(124, 188, 52));
+			buttonPane.setBackground(new Color(96, 145, 2));
 			buttonPane.setLayout(new FlowLayout(FlowLayout.CENTER));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
