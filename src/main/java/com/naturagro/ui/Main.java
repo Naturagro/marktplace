@@ -30,7 +30,7 @@ public class Main extends JFrame {
                     // Adiciona cada tela ao objeto controlador
                     controladorDeTela.adicionarJanela("login",login);
                     controladorDeTela.adicionarJanela("menuPrincipal",menuPrincipal);
-                    controladorDeTela.adicionarJanela("cadastro", cadastro);
+                    controladorDeTela.adicionarJanela("cadastrar", cadastro);
                     controladorDeTela.adicionarJanela("cadastroProdutos", cadastroProdutos);
                     controladorDeTela.adicionarJanela("controleEstoque", controleEstoque);
                     controladorDeTela.adicionarJanela("relatorios", relatorios);
