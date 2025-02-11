@@ -234,3 +234,5 @@ buildNumber.properties
 /jarRepositories.xml
 /encodings.xml
 /compiler.xml
+persistence.xml
+META-INF/persistence.xml
