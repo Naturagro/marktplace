@@ -1,5 +1,7 @@
+
 package com.naturagro.ui.components;
 
+import com.naturagro.models.Produto;
 import com.naturagro.service.ProdutoService;
 import com.naturagro.ui.ControladorSwing;
 
@@ -74,7 +76,6 @@ public class SwingCadastroProdutos extends JFrame {
 		EditarButton.setBackground(new Color(133, 179, 58));
 		EditarButton.setBounds(378, 595, 240, 50);
 		camadas.add(EditarButton);
-
 		// Função do botão editar
 		EditarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -92,18 +93,20 @@ public class SwingCadastroProdutos extends JFrame {
 		ExcluirButton.setBackground(new Color(133, 179, 58));
 		ExcluirButton.setBounds(637, 595, 240, 50);
 		camadas.add(ExcluirButton);
-
 		// Função do botão excluir
 		ExcluirButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int coluna = table.getSelectedColumn();
-				int linha = table.getSelectedRow();
-				// Pega o valor na linha selecionada e na coluna 0 (ou seja, o id do produto selecionado)
-				String celula = table.getValueAt(linha,0).toString();
-				// Converte pra Long
-				Long id = Long.parseLong(celula);
-				//produtoService.excluirProduto(id);
 
+				// Pega o id do objeto selecionado
+				int linha = table.getSelectedRow();
+				String celula = table.getValueAt(linha,0).toString();
+				long id = Long.parseLong(celula);
+
+				ProdutoService produtoService = new ProdutoService();
+				// Obtem o objeto inteiro com base no id
+				Produto produto = produtoService.obterPorID(id);
+				// Remove o objeto
+				produtoService.remover(produto);
 			}
 		});
 
