@@ -10,44 +10,78 @@ import java.awt.event.ActionListener;
 public class SwingControleEstoque extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private ControladorSwing controlador;
+	private JLabel backgroundLabel;
 
 	// Tela
 	public SwingControleEstoque(ControladorSwing controladorDeTela) {
+		this.controlador = controladorDeTela;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Controle de Estoque");
 		setBounds(0, 0, 1280, 720);
 
-		// Painel principal
-		JPanel PainelPrincipal = new JPanel();
-		PainelPrincipal.setBackground(new Color(124, 188, 52));
-		PainelPrincipal.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Padding
+		// Painel principal com bordas verdes e fundo transparente
+		JPanel PainelPrincipal = new JPanel(new GridBagLayout());
+		PainelPrincipal.setBackground(new Color(124, 188, 52)); // Cor verde
+		PainelPrincipal.setOpaque(true); // Garantir que o fundo seja preenchido com verde
 		setContentPane(PainelPrincipal);
 
-		// GridBagLayout
-		GridBagLayout gridBagLayout = new GridBagLayout();
+		// Configuração do layout do painel de conteúdo
 		GridBagConstraints gbc = new GridBagConstraints();
-		PainelPrincipal.setLayout(gridBagLayout);
+		gbc.insets = new Insets(10, 10, 10, 10);
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.weightx = 1.0;
+		gbc.weighty = 1.0;
 
-		// Componentes
+		// Adicionando imagem de fundo
+		ImageIcon backgroundIcon = new ImageIcon(getClass().getResource("/images/background2edit.png"));
+		backgroundLabel = new JLabel(backgroundIcon);
+		backgroundLabel.setLayout(new GridBagLayout());
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.gridwidth = 2;
+		gbc.gridheight = 4;
+		PainelPrincipal.add(backgroundLabel, gbc);
+
+		// Painel de componentes (sobrepondo a imagem de fundo)
+		JPanel panel = new JPanel(new GridBagLayout());
+		panel.setOpaque(false);  // Tornar o painel transparente para ver a imagem de fundo
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+		backgroundLabel.add(panel, gbc);
+
+		GridBagConstraints innerGbc = new GridBagConstraints();
+		innerGbc.insets = new Insets(10, 10, 10, 10);
+		innerGbc.fill = GridBagConstraints.BOTH;
+		innerGbc.weightx = 1.0;
+		innerGbc.weighty = 1.0;
+
+		// Título "Controle de Estoque"
 		JLabel ControleEstoqueLabel = new JLabel("Controle de Estoque");
 		ControleEstoqueLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 36));
-		ControleEstoqueLabel.setForeground(new Color(255, 255, 255));
+		ControleEstoqueLabel.setForeground(new Color(255, 255, 255)); // Cor branca para contraste
+		innerGbc.gridx = 0;
+		innerGbc.gridy = 0;
+		innerGbc.gridwidth = 4;
+		panel.add(ControleEstoqueLabel, innerGbc);
 
+		// Botões
 		JButton AdicionarButton = new JButton("Adicionar");
-		AdicionarButton.setBackground(new Color(133, 179, 58));
+		AdicionarButton.setBackground(new Color(83, 131, 5));
 		AdicionarButton.setForeground(new Color(255, 255, 255));
 		AdicionarButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
 
 		JButton RemoverButton = new JButton("Remover");
 		RemoverButton.setForeground(Color.WHITE);
 		RemoverButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-		RemoverButton.setBackground(new Color(133, 179, 58));
+		RemoverButton.setBackground(new Color(83, 131, 5));
 
-		// Botão Voltar
 		JButton BotaoVoltar = new JButton("Voltar");
 		BotaoVoltar.setForeground(Color.WHITE);
 		BotaoVoltar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-		BotaoVoltar.setBackground(new Color(133, 179, 58));
+		BotaoVoltar.setBackground(new Color(83, 131, 5));
+
 		// Função do botão Voltar
 		BotaoVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -59,36 +93,36 @@ public class SwingControleEstoque extends JFrame {
 		JTable EstoqueTable = new JTable();
 		JScrollPane scrollPane = new JScrollPane(EstoqueTable);
 
-		// Ajuste no GridBagConstraints
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.gridwidth = 4;
-		gbc.insets = new Insets(10, 10, 10, 10);
-		PainelPrincipal.add(ControleEstoqueLabel, gbc);
-
 		// Colocando os botões
-		gbc.gridwidth = 1;
-		gbc.gridx = 0;
-		gbc.gridy = 1;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.weightx = 1;
-		PainelPrincipal.add(AdicionarButton, gbc);
+		innerGbc.gridwidth = 1;
+		innerGbc.gridx = 0;
+		innerGbc.gridy = 1;
+		panel.add(AdicionarButton, innerGbc);
 
-		gbc.gridx = 1;
-		PainelPrincipal.add(RemoverButton, gbc);
+		innerGbc.gridx = 1;
+		panel.add(RemoverButton, innerGbc);
 
-		gbc.gridx = 2;
-		gbc.weightx = 1;
-		PainelPrincipal.add(BotaoVoltar, gbc);
+		innerGbc.gridx = 2;
+		innerGbc.weightx = 1;
+		panel.add(BotaoVoltar, innerGbc);
 
 		// Colocando a tabela dentro de um JScrollPane
-		gbc.gridx = 0;
-		gbc.gridy = 2;
-		gbc.gridwidth = 4;
-		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 1;
-		gbc.weighty = 1;
-		PainelPrincipal.add(scrollPane, gbc);
+		innerGbc.gridx = 0;
+		innerGbc.gridy = 2;
+		innerGbc.gridwidth = 4;
+		innerGbc.fill = GridBagConstraints.BOTH;
+		innerGbc.weightx = 1;
+		innerGbc.weighty = 1;
+		panel.add(scrollPane, innerGbc);
+
+		// Listener para redimensionar a imagem de fundo quando a janela for redimensionada
+		addComponentListener(new java.awt.event.ComponentAdapter() {
+			public void componentResized(java.awt.event.ComponentEvent componentEvent) {
+				Image img = backgroundIcon.getImage();
+				Image newImg = img.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
+				backgroundLabel.setIcon(new ImageIcon(newImg));
+			}
+		});
 
 		// Centralizando a tela
 		setLocationRelativeTo(null);

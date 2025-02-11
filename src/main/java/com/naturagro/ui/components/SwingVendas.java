@@ -1,55 +1,89 @@
 package com.naturagro.ui.components;
 
-import com.naturagro.ui.ControladorSwing;
-
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import com.naturagro.ui.ControladorSwing;
 
 public class SwingVendas extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private ControladorSwing controlador;
+	private JLabel backgroundLabel;
 
 	public SwingVendas(ControladorSwing controladorDeTela) {
+		this.controlador = controladorDeTela;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Menu Inicial");
+		setTitle("Menu Vendas");
 		setBounds(0, 0, 1280, 720);
 
-		// Painel principal
-		JPanel PainelPrincipal = new JPanel();
-		PainelPrincipal.setBackground(new Color(124, 188, 52));
-		PainelPrincipal.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));  // Padding
+		// Painel principal com layout GridBagLayout e fundo verde
+		JPanel PainelPrincipal = new JPanel(new GridBagLayout());
+		PainelPrincipal.setBackground(new Color(124, 188, 52)); // Cor verde para a borda
+		PainelPrincipal.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));  // Nenhuma borda adicional
 		setContentPane(PainelPrincipal);
 
-		// GridBagLayout
-		GridBagLayout gridBagLayout = new GridBagLayout();
+		// Configuração do layout do painel de conteúdo
 		GridBagConstraints gbc = new GridBagConstraints();
-		PainelPrincipal.setLayout(gridBagLayout);
+		gbc.insets = new Insets(10, 10, 10, 10);
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.weightx = 1.0;
+		gbc.weighty = 1.0;
 
-		// Componentes
+		// Adicionando imagem de fundo
+		ImageIcon backgroundIcon = new ImageIcon(getClass().getResource("/images/background2edit.png"));
+		backgroundLabel = new JLabel(backgroundIcon);
+		backgroundLabel.setLayout(new GridBagLayout());
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.gridwidth = 2;
+		gbc.gridheight = 4;
+		PainelPrincipal.add(backgroundLabel, gbc);
+
+		// Painel de componentes (sobrepondo a imagem de fundo)
+		JPanel panel = new JPanel(new GridBagLayout());
+		panel.setOpaque(false);  // Tornar o painel transparente para ver a imagem de fundo
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+		backgroundLabel.add(panel, gbc);
+
+		GridBagConstraints innerGbc = new GridBagConstraints();
+		innerGbc.insets = new Insets(10, 10, 10, 10);
+		innerGbc.fill = GridBagConstraints.BOTH;
+		innerGbc.weightx = 1.0;
+		innerGbc.weighty = 1.0;
+
+		// Título "Vendas"
 		JLabel VendasLabel = new JLabel("Vendas");
 		VendasLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 36));
-		VendasLabel.setForeground(new Color(255, 255, 255));
+		VendasLabel.setForeground(new Color(255, 255, 255));  // Cor branca para contraste
+		innerGbc.gridx = 0;
+		innerGbc.gridy = 0;
+		innerGbc.gridwidth = 4;
+		panel.add(VendasLabel, innerGbc);
 
+		// Botões
 		JButton BotaoAdcionar = new JButton("Adicionar");
-		BotaoAdcionar.setBackground(new Color(133, 179, 58));
+		BotaoAdcionar.setBackground(new Color(83, 131, 5));
 		BotaoAdcionar.setForeground(new Color(255, 255, 255));
 		BotaoAdcionar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
 
 		JButton BotaoRemover = new JButton("Remover");
-		BotaoRemover.setBackground(new Color(133, 179, 58));
+		BotaoRemover.setBackground(new Color(83, 131, 5));
 		BotaoRemover.setForeground(new Color(255, 255, 255));
 		BotaoRemover.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
 
 		JButton BotaoFinalizar = new JButton("Finalizar");
-		BotaoFinalizar.setBackground(new Color(133, 179, 58));
+		BotaoFinalizar.setBackground(new Color(83, 131, 5));
 		BotaoFinalizar.setForeground(new Color(255, 255, 255));
 		BotaoFinalizar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
 
 		// Botão Voltar
 		JButton BotaoVoltar = new JButton("Voltar");
-		BotaoVoltar.setBackground(new Color(133, 179, 58));
+		BotaoVoltar.setBackground(new Color(83, 131, 5));;
 		BotaoVoltar.setForeground(new Color(255, 255, 255));
 		BotaoVoltar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
 
@@ -64,49 +98,40 @@ public class SwingVendas extends JFrame {
 		JTable table = new JTable();
 		JScrollPane scrollPane = new JScrollPane(table);
 
-		// GridBagConstraints
-		// Título "Vendas"
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.gridwidth = 4;
-		gbc.insets = new Insets(10, 10, 10, 10);
-		PainelPrincipal.add(VendasLabel, gbc);
+		// Botões (com exceção do voltar)
+		innerGbc.gridwidth = 1;
+		innerGbc.gridx = 0;
+		innerGbc.gridy = 1;
+		panel.add(BotaoAdcionar, innerGbc);
 
-		// Botoes (com excecao do cancelar)
-		gbc.gridwidth = 1;
-		gbc.gridx = 0;
-		gbc.gridy = 1;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.weightx = 1;
-		PainelPrincipal.add(BotaoAdcionar, gbc);
+		innerGbc.gridx = 1;
+		panel.add(BotaoRemover, innerGbc);
 
-		gbc.gridx = 1;
-		PainelPrincipal.add(BotaoRemover, gbc);
+		innerGbc.gridx = 2;
+		panel.add(BotaoFinalizar, innerGbc);
 
-		gbc.gridx = 2;
-		PainelPrincipal.add(BotaoFinalizar, gbc);
-
-		// Botao Voltar (foi colocado com uma configuração diferente dos outros )
-		gbc.gridx = 3;
-		gbc.gridy = 0;
-		gbc.weightx = 0;
-		gbc.fill = GridBagConstraints.NONE;
-		PainelPrincipal.add(BotaoVoltar, gbc);
+		// Botão Voltar
+		innerGbc.gridx = 3;
+		innerGbc.gridy = 0;
+		panel.add(BotaoVoltar, innerGbc);
 
 		// Colocando tabela dentro de um JScrollPane
-		gbc.gridx = 0;
-		gbc.gridy = 2;
-		gbc.gridwidth = 4;
-		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 1;
-		gbc.weighty = 1;
-		PainelPrincipal.add(scrollPane, gbc);
+		innerGbc.gridx = 0;
+		innerGbc.gridy = 2;
+		innerGbc.gridwidth = 4;
+		innerGbc.fill = GridBagConstraints.BOTH;
+		innerGbc.weightx = 1;
+		innerGbc.weighty = 1;
+		panel.add(scrollPane, innerGbc);
 
-		// Imagem de fundo
-		ImageIcon backgroundIcon = new ImageIcon(getClass().getResource("/images/background2edit.png"));
-		JLabel backgroundLabel = new JLabel(backgroundIcon);
-		backgroundLabel.setBounds(0, 0, 1280, 720);  // Tamanho da tela
-		PainelPrincipal.add(backgroundLabel, gbc);
+		// Listener para redimensionar a imagem de fundo quando a janela for redimensionada
+		addComponentListener(new java.awt.event.ComponentAdapter() {
+			public void componentResized(java.awt.event.ComponentEvent componentEvent) {
+				Image img = backgroundIcon.getImage();
+				Image newImg = img.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
+				backgroundLabel.setIcon(new ImageIcon(newImg));
+			}
+		});
 
 		// Centralizando a tela
 		setLocationRelativeTo(null);

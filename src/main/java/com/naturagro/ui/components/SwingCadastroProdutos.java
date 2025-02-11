@@ -159,6 +159,7 @@ public class SwingCadastroProdutos extends JFrame {
 		atualizarButton.setBackground(new Color(83, 131, 5));
 		atualizarButton.setBounds(1155, 595, 50, 50);
 		camadas.add(atualizarButton);
+
 		// Função do botão recarregar
 		atualizarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

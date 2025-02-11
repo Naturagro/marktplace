@@ -23,7 +23,7 @@ public class SwingCadastro extends JFrame {
 		this.funcionarioService = funcionarioService;
 		setTitle("Cadastro - Naturagro");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(630, 500);
+		setSize(1280, 720);
 		setLocationRelativeTo(null);
 
 		JPanel painelPrincipal = new JPanel() {

@@ -13,6 +13,7 @@ import java.text.ParseException;
 public class SwingRelatorios extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private ControladorSwing controlador;
+	private JLabel backgroundLabel;
 
 	// Tela
 	public SwingRelatorios(ControladorSwing controladorDeTela) {
@@ -131,7 +132,7 @@ public class SwingRelatorios extends JFrame {
 
 		// Adicionando a imagem de fundo
 		ImageIcon background2 = new ImageIcon(getClass().getResource("/images/background2edit.png"));
-		JLabel backgroundLabel = new JLabel(background2);
+		backgroundLabel = new JLabel(background2);
 		contentPane.add(backgroundLabel, new GridBagConstraints() {{
 			gridx = 0;
 			gridy = 0;
@@ -141,6 +142,15 @@ public class SwingRelatorios extends JFrame {
 			weighty = 1.0;
 			fill = GridBagConstraints.BOTH;
 		}});
+
+		// Listener para redimensionar a imagem
+		addComponentListener(new java.awt.event.ComponentAdapter() {
+			public void componentResized(java.awt.event.ComponentEvent componentEvent) {
+				Image img = background2.getImage();
+				Image newImg = img.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
+				backgroundLabel.setIcon(new ImageIcon(newImg));
+			}
+		});
 
 		// Ajustar o tamanho da imagem para preencher toda a tela
 		contentPane.repaint();
