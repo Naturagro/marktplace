@@ -1,25 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entity-mappings version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd">
 
-    <named-query name="TODO">
-        <query>
-            select distinct f from Filme f
-            join fetch f.atores
-            where f.nota > :nota
-        </query>
+    <!--Queries for Produto -->
+    <named-query name="Produto.buscarPertoVencimento">
+        <query>SELECT p FROM Produto p WHERE p.dataVencimento BETWEEN :hoje AND :limite</query>
     </named-query>
 
-    <named-native-query name="TODO"
-                        result-set-mapping="TODO">
-        <query>
-            select avg(nota) as media from filmes
-        </query>
-    </named-native-query>
+    <named-query name="Produto.buscarEstoqueBaixo">
+        <query>SELECT p FROM Produto p WHERE p.quantidadeEmEstoque > :quantidade</query>
+    </named-query>
 
-    <sql-result-set-mapping name="TODO">
-        <constructor-result target-class="modelo.consulta.NotaFilme">
-            <column name="media" class="java.lang.Double" />
-        </constructor-result>
-    </sql-result-set-mapping>
+    <named-query name="Produto.buscarPorNome">
+        <query>SELECT p FROM Produto p WHERE LOWER(p.nome) LIKE LOWER(:nome)</query>
+    </named-query>
+    <named-query name="Produto.buscarPorCategoria">
+        <query>SELECT distinct p FROM Produto p WHERE p.categoria = :categoria</query>
+    </named-query>
+    <named-query name="Produto.buscarPorFaixaDePreco">
+        <query>SELECT p FROM Produto p WHERE p.precoVarejo BETWEEN :precoMin AND :precoMax</query>
+    </named-query>
+
+    <!--Queris for Venda -->
+    <!--
+    <named-query name="Venda">
+        <query>SELECT v FROM venda INNER JOIN v.id</query>
+    </named-query>
+
+    -->
+
+
 
 </entity-mappings>
