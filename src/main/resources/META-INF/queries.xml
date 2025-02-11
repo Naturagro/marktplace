@@ -20,6 +20,19 @@
         <query>SELECT p FROM Produto p WHERE p.precoVarejo BETWEEN :precoMin AND :precoMax</query>
     </named-query>
 
+    <!-- Queries para Funcionario -->
+    <named-query name="Funcionario.buscarPorCpf">
+        <query>SELECT f FROM Funcionario f WHERE f.cpf = :cpf</query>
+    </named-query>
+
+    <named-query name="Funcionario.buscarPorNome">
+        <query>SELECT f FROM Funcionario f WHERE LOWER(f.nome) LIKE LOWER(:nome)</query>
+    </named-query>
+
+    <named-query name="Funcionario.buscarTodos">
+        <query>SELECT f FROM Funcionario f</query>
+    </named-query>
+
     <!--Queris for Venda -->
     <!--
     <named-query name="Venda">
