@@ -26,12 +26,12 @@ public class AdicionarVenda {
 
 
         //Aqui pego um Funcionário do banco de dados
-        Funcionario f = funcionarioService.obterPorID(1L);
+        Funcionario f = funcionarioService.obterPorID(2L);
 
         System.out.println(f.getNome());
 
         //Pego uma lista de Produto do banco de dados
-        List<Produto> produtos = produtoService.buscarPorPreco(2, 30);
+        List<Produto> produtos = produtoService.buscarPorPreco(5, 20);
 
         for (Produto produto : produtos) {
             System.out.println(produto.getNome() + " "+ produto.getPrecoVarejo());
@@ -44,6 +44,8 @@ public class AdicionarVenda {
         v.setOperador(f);
         //Produtos adicionados à Venda
         v.setProdutos(produtos);
+        //Ou assim:
+        //Venda v = new Venda(f, produtos);
 
         //Objeto do tipo Venda é persistido
         vendaService.salvarVenda(v);
