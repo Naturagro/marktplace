@@ -8,12 +8,15 @@ import com.naturagro.ui.ControladorSwing;
 import javax.persistence.TypedQuery;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -26,6 +29,8 @@ public class SwingCadastroProdutos extends JFrame {
 	private JTable table;
 	private ControladorSwing controlador;
 	ProdutoService produtoService = new ProdutoService();
+	TableModelListener model;
+	private Map<Long, Produto> produtosAlteradosMap = new HashMap<>();  // Atributo da classe
 
 	// Criando a Tela
 	public SwingCadastroProdutos(ControladorSwing controladorDeTela) {
@@ -49,6 +54,85 @@ public class SwingCadastroProdutos extends JFrame {
 		JLabel logoLabel = new JLabel(logo);
 		logoLabel.setBounds(15,23,98,100);
 		camadas.add(logoLabel,Integer.valueOf(1));
+
+		// Definindo o modelo de dados da tabela
+		DefaultTableModel model = new DefaultTableModel() {
+			// Definindo quais colunas serão editaveis
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				if (column == 0) {
+					return false;
+				} if (column == 1) {
+					return false;
+				} else {
+					return true;
+				}
+			}
+		};
+
+		model.addColumn("ID");
+		model.addColumn("Categoria");
+		model.addColumn("Descrição");
+		model.addColumn("Nome");
+		model.addColumn("Preço Atacado");
+		model.addColumn("Preço Varejo");
+
+		// Armazenando a consulta do BD na variavel
+		List<Object[]> consulta = produtoService.buscarPerfilProduto();
+
+		// Definindo um ScrollPane para colocar a tabela
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(122, 125, 1014, 433);
+		camadas.add(scrollPane);
+
+		// Colocando as rows no modelo de dados
+		for (Object[] linha : consulta) {
+			model.addRow(linha);
+		}
+
+		// Criando tabela com o modelo e setando como visivel
+		table = new JTable(model);
+		scrollPane.setViewportView(table);
+
+		// Senhor, o que eu fiz pra ter que escrever o codigo disso
+		table.getModel().addTableModelListener(e -> {
+
+			int row = e.getFirstRow(); // Detecta qual linha foi alterada
+			int column = e.getColumn();
+			String celula = table.getValueAt(row,0).toString();
+			long id = Long.parseLong(celula); // Com base na linha alterada pega o id do produto que o usuario alterou
+
+			// Verifica se o produto já ta no Map,se tiver, ignora
+			Produto produtoOrg = produtosAlteradosMap.get(id);
+			if (produtoOrg == null) {
+				// Se não tiver, adiciona ao map
+				produtoOrg = produtoService.obterPorID(id); // depois de pegar o id do produto q tu alterou, pega o produto do jeito que ta no banco, com base nesse id
+				produtosAlteradosMap.put(id, produtoOrg); // e salva no map
+			}
+
+			// Ve qual coluna houve alteração
+			if (column != -1) {
+				// Pega a alteração que foi feita e armazena em "novoValor"
+				String novoValor = table.getValueAt(row, column).toString();
+
+				switch (column) {
+					case 2:  // se foi coluna 2, seta a descrição do produto que antes era o produto do jeito que tava no banco, e altera
+						produtoOrg.setDescricao(novoValor);
+						break;
+					case 3:  // Nome
+						produtoOrg.setNome(novoValor);
+						break;
+					case 4:  // Preço Atacado
+						produtoOrg.setPrecoAtacado(Double.parseDouble(novoValor));
+						break;
+					case 5:  // Preço Varejo
+						produtoOrg.setPrecoVarejo(Double.parseDouble(novoValor));
+						break;
+					default:
+						break;
+				}
+			}
+		});
 
 		JLabel CadastroProdutosLabel = new JLabel("Cadastro de Produtos");
 		CadastroProdutosLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 36));
@@ -81,12 +165,15 @@ public class SwingCadastroProdutos extends JFrame {
 		// Função do botão editar
 		EditarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int coluna = table.getSelectedColumn();
-				int linha = table.getSelectedRow();
-				Object celula = table.getValueAt(linha,coluna);
-
+				// todo não sei se é de boa de abrir transação aqui, se pa isso tinha que tar no método do DAO
+				produtoService.abrirT();
+				for (Produto produto : produtosAlteradosMap.values()) {
+					produtoService.mesclar(produto);
+				}
+				produtoService.fecharT();
 			}
 		});
+
 
 		// Botão Excluir
 		JButton ExcluirButton = new JButton("Excluir");
@@ -126,31 +213,6 @@ public class SwingCadastroProdutos extends JFrame {
 			}
 		});
 
-		// Definindo o modelo de dados da tabela
-		DefaultTableModel model = new DefaultTableModel();
-		model.addColumn("ID");
-		model.addColumn("Categoria");
-		model.addColumn("Descrição");
-		model.addColumn("Nome");
-		model.addColumn("Preço Atacado");
-		model.addColumn("Preço Varejo");
-
-		// Armazenando a consulta do BD na variavel
-		List<Object[]> consulta = produtoService.buscarPerfilProduto();
-
-		// Definindo um ScrollPane para colocar a tabela
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(122, 125, 1014, 433);
-		camadas.add(scrollPane);
-
-		// Colocando as rows no modelo de dados
-		for (Object[] linha : consulta) {
-			model.addRow(linha);
-		}
-
-		table = new JTable(model);
-		scrollPane.setViewportView(table);
-
 		// Botão de recarregar
 		ImageIcon reloadIcon = new ImageIcon(getClass().getResource("/images/reloadIcon50.png"));
 		JButton atualizarButton = new JButton(reloadIcon);
@@ -164,16 +226,20 @@ public class SwingCadastroProdutos extends JFrame {
 		atualizarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+				// Remove o listener antes de modificar a tabela para evitar exceções
+				TableModelListener listener = model.getTableModelListeners()[0];
+				model.removeTableModelListener(listener);
+
 				model.setRowCount(0); // Remove todas as linhas
 
 				List<Object[]> consulta = produtoService.buscarPerfilProduto();
-
 				for (Object[] linha : consulta) {
 					model.addRow(linha);
 				}
 
-				table = new JTable(model);
-				scrollPane.setViewportView(table);
+				// Reinsere o listener depois de atualizar os dados
+				model.addTableModelListener(listener);
 			}
 		});
 
