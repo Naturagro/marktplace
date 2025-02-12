@@ -26,7 +26,7 @@ public class VendaService extends DAO<Venda> {
         if(venda.getOperador().getCpf() == null) {
             funcionarioService.incluirAtomico(venda.getOperador());
         } else {
-            funcionarioService.obterPorID(venda.getOperador().getCpf());
+            funcionarioService.obterPorID(venda.getOperador().getId());
         }
         mesclar(venda);
         fecharT();
