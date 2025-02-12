@@ -13,12 +13,13 @@ public class ConsultarVenda {
         //Para consultar basta passar o id como parâmetros
         //Teremos como retorno o objeto com todos os seus atributos para serem consultados
 
-        for (Produto produto : v.getProdutos()) {
+        for (Produto produto : v.getProduto()) {
             System.out.println(produto.getNome() + " " + produto.getPrecoVarejo());
         }
         System.out.println();
         System.out.println(v.getOperador().getNome());
 
         System.out.println(v.obterValorTotal());
+        System.out.println();
     }
 }

@@ -26,8 +26,8 @@ public class Produto {
     @Enumerated(EnumType.STRING)
     private CategoriaProduto categoria;
 
-    @ManyToMany(mappedBy = "produtos")
-    private List<Venda> vendas = new ArrayList<>();
+    @ManyToMany(mappedBy = "produto")
+    private List<Venda> venda = new ArrayList<>();
 
     public Produto(
             String nome,
@@ -162,12 +162,12 @@ public class Produto {
         this.precoAtacado = precoAtacado;
     }
 
-    public List<Venda> getVendas() {
-        return vendas;
+    public List<Venda> getVenda() {
+        return venda;
     }
 
-    public void setVendas(List<Venda> vendas) {
-        this.vendas = vendas;
+    public void setVenda(List<Venda> vendas) {
+        this.venda = vendas;
     }
 }
 

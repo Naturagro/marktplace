@@ -16,7 +16,7 @@ public class VendaService extends DAO<Venda> {
 
     public void salvarVenda(Venda venda) {
         this.abrirT();
-        for (Produto produto : venda.getProdutos()) {
+        for (Produto produto : venda.getProduto()) {
             if (produto.getId() == null) {
                 produtoService.incluirAtomico(produto);  // Persistir produtos novos
             } else {

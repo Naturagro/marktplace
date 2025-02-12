@@ -1,7 +1,6 @@
 package com.naturagro.example;
 
 import com.naturagro.models.Funcionario;
-import com.naturagro.models.FuncionarioFactory;
 import com.naturagro.models.Produto;
 import com.naturagro.models.Venda;
 import com.naturagro.service.FuncionarioService;
@@ -43,7 +42,7 @@ public class AdicionarVenda {
         //Operador atribuido à Venda
         v.setOperador(f);
         //Produtos adicionados à Venda
-        v.setProdutos(produtos);
+        v.setProduto(produtos);
         //Ou assim:
         //Venda v = new Venda(f, produtos);
 
