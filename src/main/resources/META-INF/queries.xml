@@ -34,12 +34,9 @@
     </named-query>
 
     <!--Queris for Venda -->
-    <!--
-    <named-query name="Venda">
-        <query>SELECT v FROM venda INNER JOIN v.id</query>
+    <named-query name="Venda.ocorrenciaProdutoPorVenda">
+        <query>SELECT v.produtos_id, COUNT(v.produtos_id) AS ocorrencia FROM Venda_Produto v WHERE v.vendas_id = :id GROUP BY v.produtos_id</query>
     </named-query>
-
-    -->
 
 
 
