@@ -24,14 +24,23 @@ public class Venda {
     )
     private List<Produto> produtos = new ArrayList<>();
 
-    public Venda(LocalDateTime dataCompra, Double valorTotal, Funcionario operador, List<Produto> produtos) {
-        this.dataCompra = dataCompra;
-        this.valorTotal = valorTotal;
+    public Venda(Funcionario operador, List<Produto> produtos) {
         this.operador = operador;
         this.produtos = produtos;
+        this.dataCompra = LocalDateTime.now();
+        this.valorTotal = obterValorTotal();
+
     }
 
-    public Venda() {}
+    public Double obterValorTotal() {
+        Double soma = this.produtos.stream().map( p -> p.getPrecoAtacado() ).reduce(0.0, Double::sum);
+        return soma;
+    }
+
+    public Venda() {
+        this.dataCompra = LocalDateTime.now();
+        this.valorTotal = obterValorTotal();
+    }
 
     public Long getId() {
         return id;
@@ -53,10 +62,6 @@ public class Venda {
         return valorTotal;
     }
 
-    public void setValorTotal(Double valorTotal) {
-        this.valorTotal = valorTotal;
-    }
-
     public Funcionario getOperador() {
         return operador;
     }
@@ -71,6 +76,7 @@ public class Venda {
 
     public void setProdutos(List<Produto> produtos) {
         this.produtos = produtos;
+        this.valorTotal = obterValorTotal();
     }
 
     /*
