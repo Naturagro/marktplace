@@ -10,16 +10,6 @@ public class FuncionarioService extends DAO<Funcionario> {
         super(Funcionario.class);
     }
 
-    // Salva um funcionário no banco de dados
-    public void salvar(Funcionario funcionario) {
-        incluirAtomico(funcionario);
-    }
-
-    // Busca um funcionário pelo ID
-    public Funcionario buscarPorId(Long id) {
-        return obterPorID(id);
-    }
-
     // Busca um funcionário pelo CPF utilizando a query nomeada
     public Funcionario buscarPorCpf(String cpf) {
         return consultarUm("Funcionario.buscarPorCpf", "cpf", cpf);
@@ -35,17 +25,16 @@ public class FuncionarioService extends DAO<Funcionario> {
         return consultar("Funcionario.buscarTodos");
     }
 
-    // Atualiza um funcionário existente
-    public void atualizar(Funcionario funcionario) {
-        abrirT();
-        mesclar(funcionario);
-        fecharT();
+    public List<Funcionario> consultarVendas(Long id) {
+        return consultar("Funcionario.vendas", id);
     }
 
-    // Remove um funcionário do banco de dados
-    public void remover(Funcionario funcionario) {
-        super.remover(funcionario);
-    }
+    /*
+    Para atualizar o funcionario
+    chamar o metodo mesclar()
 
+    Para deletar funcionario só chamar
+    remover()
+    */
 
 }
