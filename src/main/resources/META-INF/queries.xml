@@ -34,8 +34,35 @@
     </named-query>
 
     <!--Queris for Venda -->
+    <!-- Busca todas as vendas em um período -->
+    <named-query name="Venda.buscarPorPeriodo">
+        <query>SELECT v FROM Venda v WHERE v.dataCompra BETWEEN :inicio AND :fim</query>
+    </named-query>
 
+    <!-- Busca vendas feitas por um operador -->
+    <named-query name="Venda.buscarPorOperador">
+        <query>SELECT v FROM Venda v WHERE v.operador.id = :operadorId</query>
+    </named-query>
 
+    <!-- Busca vendas que contenham um determinado produto -->
+    <named-query name="Venda.buscarPorProduto">
+        <query>SELECT v FROM Venda v JOIN v.produto p WHERE p.id = :produtoId</query>
+    </named-query>
+
+    <!-- Busca vendas que contenham produtos de uma determinada categoria -->
+    <named-query name="Venda.buscarPorCategoria">
+        <query>SELECT DISTINCT v FROM Venda v JOIN v.produto p WHERE p.categoria = :categoria</query>
+    </named-query>
+
+    <!-- Conta o total de vendas -->
+    <named-query name="Venda.contarTotalVendas">
+        <query>SELECT COUNT(v) FROM Venda v</query>
+    </named-query>
+
+    <!-- Retorna o valor total das vendas dentro de um período -->
+    <named-query name="Venda.somarValorTotalPorPeriodo">
+        <query>SELECT SUM(v.valorTotal) FROM Venda v WHERE v.dataCompra BETWEEN :inicio AND :fim</query>
+    </named-query>
 
 
 </entity-mappings>
