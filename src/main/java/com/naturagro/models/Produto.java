@@ -26,23 +26,19 @@ public class Produto {
     @Enumerated(EnumType.STRING)
     private CategoriaProduto categoria;
 
-    @ManyToMany(mappedBy = "produto")
+    @ManyToMany(mappedBy = "produto", fetch = FetchType.EAGER)
     private List<Venda> venda = new ArrayList<>();
 
     public Produto(
             String nome,
             String descricao,
-            CategoriaProduto categoria,
-            LocalDate dataEntrada,
             Integer quantidadeEmEstoque,
             Double precoVarejo,
             Double precoAtacado,
             CategoriaProduto categoriaProduto) {
-
         this.precoAtacado = precoAtacado;
         this.precoVarejo = precoVarejo;
         this.quantidadeEmEstoque = quantidadeEmEstoque;
-        this.dataEntrada = dataEntrada;
         this.categoria = categoria;
         this.descricao = descricao;
         this.nome = nome;
@@ -50,11 +46,11 @@ public class Produto {
         this.dataVencimento = calcularVencimento(categoriaProduto);
     }
 
-    public Produto() {}
+    protected Produto() {
+    }
 
     private LocalDate calcularVencimento(CategoriaProduto categoriaProduto) {
-        //todo adicionar diferentes datas de vencimento para cada categoria
-        LocalDate dataVence = dataEntrada.plusDays(20);
+        LocalDate dataVence = LocalDate.now();
         switch (categoria) {
             case Frutas:
                 dataVence = dataVence.plusDays(7);
