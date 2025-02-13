@@ -236,3 +236,4 @@ buildNumber.properties
 /compiler.xml
 persistence.xml
 META-INF/persistence.xml
+target/

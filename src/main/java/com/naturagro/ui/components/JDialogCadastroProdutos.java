@@ -47,11 +47,13 @@ public class JDialogCadastroProdutos extends JDialog {
 		JTextField precoVarejo = new JTextField();
 		JTextField descricao = new JTextField();
 		JTextField precoAtacado = new JTextField();
+		JTextField quantidade = new JTextField();
 
 		// depois é só preencher o Map com o objeto JComponent criado e a string das labels que vai explicar eles.
 		campos.put(categoria,"Categorias:");
 		campos.put(nomeProduto, "Nome do Produto:");
 		campos.put(descricao,"Descrição do produto:");
+		campos.put(quantidade, "Quantidade em Estoque:");
 		campos.put(precoVarejo, "Preço no Varejo:");
 		campos.put(precoAtacado, "Preço no Atacado:");
 
@@ -84,15 +86,14 @@ public class JDialogCadastroProdutos extends JDialog {
 				salvarButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						try {
-							Produto produto = new Produto();
 
-							// Passando os valores dos campos para o objeto produto
-							produto.setCategoria(CategoriaProduto.valueOf(categoria.getSelectedItem().toString()));
-							produto.setNome(nomeProduto.getText());
-							produto.setDescricao(descricao.getText());
-							produto.setPrecoVarejo(Double.valueOf(precoVarejo.getText()));
-							produto.setPrecoAtacado(Double.valueOf(precoAtacado.getText()));
-							produto.setQuantidadeEmEstoque(0);
+							Produto produto = new Produto(
+									nomeProduto.getText(),
+									descricao.getText(),
+									Integer.parseInt(quantidade.getText()),
+									Double.parseDouble(precoVarejo.getText()),
+									Double.parseDouble(precoAtacado.getText()),
+									(CategoriaProduto) categoria.getSelectedItem());
 
 							// Chamando o controlador de cadastro para registrar o produto no BD após as validações de campo
 							CadastroProdutoController controller = new CadastroProdutoController();
@@ -104,6 +105,7 @@ public class JDialogCadastroProdutos extends JDialog {
 							descricao.setText("");
 							precoVarejo.setText("");
 							precoAtacado.setText("");
+							quantidade.setText("");
 
 						} catch (ControlException exception) {
 							JOptionPane.showMessageDialog(salvarButton, exception.getMessage());

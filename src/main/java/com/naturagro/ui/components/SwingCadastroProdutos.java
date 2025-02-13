@@ -62,6 +62,7 @@ public class SwingCadastroProdutos extends JFrame {
 			public boolean isCellEditable(int row, int column) {
 				if (column == 0) {
 					return false;
+					// todo eu botei as categorias como não editaveis pq não tive saco pra pensar em como botar JComboBox lá e nem exceções pra validar as categorias
 				} if (column == 1) {
 					return false;
 				} else {
@@ -70,6 +71,7 @@ public class SwingCadastroProdutos extends JFrame {
 			}
 		};
 
+		// Adiciona ao modelo de dados as colunas que vão aparecer
 		model.addColumn("ID");
 		model.addColumn("Categoria");
 		model.addColumn("Descrição");

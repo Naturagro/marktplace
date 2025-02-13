@@ -39,7 +39,7 @@ public class Produto {
         this.precoAtacado = precoAtacado;
         this.precoVarejo = precoVarejo;
         this.quantidadeEmEstoque = quantidadeEmEstoque;
-        this.categoria = categoria;
+        this.categoria = categoriaProduto;
         this.descricao = descricao;
         this.nome = nome;
         this.dataEntrada = LocalDate.now();
@@ -51,7 +51,7 @@ public class Produto {
 
     private LocalDate calcularVencimento(CategoriaProduto categoriaProduto) {
         LocalDate dataVence = LocalDate.now();
-        switch (categoria) {
+        switch (categoriaProduto) {
             case Frutas:
                 dataVence = dataVence.plusDays(7);
                 break;
