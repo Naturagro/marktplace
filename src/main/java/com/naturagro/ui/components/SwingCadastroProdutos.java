@@ -78,6 +78,7 @@ public class SwingCadastroProdutos extends JFrame {
 		model.addColumn("Nome");
 		model.addColumn("Preço Atacado");
 		model.addColumn("Preço Varejo");
+		model.addColumn("Quantidade em Estoque:");
 
 		// Armazenando a consulta do BD na variavel
 		List<Object[]> consulta = produtoService.buscarPerfilProduto();
@@ -130,6 +131,8 @@ public class SwingCadastroProdutos extends JFrame {
 					case 5:  // Preço Varejo
 						produtoOrg.setPrecoVarejo(Double.parseDouble(novoValor));
 						break;
+					case 6: // Quantidade em Estoque
+						produtoOrg.setQuantidadeEmEstoque(Integer.parseInt(novoValor));
 					default:
 						break;
 				}

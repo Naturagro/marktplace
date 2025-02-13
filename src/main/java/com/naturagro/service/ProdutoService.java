@@ -77,11 +77,11 @@ public class ProdutoService extends DAO<Produto> {
         }
     }
 
-
+    // todo mudar esse método por algum outro
     public List<Object[]> buscarPerfilProduto() {
         ProdutoService produtoService = new ProdutoService();
         EntityManager em = produtoService.getEntityManager();
-        String jpql = "SELECT p.id, p.categoria, p.descricao, p.nome, p.precoAtacado, p.precoVarejo FROM Produto p";
+        String jpql = "SELECT p.id, p.categoria, p.descricao, p.nome, p.precoAtacado, p.precoVarejo, p.quantidadeEmEstoque FROM Produto p";
         TypedQuery<Object[]> query = em.createQuery(jpql, Object[].class);
         return query.getResultList();
     }
