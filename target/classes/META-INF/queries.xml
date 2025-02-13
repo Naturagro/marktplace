@@ -34,12 +34,7 @@
     </named-query>
 
     <!--Queris for Venda -->
-    <!--
-    <named-query name="Venda">
-        <query>SELECT v FROM venda INNER JOIN v.id</query>
-    </named-query>
 
-    -->
 
 
 
