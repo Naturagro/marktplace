@@ -2,7 +2,6 @@ package com.naturagro.ui.components;
 
 import com.naturagro.controllers.AccessControlController;
 import com.naturagro.controllers.ControlException;
-import com.naturagro.models.Cadastro;
 import com.naturagro.service.FuncionarioService;
 import com.naturagro.ui.ControladorSwing;
 
@@ -156,17 +155,18 @@ public class SwingCadastro extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// action listener pra pegar as informações preenchidas nos campos
 				String nomeUser = SwingCadastro.this.RegisterUserTextField.getText();
-				String password = String.valueOf(SwingCadastro.this.RegisterSenhaPasswordField.getPassword());
-				String confirmacaopassword = String.valueOf(SwingCadastro.this.passwordField.getPassword());
+				String password = String.valueOf(SwingCadastro.this.RegisterSenhaPasswordField.getPassword()).trim();
+				String confirmacaopassword = String.valueOf(SwingCadastro.this.passwordField.getPassword()).trim();
 				//try catch pra validar campos, e caso tenha algum erro, mostra uma janela com a exceção
 				try {
 					AccessControlController controller = new AccessControlController();
 					controller.registerUser(nomeUser, password, confirmacaopassword);
 					JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 
-					Cadastro cadastro = new Cadastro(nomeUser, password);
+
+					//Cadastro cadastro = new Cadastro(nomeUser, password);
 					//todo: ajeitar tabela funcionario no banco de dados
-					cadastro.adicionarCadastroBanco(cadastro);
+					//cadastro.adicionarCadastroBanco(cadastro);
 
 					controladorDeTela.abrirJanela(("login"));
 				} catch (ControlException exception) {
