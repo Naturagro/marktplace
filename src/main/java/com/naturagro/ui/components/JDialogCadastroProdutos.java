@@ -92,7 +92,6 @@ public class JDialogCadastroProdutos extends JDialog {
 									descricao.getText(),
 									Integer.parseInt(quantidade.getText()),
 									Double.parseDouble(precoVarejo.getText()),
-									Double.parseDouble(precoAtacado.getText()),
 									(CategoriaProduto) categoria.getSelectedItem());
 
 							// Chamando o controlador de cadastro para registrar o produto no BD após as validações de campo
