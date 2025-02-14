@@ -5,7 +5,6 @@ import com.naturagro.models.Produto;
 import com.naturagro.service.ProdutoService;
 import com.naturagro.ui.ControladorSwing;
 
-import javax.persistence.TypedQuery;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.TableModelEvent;
@@ -30,7 +29,7 @@ public class SwingCadastroProdutos extends JFrame {
 	private ControladorSwing controlador;
 	ProdutoService produtoService = new ProdutoService();
 	TableModelListener model;
-	private Map<Long, Produto> produtosAlteradosMap = new HashMap<>();
+	private Map<Long, Produto> produtosAlteradosMap = new HashMap<>();  // Atributo da classe
 
 	// Criando a Tela
 	public SwingCadastroProdutos(ControladorSwing controladorDeTela) {
