@@ -43,4 +43,11 @@ public class FuncionarioService extends DAO<Funcionario> {
     public List<Funcionario> consultarVendas(Long id) {
         return consultar("Funcionario.vendas", id);
     }
+
+    public void adicionarFuncionarioBanco(Funcionario funcionario){
+        abrirT();
+        incluir(funcionario);
+        fecharT();
+        fechar();
+    }
 }

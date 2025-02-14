@@ -82,6 +82,7 @@ public class SwingMenuPrincipal extends JFrame {
 		innerGbc.gridwidth = 1;
 		innerGbc.anchor = GridBagConstraints.CENTER;
 		innerGbc.fill = GridBagConstraints.BOTH;
+
 		// Botoes adicionados em sequencia
 		for (int i = 0; i < botoes.length; i++) {
 			JButton button = new JButton(botoes[i]);
@@ -116,7 +117,11 @@ public class SwingMenuPrincipal extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			controlador.abrirJanela(acao);
+			if ("sair".equals(acao)) {
+				System.exit(0);  // Encerra a aplicação completamente
+			} else {
+				controlador.abrirJanela(acao);
+			}
 		}
 	}
 }

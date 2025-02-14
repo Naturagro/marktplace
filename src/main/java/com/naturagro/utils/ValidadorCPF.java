@@ -1,8 +1,11 @@
 package com.naturagro.utils;
 
+import com.naturagro.controllers.ControlException;
+
 public class ValidadorCPF {
 
-    public boolean validarCPF(String cpf) {
+    public boolean validarCPF(String cpf) throws ControlException {
+
         // Remove caracteres não numéricos
         cpf = cpf.replaceAll("[^0-9]", "");
 

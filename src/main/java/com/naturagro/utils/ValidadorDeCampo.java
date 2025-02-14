@@ -36,11 +36,6 @@ public class ValidadorDeCampo {
         }
     }
 
-    public boolean validarCPF(String valor) {
-        ValidadorCPF validador = new ValidadorCPF(); // Cria um objeto ValidadorCPF
-        return validador.validarCPF(valor); // Chama o método validarCPF da classe ValidadorCPF
-    }
-
     public boolean validarSenha(String valor) {
         return valor.length() >= 6;
     }
