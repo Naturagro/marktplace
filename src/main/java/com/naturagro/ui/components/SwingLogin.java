@@ -1,5 +1,8 @@
 package com.naturagro.ui.components;
 
+import com.naturagro.controllers.AccessControlController;
+import com.naturagro.controllers.ControlException;
+import com.naturagro.service.LoginService;
 import com.naturagro.ui.ControladorSwing;
 
 import javax.swing.*;
@@ -95,7 +98,22 @@ public class SwingLogin extends JFrame {
 		JButton LoginJButton = new JButton("Entrar");
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controladorDeTela.abrirJanela("menuPrincipal");
+
+				String cpf = SwingLogin.this.LoginUserTextField.getText();
+				String password = String.valueOf(SwingLogin.this.LoginSenhaPasswordField.getPassword()).trim();
+
+				try {
+					AccessControlController controller = new AccessControlController();
+					controller.loginUser(cpf, password);
+
+					LoginService login = new LoginService();
+					login.validarLogin(cpf, password);
+					JOptionPane.showMessageDialog(null, "Login realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
+					controladorDeTela.abrirJanela("menuPrincipal");
+				} catch (ControlException exception) {
+					JOptionPane.showMessageDialog(loginButton, exception.getMessage());
+				}
 			}
 		});
 	}

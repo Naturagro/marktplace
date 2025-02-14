@@ -17,7 +17,14 @@ public class Funcionario {
 
     public Funcionario() {}
 
-    protected Funcionario(String nome, String cpf, String senha) {
+    public Funcionario(String nome, String cpf, String senha, String cargo) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.senha = senha;
+        this.cargo = Cargo.valueOf(cargo);
+    }
+
+    public Funcionario(String nome, String cpf, String senha) {
         this.nome = nome;
         this.cpf = cpf;
         this.senha = senha;
