@@ -2,9 +2,9 @@ package com.naturagro.service;
 
 
 
-import com.itextpdf.kernel.pdf.*;
-import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.*;
+//import com.itextpdf.kernel.pdf.*;
+//import com.itextpdf.layout.Document;
+//import com.itextpdf.layout.element.*;
 import com.naturagro.DAO.DAO;
 import com.naturagro.models.Produto;
 import com.naturagro.models.Venda;
@@ -80,46 +80,46 @@ public class VendaService extends DAO<Venda> {
 
 
 
-//gerar relatorio de vendas
-    public void gerarRelatorioDeVendas(String caminhoArquivo) {
-        List<Venda> vendas = obterTodos(); // Busca todas as vendas
-        if (vendas.isEmpty()) {
-            System.out.println("Nenhuma venda encontrada para gerar o relatório.");
-            return;
-        }
-
-        try {
-            PdfWriter writer = new PdfWriter(new FileOutputStream(caminhoArquivo));
-            PdfDocument pdf = new PdfDocument(writer);
-            Document document = new Document(pdf);
-
-            // Título do Relatório
-            document.add(new Paragraph("Relatório de Vendas").setBold().setFontSize(18));
-            document.add(new Paragraph("\n"));
-
-            // Criando a tabela
-            Table table = new Table(4);
-            table.addCell("ID Venda");
-            table.addCell("Data");
-            table.addCell("Operador");
-            table.addCell("Valor Total");
-
-            // Preenchendo a tabela com os dados das vendas
-            for (Venda venda : vendas) {
-                table.addCell(String.valueOf(venda.getId()));
-                table.addCell(venda.getDataCompra().toString());
-                table.addCell(venda.getOperador().getNome());
-                table.addCell("R$ " + String.format("%.2f", venda.getValorTotal()));
-            }
-
-            // Adicionando a tabela ao documento
-            document.add(table);
-            document.close();
-
-            System.out.println("Relatório gerado com sucesso: " + caminhoArquivo);
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
+////gerar relatorio de vendas
+//    public void gerarRelatorioDeVendas(String caminhoArquivo) {
+//        List<Venda> vendas = obterTodos(); // Busca todas as vendas
+//        if (vendas.isEmpty()) {
+//            System.out.println("Nenhuma venda encontrada para gerar o relatório.");
+//            return;
+//        }
+//
+//        try {
+//            PdfWriter writer = new PdfWriter(new FileOutputStream(caminhoArquivo));
+//            PdfDocument pdf = new PdfDocument(writer);
+//            Document document = new Document(pdf);
+//
+//            // Título do Relatório
+//            document.add(new Paragraph("Relatório de Vendas").setBold().setFontSize(18));
+//            document.add(new Paragraph("\n"));
+//
+//            // Criando a tabela
+//            Table table = new Table(4);
+//            table.addCell("ID Venda");
+//            table.addCell("Data");
+//            table.addCell("Operador");
+//            table.addCell("Valor Total");
+//
+//            // Preenchendo a tabela com os dados das vendas
+//            for (Venda venda : vendas) {
+//                table.addCell(String.valueOf(venda.getId()));
+//                table.addCell(venda.getDataCompra().toString());
+//                table.addCell(venda.getOperador().getNome());
+//                table.addCell("R$ " + String.format("%.2f", venda.getValorTotal()));
+//            }
+//
+//            // Adicionando a tabela ao documento
+//            document.add(table);
+//            document.close();
+//
+//            System.out.println("Relatório gerado com sucesso: " + caminhoArquivo);
+//
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }
