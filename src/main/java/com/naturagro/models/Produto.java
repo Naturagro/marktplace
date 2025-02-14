@@ -8,10 +8,6 @@ import java.util.List;
 
 
 @Entity
-@NamedQueries({
-
-
-})
 public class Produto {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,8 +17,7 @@ public class Produto {
     private LocalDate dataEntrada;
     private LocalDate dataVencimento;
     private Integer quantidadeEmEstoque;
-    private Double precoVarejo;
-    private Double precoAtacado;
+    private Double preco;
     @Enumerated(EnumType.STRING)
     private CategoriaProduto categoria;
 
@@ -33,11 +28,9 @@ public class Produto {
             String nome,
             String descricao,
             Integer quantidadeEmEstoque,
-            Double precoVarejo,
-            Double precoAtacado,
+            Double preco,
             CategoriaProduto categoriaProduto) {
-        this.precoAtacado = precoAtacado;
-        this.precoVarejo = precoVarejo;
+        this.preco = preco;
         this.quantidadeEmEstoque = quantidadeEmEstoque;
         this.categoria = categoriaProduto;
         this.descricao = descricao;
@@ -48,10 +41,9 @@ public class Produto {
 
     protected Produto() {
     }
-
     private LocalDate calcularVencimento(CategoriaProduto categoriaProduto) {
         LocalDate dataVence = LocalDate.now();
-        switch (categoriaProduto) {
+        switch (categoria) {
             case Frutas:
                 dataVence = dataVence.plusDays(7);
                 break;
@@ -142,20 +134,12 @@ public class Produto {
         this.quantidadeEmEstoque = quantidadeEmEstoque;
     }
 
-    public Double getPrecoVarejo() {
-        return precoVarejo;
+    public Double getPreco() {
+        return preco;
     }
 
-    public void setPrecoVarejo(Double precoVarejo) {
-        this.precoVarejo = precoVarejo;
-    }
-
-    public Double getPrecoAtacado() {
-        return precoAtacado;
-    }
-
-    public void setPrecoAtacado(Double precoAtacado) {
-        this.precoAtacado = precoAtacado;
+    public void setPreco(Double preco) {
+        this.preco = preco;
     }
 
     public List<Venda> getVenda() {
