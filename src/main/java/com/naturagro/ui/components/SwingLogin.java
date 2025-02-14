@@ -110,6 +110,10 @@ public class SwingLogin extends JFrame {
 					login.validarLogin(cpf, password);
 					JOptionPane.showMessageDialog(null, "Login realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 
+					ControladorSwing limpar = new ControladorSwing();
+					limpar.limparCampo(LoginUserTextField);
+					limpar.limparCampo(LoginSenhaPasswordField);
+
 					controladorDeTela.abrirJanela("menuPrincipal");
 				} catch (ControlException exception) {
 					JOptionPane.showMessageDialog(loginButton, exception.getMessage());

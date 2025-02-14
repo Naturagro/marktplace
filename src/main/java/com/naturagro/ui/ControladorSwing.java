@@ -1,5 +1,5 @@
 package com.naturagro.ui;
-import javax.swing.JFrame;
+import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +28,8 @@ public class ControladorSwing {
         }
     }
 
-
+    public void limparCampo(JTextField campo) {
+       campo.setText("");
+    }
 
 }
