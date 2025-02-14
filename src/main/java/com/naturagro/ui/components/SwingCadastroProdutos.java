@@ -7,18 +7,14 @@ import com.naturagro.ui.ControladorSwing;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.List;
 
 public class SwingCadastroProdutos extends JFrame {
@@ -125,10 +121,10 @@ public class SwingCadastroProdutos extends JFrame {
 						produtoOrg.setNome(novoValor);
 						break;
 					case 4:  // Preço Atacado
-						produtoOrg.setPrecoAtacado(Double.parseDouble(novoValor));
+						produtoOrg.setPreco(Double.parseDouble(novoValor));
 						break;
 					case 5:  // Preço Varejo
-						produtoOrg.setPrecoVarejo(Double.parseDouble(novoValor));
+						produtoOrg.setPreco(Double.parseDouble(novoValor));
 						break;
 					case 6: // Quantidade em Estoque
 						produtoOrg.setQuantidadeEmEstoque(Integer.parseInt(novoValor));
