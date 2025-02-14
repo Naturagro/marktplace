@@ -169,7 +169,7 @@ public class SwingCadastro extends JFrame {
 
 
 					FuncionarioService cadastrar = new FuncionarioService();
-					cadastrar.adicionarFuncionarioBanco(new Funcionario(nomeUser, cpf, password, cargoSelecionado));
+					cadastrar.incluirAtomico(new Funcionario(nomeUser, cpf, password, cargoSelecionado));
 					//todo: ajeitar tabela funcionario no banco de dados (nomeusuario e nome são a mesma coisa, e no banco está duplciado)
 
 					controladorDeTela.abrirJanela(("login"));
