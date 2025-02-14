@@ -3,7 +3,12 @@ package com.naturagro.service;
 import com.naturagro.DAO.DAO;
 import com.naturagro.models.Funcionario;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.List;
+
+//todo: alterar a tabela automaticamente pra o id ser autoincrement
+@Table(name = "funcionarios") //tabela genérica de teste
 public class FuncionarioService extends DAO<Funcionario> {
 
     public FuncionarioService() {
@@ -29,6 +34,7 @@ public class FuncionarioService extends DAO<Funcionario> {
         return consultar("Funcionario.vendas", id);
     }
 
+
     /*
     Para atualizar o funcionario
     chamar o metodo mesclar()
@@ -36,5 +42,14 @@ public class FuncionarioService extends DAO<Funcionario> {
     Para deletar funcionario só chamar
     remover()
     */
+
+
+
+    public void adicionarFuncionarioBanco(Funcionario funcionario){
+        abrirT();
+        incluir(funcionario);
+        fecharT();
+        fechar();
+    }
 
 }

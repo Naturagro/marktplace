@@ -2,6 +2,8 @@ package com.naturagro.ui.components;
 
 import com.naturagro.controllers.AccessControlController;
 import com.naturagro.controllers.ControlException;
+import com.naturagro.models.Cargo;
+import com.naturagro.models.Funcionario;
 import com.naturagro.service.FuncionarioService;
 import com.naturagro.ui.ControladorSwing;
 
@@ -114,9 +116,9 @@ public class SwingCadastro extends JFrame {
 		cargoComboBox.setForeground(Color.WHITE);
 		cargoComboBox.setBackground(new Color(133, 179, 58));
 
-		cargoComboBox.addItem("Gerente");
-		cargoComboBox.addItem("Estoquista");
-		cargoComboBox.addItem("Operador");
+		cargoComboBox.addItem("GERENTE");
+		cargoComboBox.addItem("ESTOQUISTA");
+		cargoComboBox.addItem("OPERADOR");
 
 		gbc.gridx = 0;
 		gbc.gridy = 6;
@@ -155,8 +157,10 @@ public class SwingCadastro extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// action listener pra pegar as informações preenchidas nos campos
 				String nomeUser = SwingCadastro.this.RegisterUserTextField.getText();
+				String cpf = SwingCadastro.this.CpfTextField.getText();
 				String password = String.valueOf(SwingCadastro.this.RegisterSenhaPasswordField.getPassword()).trim();
 				String confirmacaopassword = String.valueOf(SwingCadastro.this.passwordField.getPassword()).trim();
+				String cargoSelecionado = (String) cargoComboBox.getSelectedItem();
 				//try catch pra validar campos, e caso tenha algum erro, mostra uma janela com a exceção
 				try {
 					AccessControlController controller = new AccessControlController();
@@ -164,9 +168,9 @@ public class SwingCadastro extends JFrame {
 					JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 
 
-					//Cadastro cadastro = new Cadastro(nomeUser, password);
-					//todo: ajeitar tabela funcionario no banco de dados
-					//cadastro.adicionarCadastroBanco(cadastro);
+					FuncionarioService cadastrar = new FuncionarioService();
+					cadastrar.adicionarFuncionarioBanco(new Funcionario(nomeUser, cpf, password, cargoSelecionado));
+					//todo: ajeitar tabela funcionario no banco de dados (nomeusuario e nome são a mesma coisa, e no banco está duplciado)
 
 					controladorDeTela.abrirJanela(("login"));
 				} catch (ControlException exception) {

@@ -20,7 +20,7 @@ public class AccessControlController {
         if (password == null || passwordConfirmation == null) {
             throw new ControlException("A senha e a confirmação são obrigatórias!");
         }
-        if (password.isBlank()|| passwordConfirmation.isBlank()) {
+        if (password.isBlank() || passwordConfirmation.isBlank()) {
             throw new ControlException("A senha e a confirmação não podem estar vazias!");
         }
         if (password.length() < 6) {
@@ -29,8 +29,19 @@ public class AccessControlController {
         if (!password.equals(passwordConfirmation)) {
             throw new ControlException("As senhas não coincidem!");
         }
-        /*
+    }
 
+        public void loginUser(String cpf, String password) throws ControlException{
+            if (cpf == null || cpf.isBlank()) {
+                throw new ControlException("O CPF é obrigatório!");
+            }
+            if (password == null || password.isBlank()) {
+                throw new ControlException("A senha é obrigatória!");
+            }
+        }
+
+        /*
+        todo: validar cpf
 
         Funcionario funcionarioExistente = funcionarioService.obterPorID(userName); // Usando userName como ID
 
@@ -39,15 +50,7 @@ public class AccessControlController {
          */
         }
 
-    }
 
 
 
-    /*
-        Para verificar a existência de um usuário no sistema
-        só é necessário chamar o método obterPorId() da classe
-        FuncionarioService e passar o id como parâmetro
-
-        se o retorno for != null o objeto existe no bd, se for == null é só persisti-lo com incluirAtomico()
-    */
 
