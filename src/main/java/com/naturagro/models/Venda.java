@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Venda {
@@ -26,20 +27,19 @@ public class Venda {
     )
     private List<Produto> produto = new ArrayList<>();
 
-    // todo Atualizar pra nova entidade Produto
-//    public Venda(Funcionario operador, List<Produto> produtos) {
-//        this.operador = operador;
-//        this.produto = produtos;
-//        this.dataCompra = LocalDateTime.now();
-//        this.valorTotal = obterValorTotal();
-//
-//        //atualizarEstoqueVenda(produtos);
-//    }
+    public Venda(Funcionario operador, List<Produto> produtos) {
+        this.operador = operador;
+        this.produto = produtos;
+        this.dataCompra = LocalDateTime.now();
+        this.valorTotal = obterValorTotal();
+
+        //atualizarEstoqueVenda(produtos);
+    }
 
     public int freqProdutoVenda(Long id, List<Produto> produtos) {
         int qtd = 0;
         for (Produto produto : produtos) {
-            if (produto.getId() == this.id) qtd++;
+            if (Objects.equals(produto.getId(), this.id)) qtd++;
         }
         return qtd;
     }
@@ -52,17 +52,16 @@ public class Venda {
             pS.atualizarEstoque(produto.getId(), qtd);
         }
     }
-    // todo adaptar pra nova entidade Produto
-//    public Double obterValorTotal() {
-//        Double soma = this.produto.stream().map(p -> p.getPrecoAtacado() ).reduce(0.0, Double::sum);
-//        return soma;
-//    }
 
-    // todo Atualizar pra nova entidade Produto
-//    public Venda() {
-//        this.dataCompra = LocalDateTime.now();
-//        this.valorTotal = obterValorTotal();
-//    }
+    public Double obterValorTotal() {
+        Double soma = this.produto.stream().map(p -> p.getPreco() ).reduce(0.0, Double::sum);
+        return soma;
+    }
+
+    public Venda() {
+        this.dataCompra = LocalDateTime.now();
+        this.valorTotal = obterValorTotal();
+    }
 
     public Long getId() {
         return id;
@@ -96,18 +95,8 @@ public class Venda {
         return produto;
     }
 
-    // todo Atualizar pra nova entidade Produto
-//    public void setProduto(List<Produto> produtos) {
-//        this.produto = produtos;
-//        this.valorTotal = obterValorTotal();
-//    }
-
-    /*
-    @JoinTable(name = "vendas_itens",
-    joinColumns = @JoinColumn(name = "venda_id"),
-    inverseJoinColumns = @JoinColumn(name = "produto_id"))
-
-    produtoService.obterPorID(produto.getId());
-        oS.obterPorID(produto.getId());
-     */
+    public void setProduto(List<Produto> produtos) {
+        this.produto = produtos;
+        this.valorTotal = obterValorTotal();
+    }
 }
