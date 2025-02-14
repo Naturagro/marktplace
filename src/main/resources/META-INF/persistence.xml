@@ -22,9 +22,9 @@
             <property name="javax.persistence.jdbc.url"
                       value="jdbc:mysql://localhost:3306/naturagro"/>
             <property name="javax.persistence.jdbc.user"
-                      value="PRESISA SER ALTERADO"/>
+                      value="root"/>
             <property name="javax.persistence.jdbc.password"
-                      value="PRESISA SER ALTERADO"/>
+                      value="354519Ca@"/>
 
             <property name="hibernate.dialect"
                       value="org.hibernate.dialect.MySQL8Dialect"/>

@@ -71,8 +71,7 @@ public class SwingCadastroProdutos extends JFrame {
 		model.addColumn("Categoria");
 		model.addColumn("Descrição");
 		model.addColumn("Nome");
-		model.addColumn("Preço Atacado");
-		model.addColumn("Preço Varejo");
+		model.addColumn("Preço");
 		model.addColumn("Quantidade em Estoque:");
 
 		// Armazenando a consulta do BD na variavel
@@ -120,14 +119,9 @@ public class SwingCadastroProdutos extends JFrame {
 					case 3:  // Nome
 						produtoOrg.setNome(novoValor);
 						break;
-					case 4:  // Preço Atacado
+					case 4:  // Preço
 						produtoOrg.setPreco(Double.parseDouble(novoValor));
 						break;
-					case 5:  // Preço Varejo
-						produtoOrg.setPreco(Double.parseDouble(novoValor));
-						break;
-					case 6: // Quantidade em Estoque
-						produtoOrg.setQuantidadeEmEstoque(Integer.parseInt(novoValor));
 					default:
 						break;
 				}

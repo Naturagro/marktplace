@@ -19,7 +19,9 @@ public class ConsultarVenda {
         System.out.println();
         System.out.println(v.getOperador().getNome());
 
-        System.out.println(v.obterValorTotal());
+        // todo Atualizar pra nova entidade Produto
+//        System.out.println(v.obterValorTotal());
+
         System.out.println();
     }
 }

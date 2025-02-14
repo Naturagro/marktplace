@@ -16,9 +16,9 @@
     <named-query name="Produto.buscarPorCategoria">
         <query>SELECT distinct p FROM Produto p WHERE p.categoria = :categoria</query>
     </named-query>
-    <named-query name="Produto.buscarPorFaixaDePreco">
-        <query>SELECT p FROM Produto p WHERE p.precoVarejo BETWEEN :precoMin AND :precoMax</query>
-    </named-query>
+<!-- todo   <named-query name="Produto.buscarPorFaixaDePreco">-->
+<!--        <query>SELECT p FROM Produto p WHERE p.precoVarejo BETWEEN :precoMin AND :precoMax</query>-->
+<!--    </named-query>-->
 
     <!-- Queries para Funcionario -->
     <named-query name="Funcionario.buscarPorCpf">

@@ -2,15 +2,20 @@ package com.naturagro.ui.components;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import com.naturagro.models.Produto;
 import com.naturagro.ui.ControladorSwing;
+import com.naturagro.ui.ProdutoSelecionadoListener;
 
 public class SwingVendas extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private ControladorSwing controlador;
 	private JLabel backgroundLabel;
+	private JTable table;
 
 	public SwingVendas(ControladorSwing controladorDeTela) {
 		this.controlador = controladorDeTela;
@@ -66,22 +71,33 @@ public class SwingVendas extends JFrame {
 		panel.add(VendasLabel, innerGbc);
 
 		// Botões
+
+		// Botão Adicionar
 		JButton BotaoAdcionar = new JButton("Adicionar");
 		BotaoAdcionar.setBackground(new Color(83, 131, 5));
 		BotaoAdcionar.setForeground(new Color(255, 255, 255));
 		BotaoAdcionar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
 		BotaoAdcionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JDialogVendas dialog = new JDialogVendas();
+				JDialogVendas dialog = new JDialogVendas(new ProdutoSelecionadoListener() {
+					@Override
+					public void onProdutoSelecionado(Produto produto,Integer quantidade) {
+						// Adiciona o produto e a quantidade pego pela interface no JDialog na tabela
+						DefaultTableModel model = (DefaultTableModel) table.getModel();
+						model.addRow(new Object[]{
+								produto.getId(),
+								produto.getNome(),
+								produto.getPreco(),
+								quantidade,
+								String.format("R$ %.2f", produto.getPreco() * quantidade)
+						});
+					}
+				});
 				dialog.setVisible(true);
 			}
 		});
 
-		JButton BotaoRemover = new JButton("Remover");
-		BotaoRemover.setBackground(new Color(83, 131, 5));
-		BotaoRemover.setForeground(new Color(255, 255, 255));
-		BotaoRemover.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-
+		// Botão Finalizar
 		JButton BotaoFinalizar = new JButton("Finalizar");
 		BotaoFinalizar.setBackground(new Color(83, 131, 5));
 		BotaoFinalizar.setForeground(new Color(255, 255, 255));
@@ -101,8 +117,55 @@ public class SwingVendas extends JFrame {
 		});
 
 		// Tabela
-		JTable table = new JTable();
+		// Definindo o modelo de dados da tabela
+		DefaultTableModel model = new DefaultTableModel() {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				// Bloqueia a edição da linha "Total a Pagar"
+				if (row == getRowCount() - 1) {
+					return false;
+				}
+				return false;
+			}
+
+			@Override
+			public void removeRow(int row) {
+				// Impede remover a linha de total
+				if (row != getRowCount() - 1) {
+					super.removeRow(row);
+				}
+			}
+		};
+
+		// Adiciona ao modelo de dados as colunas que vão aparecer
+		model.addColumn("ID");
+		model.addColumn("Produto");
+		model.addColumn("Preço em R$ P/Unidade");
+		model.addColumn("Quantidade");
+		model.addColumn("Total");
+
+		// Linha fixa de Total a Pagar
+		model.addRow(new Object[]{"Total a Pagar", "", "", "", "R$ 0.00"});
+
+
+		// Criando a tabela e colocando no JScrollPane
+		table = new JTable(model);
 		JScrollPane scrollPane = new JScrollPane(table);
+
+		// Botão Remover
+		JButton BotaoRemover = new JButton("Remover");
+		BotaoRemover.setBackground(new Color(83, 131, 5));
+		BotaoRemover.setForeground(new Color(255, 255, 255));
+		BotaoRemover.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+		BotaoRemover.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int linhaSelecionada = table.getSelectedRow();
+				if (linhaSelecionada != -1) { // Verifica se alguma linha está selecionada
+					model.removeRow(linhaSelecionada); // Remove a linha selecionada do modelo da tabela
+				}
+			}
+		});
 
 		// Botões (com exceção do voltar)
 		innerGbc.gridwidth = 1;

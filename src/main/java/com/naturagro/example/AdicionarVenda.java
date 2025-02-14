@@ -42,7 +42,10 @@ public class AdicionarVenda {
         //Operador atribuido à Venda
         v.setOperador(f);
         //Produtos adicionados à Venda
-        v.setProduto(produtos);
+
+        // todo Atualizar pra nova entidade Produto
+//        v.setProduto(produtos);
+
         //Ou assim:
         //Venda v = new Venda(f, produtos);
 

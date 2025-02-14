@@ -44,9 +44,8 @@ public class JDialogCadastroProdutos extends JDialog {
 		// Instanciar todos os JComponents que a tela vai ter
 		JComboBox<CategoriaProduto> categoria = new JComboBox<>(CategoriaProduto.values());
 		JTextField nomeProduto = new JTextField();
-		JTextField precoVarejo = new JTextField();
+		JTextField preco = new JTextField();
 		JTextField descricao = new JTextField();
-		JTextField precoAtacado = new JTextField();
 		JTextField quantidade = new JTextField();
 
 		// depois é só preencher o Map com o objeto JComponent criado e a string das labels que vai explicar eles.
@@ -54,8 +53,7 @@ public class JDialogCadastroProdutos extends JDialog {
 		campos.put(nomeProduto, "Nome do Produto:");
 		campos.put(descricao,"Descrição do produto:");
 		campos.put(quantidade, "Quantidade em Estoque:");
-		campos.put(precoVarejo, "Preço no Varejo:");
-		campos.put(precoAtacado, "Preço no Atacado:");
+		campos.put(preco,"Preço:");
 
 		// Monta a configuração de exibição da janela com base nos que setado acima
 		for (Map.Entry<JComponent, String> entry : campos.entrySet()) {
@@ -91,7 +89,7 @@ public class JDialogCadastroProdutos extends JDialog {
 									nomeProduto.getText(),
 									descricao.getText(),
 									Integer.parseInt(quantidade.getText()),
-									Double.parseDouble(precoVarejo.getText()),
+									Double.parseDouble(preco.getText()),
 									(CategoriaProduto) categoria.getSelectedItem());
 
 							// Chamando o controlador de cadastro para registrar o produto no BD após as validações de campo
@@ -102,8 +100,7 @@ public class JDialogCadastroProdutos extends JDialog {
 							// Limpando Campos Após adição
 							nomeProduto.setText("");
 							descricao.setText("");
-							precoVarejo.setText("");
-							precoAtacado.setText("");
+							preco.setText("");
 							quantidade.setText("");
 
 						} catch (ControlException exception) {

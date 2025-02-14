@@ -26,14 +26,15 @@ public class Venda {
     )
     private List<Produto> produto = new ArrayList<>();
 
-    public Venda(Funcionario operador, List<Produto> produtos) {
-        this.operador = operador;
-        this.produto = produtos;
-        this.dataCompra = LocalDateTime.now();
-        this.valorTotal = obterValorTotal();
-
-        //atualizarEstoqueVenda(produtos);
-    }
+    // todo Atualizar pra nova entidade Produto
+//    public Venda(Funcionario operador, List<Produto> produtos) {
+//        this.operador = operador;
+//        this.produto = produtos;
+//        this.dataCompra = LocalDateTime.now();
+//        this.valorTotal = obterValorTotal();
+//
+//        //atualizarEstoqueVenda(produtos);
+//    }
 
     public int freqProdutoVenda(Long id, List<Produto> produtos) {
         int qtd = 0;
@@ -51,16 +52,17 @@ public class Venda {
             pS.atualizarEstoque(produto.getId(), qtd);
         }
     }
+    // todo adaptar pra nova entidade Produto
+//    public Double obterValorTotal() {
+//        Double soma = this.produto.stream().map(p -> p.getPrecoAtacado() ).reduce(0.0, Double::sum);
+//        return soma;
+//    }
 
-    public Double obterValorTotal() {
-        Double soma = this.produto.stream().map(p -> p.getPrecoAtacado() ).reduce(0.0, Double::sum);
-        return soma;
-    }
-
-    public Venda() {
-        this.dataCompra = LocalDateTime.now();
-        this.valorTotal = obterValorTotal();
-    }
+    // todo Atualizar pra nova entidade Produto
+//    public Venda() {
+//        this.dataCompra = LocalDateTime.now();
+//        this.valorTotal = obterValorTotal();
+//    }
 
     public Long getId() {
         return id;
@@ -94,10 +96,11 @@ public class Venda {
         return produto;
     }
 
-    public void setProduto(List<Produto> produtos) {
-        this.produto = produtos;
-        this.valorTotal = obterValorTotal();
-    }
+    // todo Atualizar pra nova entidade Produto
+//    public void setProduto(List<Produto> produtos) {
+//        this.produto = produtos;
+//        this.valorTotal = obterValorTotal();
+//    }
 
     /*
     @JoinTable(name = "vendas_itens",
