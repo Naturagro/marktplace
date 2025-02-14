@@ -14,7 +14,7 @@ public class ConsultarVenda {
         //Teremos como retorno o objeto com todos os seus atributos para serem consultados
 
         for (Produto produto : v.getProduto()) {
-            System.out.println(produto.getNome() + " " + produto.getPrecoVarejo());
+            System.out.println(produto.getNome() + " " + produto.getPreco());
         }
         System.out.println();
         System.out.println(v.getOperador().getNome());

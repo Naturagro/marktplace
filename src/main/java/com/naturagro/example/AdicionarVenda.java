@@ -33,7 +33,7 @@ public class AdicionarVenda {
         List<Produto> produtos = produtoService.buscarPorPreco(5, 20);
 
         for (Produto produto : produtos) {
-            System.out.println(produto.getNome() + " "+ produto.getPrecoVarejo());
+            System.out.println(produto.getNome() + " "+ produto.getPreco());
             //Imprimo para conferir os produtos que foram recuperados
         }
 
