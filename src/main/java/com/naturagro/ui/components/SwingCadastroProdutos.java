@@ -30,7 +30,7 @@ public class SwingCadastroProdutos extends JFrame {
 	private ControladorSwing controlador;
 	ProdutoService produtoService = new ProdutoService();
 	TableModelListener model;
-	private Map<Long, Produto> produtosAlteradosMap = new HashMap<>();  // Atributo da classe
+	private Map<Long, Produto> produtosAlteradosMap = new HashMap<>();
 
 	// Criando a Tela
 	public SwingCadastroProdutos(ControladorSwing controladorDeTela) {

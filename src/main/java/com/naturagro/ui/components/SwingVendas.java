@@ -70,6 +70,12 @@ public class SwingVendas extends JFrame {
 		BotaoAdcionar.setBackground(new Color(83, 131, 5));
 		BotaoAdcionar.setForeground(new Color(255, 255, 255));
 		BotaoAdcionar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+		BotaoAdcionar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JDialogVendas dialog = new JDialogVendas();
+				dialog.setVisible(true);
+			}
+		});
 
 		JButton BotaoRemover = new JButton("Remover");
 		BotaoRemover.setBackground(new Color(83, 131, 5));
