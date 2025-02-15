@@ -6,6 +6,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import com.naturagro.models.Produto;
 import com.naturagro.ui.ControladorSwing;
@@ -16,6 +18,7 @@ public class SwingVendas extends JFrame {
 	private ControladorSwing controlador;
 	private JLabel backgroundLabel;
 	private JTable table;
+	private DefaultTableModel model;
 
 	public SwingVendas(ControladorSwing controladorDeTela) {
 		this.controlador = controladorDeTela;
@@ -61,14 +64,48 @@ public class SwingVendas extends JFrame {
 		innerGbc.weightx = 1.0;
 		innerGbc.weighty = 1.0;
 
-		// Título "Vendas"
-		JLabel VendasLabel = new JLabel("Vendas");
-		VendasLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 36));
-		VendasLabel.setForeground(new Color(255, 255, 255));  // Cor branca para contraste
+		// Label do "Total a Pagar"
+		JLabel totalPagarLabel = new JLabel("Total a Pagar:");
+		totalPagarLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 36));
+		totalPagarLabel.setForeground(new Color(255, 255, 255));  // Cor branca para contraste
 		innerGbc.gridx = 0;
-		innerGbc.gridy = 0;
+		innerGbc.gridy = 3;
 		innerGbc.gridwidth = 4;
-		panel.add(VendasLabel, innerGbc);
+		panel.add(totalPagarLabel, innerGbc);
+
+		// Label do valor total em reais
+		JLabel valorTotalLabel = new JLabel("R$ 00.00");
+		valorTotalLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 36));
+		valorTotalLabel.setForeground(new Color(255, 255, 255));  // Cor branca para contraste
+		innerGbc.gridx = 3;
+		innerGbc.gridy = 3;
+		innerGbc.anchor = GridBagConstraints.EAST;
+		innerGbc.gridwidth = 4;
+		panel.add(valorTotalLabel, innerGbc);
+
+		// Tabela
+		// Definindo o modelo de dados da tabela
+		model = new DefaultTableModel() {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				// Bloqueia a edição da linha "Total a Pagar"
+				if (row == getRowCount() - 1) {
+					return false;
+				}
+				return false;
+			}
+		};
+
+		// Adiciona ao modelo de dados as colunas que vão aparecer
+		model.addColumn("Código de Barras");
+		model.addColumn("Produto");
+		model.addColumn("Preço em R$ P/Unidade");
+		model.addColumn("Quantidade");
+		model.addColumn("Total");
+
+		// Criando a tabela
+		table = new JTable(model);
+		JScrollPane scrollPane = new JScrollPane(table);
 
 		// Botões
 
@@ -82,15 +119,29 @@ public class SwingVendas extends JFrame {
 				JDialogVendas dialog = new JDialogVendas(new ProdutoSelecionadoListener() {
 					@Override
 					public void onProdutoSelecionado(Produto produto,Integer quantidade) {
+
+						int colunaPreço = 4;
+						Double totalAcumulado = 0.0;
+
 						// Adiciona o produto e a quantidade pego pela interface no JDialog na tabela
-						DefaultTableModel model = (DefaultTableModel) table.getModel();
 						model.addRow(new Object[]{
 								produto.getId(),
 								produto.getNome(),
-								produto.getPreco(),
+								String.format("R$ %.2f", produto.getPreco()),
 								quantidade,
 								String.format("R$ %.2f", produto.getPreco() * quantidade)
+
 						});
+
+						// Calcular total acumulado
+						for (int i = 0; i < model.getRowCount(); i++) {
+							String valorStr = model.getValueAt(i, 4).toString().replace("R$", "").trim().replace(",", ".");
+							totalAcumulado += Double.parseDouble(valorStr);
+						}
+
+						String totalAcumuladoStr = totalAcumulado.toString();
+						valorTotalLabel.setText("R$ "+totalAcumuladoStr);
+
 					}
 				});
 				dialog.setVisible(true);
@@ -108,49 +159,12 @@ public class SwingVendas extends JFrame {
 		BotaoVoltar.setBackground(new Color(83, 131, 5));;
 		BotaoVoltar.setForeground(new Color(255, 255, 255));
 		BotaoVoltar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-
 		// Função do botão voltar
 		BotaoVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controladorDeTela.abrirJanela("menuPrincipal");
 			}
 		});
-
-		// Tabela
-		// Definindo o modelo de dados da tabela
-		DefaultTableModel model = new DefaultTableModel() {
-			@Override
-			public boolean isCellEditable(int row, int column) {
-				// Bloqueia a edição da linha "Total a Pagar"
-				if (row == getRowCount() - 1) {
-					return false;
-				}
-				return false;
-			}
-
-			@Override
-			public void removeRow(int row) {
-				// Impede remover a linha de total
-				if (row != getRowCount() - 1) {
-					super.removeRow(row);
-				}
-			}
-		};
-
-		// Adiciona ao modelo de dados as colunas que vão aparecer
-		model.addColumn("ID");
-		model.addColumn("Produto");
-		model.addColumn("Preço em R$ P/Unidade");
-		model.addColumn("Quantidade");
-		model.addColumn("Total");
-
-		// Linha fixa de Total a Pagar
-		model.addRow(new Object[]{"Total a Pagar", "", "", "", "R$ 0.00"});
-
-
-		// Criando a tabela e colocando no JScrollPane
-		table = new JTable(model);
-		JScrollPane scrollPane = new JScrollPane(table);
 
 		// Botão Remover
 		JButton BotaoRemover = new JButton("Remover");
@@ -160,17 +174,31 @@ public class SwingVendas extends JFrame {
 		BotaoRemover.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+
 				int linhaSelecionada = table.getSelectedRow();
 				if (linhaSelecionada != -1) { // Verifica se alguma linha está selecionada
 					model.removeRow(linhaSelecionada); // Remove a linha selecionada do modelo da tabela
 				}
+
+				int colunaPreço = 4;
+				Double totalAcumulado = 0.0;
+
+				// Calcular total acumulado
+				for (int i = 0; i < model.getRowCount(); i++) {
+					String valorStr = model.getValueAt(i, 4).toString().replace("R$", "").trim().replace(",", ".");
+					totalAcumulado += Double.parseDouble(valorStr);
+				}
+
+				String totalAcumuladoStr = totalAcumulado.toString();
+				valorTotalLabel.setText("R$ "+totalAcumuladoStr);
+
 			}
 		});
 
 		// Botões (com exceção do voltar)
 		innerGbc.gridwidth = 1;
 		innerGbc.gridx = 0;
-		innerGbc.gridy = 1;
+		innerGbc.gridy = 0;
 		panel.add(BotaoAdcionar, innerGbc);
 
 		innerGbc.gridx = 1;
@@ -194,8 +222,8 @@ public class SwingVendas extends JFrame {
 		panel.add(scrollPane, innerGbc);
 
 		// Listener para redimensionar a imagem de fundo quando a janela for redimensionada
-		addComponentListener(new java.awt.event.ComponentAdapter() {
-			public void componentResized(java.awt.event.ComponentEvent componentEvent) {
+		addComponentListener(new ComponentAdapter() {
+			public void componentResized(ComponentEvent componentEvent) {
 				Image img = backgroundIcon.getImage();
 				Image newImg = img.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
 				backgroundLabel.setIcon(new ImageIcon(newImg));

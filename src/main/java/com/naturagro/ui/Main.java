@@ -36,9 +36,8 @@ public class Main extends JFrame {
                     controladorDeTela.adicionarJanela("relatorios", relatorios);
                     controladorDeTela.adicionarJanela("vendas", vendas);
 
-                    // Se quiser apenas testar uma tela especifica, comente a linha 41 até a linha 46 e descomente a linha 38
                     // Inicie a tela colocando o nome da tela que você quer na String
-                     controladorDeTela.abrirJanela("login");
+                     controladorDeTela.abrirJanela("vendas");
 
 
                 } catch (Exception e) {
