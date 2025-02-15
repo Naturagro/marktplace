@@ -9,18 +9,18 @@ public class ConsultarVenda {
         VendaService vendaService = new VendaService();
         //A parte mais simples na gerência da entidade Venda
 
-        Venda v = vendaService.obterPorID(41l);
+        Venda v = vendaService.obterPorID(37l);
         //Para consultar basta passar o id como parâmetros
         //Teremos como retorno o objeto com todos os seus atributos para serem consultados
 
         for (Produto produto : v.getProduto()) {
             System.out.println(produto.getNome() + " " + produto.getPreco());
         }
+        //todo caso retorne um null pointer é porquê o indice não existe no bd
         System.out.println();
         System.out.println(v.getOperador().getNome());
 
-        // todo Atualizar pra nova entidade Produto
-//        System.out.println(v.obterValorTotal());
+        System.out.println(v.obterValorTotal());
 
         System.out.println();
     }

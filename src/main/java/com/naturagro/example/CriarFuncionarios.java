@@ -34,14 +34,19 @@ public class CriarFuncionarios {
         Funcionario e = funcionarioFactory.criarEstoquista("Júlio Iglesias", "2130278", "patrickestrela");
 
         Funcionario g = funcionarioFactory.criarGerente("Sr Sirigueijo","221354687", "perola");
+        Funcionario v = funcionarioFactory.criarGerente("Victor","08272635461", "123456");
 
         List<Funcionario> funcionarios = new ArrayList<>();
         funcionarios.add(o);
         funcionarios.add(e);
         funcionarios.add(g);
+        funcionarios.add(v);
         for (Funcionario f : funcionarios) {
-            funcionarioService.incluirAtomico(f);
+            //funcionarioService.incluirAtomico(f);
         }
+
+        Funcionario zero = funcionarioFactory.criarGerente("Zero", "0", "0");
+        funcionarioService.incluirAtomico(zero);
         /*
         Descomente a chamada dos métodos de funcionarioService para adicioná-los ao banco
          */

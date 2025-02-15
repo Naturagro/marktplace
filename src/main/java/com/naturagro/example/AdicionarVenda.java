@@ -30,7 +30,7 @@ public class AdicionarVenda {
         System.out.println(f.getNome());
 
         //Pego uma lista de Produto do banco de dados
-        List<Produto> produtos = produtoService.buscarPorPreco(5, 20);
+        List<Produto> produtos = produtoService.buscarPorPreco(0, 10);
 
         for (Produto produto : produtos) {
             System.out.println(produto.getNome() + " "+ produto.getPreco());
@@ -43,8 +43,7 @@ public class AdicionarVenda {
         v.setOperador(f);
         //Produtos adicionados à Venda
 
-        // todo Atualizar pra nova entidade Produto
-//        v.setProduto(produtos);
+        v.setProduto(produtos);
 
         //Ou assim:
         //Venda v = new Venda(f, produtos);
