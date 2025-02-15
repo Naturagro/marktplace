@@ -37,7 +37,7 @@ public class Main extends JFrame {
                     controladorDeTela.adicionarJanela("vendas", vendas);
 
                     // Inicie a tela colocando o nome da tela que você quer na String
-                     controladorDeTela.abrirJanela("vendas");
+                     controladorDeTela.abrirJanela("login");
 
 
                 } catch (Exception e) {
