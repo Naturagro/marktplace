@@ -44,7 +44,7 @@ public class VendaService extends DAO<Venda> {
 
         mesclar(venda);
         fecharT();
-        fechar();
+//        fechar();
 
 
     }

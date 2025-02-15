@@ -2,14 +2,23 @@ package com.naturagro.ui.components;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import com.naturagro.models.Funcionario;
 import com.naturagro.models.Produto;
+import com.naturagro.models.Venda;
+import com.naturagro.service.ProdutoService;
+import com.naturagro.service.VendaService;
 import com.naturagro.ui.ControladorSwing;
 import com.naturagro.ui.ProdutoSelecionadoListener;
 
@@ -21,7 +30,10 @@ public class SwingVendas extends JFrame {
 	private DefaultTableModel model;
 
 	public SwingVendas(ControladorSwing controladorDeTela) {
+		ProdutoService produtoService = new ProdutoService();
+		VendaService vendaService = new VendaService();
 		this.controlador = controladorDeTela;
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Menu Vendas");
 		setBounds(0, 0, 1280, 720);
@@ -120,7 +132,6 @@ public class SwingVendas extends JFrame {
 					@Override
 					public void onProdutoSelecionado(Produto produto,Integer quantidade) {
 
-						int colunaPreço = 4;
 						Double totalAcumulado = 0.0;
 
 						// Adiciona o produto e a quantidade pego pela interface no JDialog na tabela
@@ -153,6 +164,42 @@ public class SwingVendas extends JFrame {
 		BotaoFinalizar.setBackground(new Color(83, 131, 5));
 		BotaoFinalizar.setForeground(new Color(255, 255, 255));
 		BotaoFinalizar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+		BotaoFinalizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				Double totalAcumulado = 0.0;
+				List<Produto> produtos = new ArrayList<>();
+				Funcionario teste = new Funcionario();// todo funcionario teste, só até ter o metodo de pegar funcionario logado
+
+				// Cria Lista de produtos a serem vendidos (para a venda), e da Baixa no estoque
+				for (int i = 0; i < model.getRowCount(); i++) {
+
+					Long id = (Long) table.getValueAt(i,0);
+					Integer quantidadeVendida = (int) table.getValueAt(i,3);
+
+					Produto produto = produtoService.obterPorID(id);
+					produtos.add(produto);
+
+					// todo acredito que isso devia sair daqui e ser feito automatico na parte de vendas
+					produtoService.atualizarEstoque(id,quantidadeVendida);
+				}
+
+				// Cria a venda e salva no BD
+				Venda venda = new Venda(teste,produtos);
+				vendaService.salvarVenda(venda);
+
+				model.setRowCount(0); // Remove todas as linhas
+
+				// Calcular total acumulado
+				for (int i = 0; i < model.getRowCount(); i++) {
+					String valorStr = model.getValueAt(i, 4).toString().replace("R$", "").trim().replace(",", ".");
+					totalAcumulado += Double.parseDouble(valorStr);
+				}
+				String totalAcumuladoStr = totalAcumulado.toString();
+				valorTotalLabel.setText("R$ "+totalAcumuladoStr);
+
+			}
+		});
 
 		// Botão Voltar
 		JButton BotaoVoltar = new JButton("Voltar");
