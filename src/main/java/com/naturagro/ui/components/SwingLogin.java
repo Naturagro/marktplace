@@ -99,7 +99,7 @@ public class SwingLogin extends JFrame {
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				String cpf = SwingLogin.this.LoginUserTextField.getText();
+				String cpf = SwingLogin.this.LoginUserTextField.getText().trim();
 				String password = String.valueOf(SwingLogin.this.LoginSenhaPasswordField.getPassword()).trim();
 
 				try {
