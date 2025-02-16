@@ -93,9 +93,6 @@ public class JDialogVendas extends JDialog {
 			}
 		};
 
-		// Armazenando a consulta do BD na variavel
-		List<Object[]> consulta = produtoService.buscarPerfilProduto();
-
 		// Definindo um ScrollPane para colocar a tabela
 		JScrollPane scrollPane = new JScrollPane();
 		camadas.setLayer(scrollPane, 1);
@@ -110,9 +107,19 @@ public class JDialogVendas extends JDialog {
 		model.addColumn("Preço");
 		model.addColumn("Quantidade em Estoque:");
 
-		// Colocando as rows no modelo de dados
-		for (Object[] linha : consulta) {
-			model.addRow(linha);
+		// Armazenando a consulta do BD na variavel
+		List<Produto> consulta = produtoService.buscarProduto();
+
+		// Armazenando a consulta do BD na variavel
+		for (Produto linha : consulta) {
+			model.addRow(new Object[]{
+					linha.getId(),
+					linha.getCategoria(),
+					linha.getDescricao(),
+					linha.getNome(),
+					linha.getPreco(),
+					linha.getQuantidadeEmEstoque()
+			});
 		}
 
 		// Criando tabela com o modelo e setando como visivel
