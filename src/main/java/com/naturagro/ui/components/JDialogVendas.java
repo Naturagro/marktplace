@@ -194,17 +194,17 @@ public class JDialogVendas extends JDialog {
 		filtroBox.setBounds(961, 44, 173, 32);
 		camadas.add(filtroBox);
 
-		JLabel pesquisaLabel_1 = new JLabel("Pesquisar Produto:");
-		camadas.setLayer(pesquisaLabel_1, 1);
-		pesquisaLabel_1.setForeground(Color.WHITE);
-		pesquisaLabel_1.setFont(new Font("Comic Sans MS", Font.PLAIN, 28));
-		pesquisaLabel_1.setBounds(120, 588, 249, 25);
-		camadas.add(pesquisaLabel_1);
+		JLabel quantidadeLabel = new JLabel("Quantidade:");
+		camadas.setLayer(quantidadeLabel, 1);
+		quantidadeLabel.setForeground(Color.WHITE);
+		quantidadeLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 28));
+		quantidadeLabel.setBounds(120, 588, 249, 25);
+		camadas.add(quantidadeLabel);
 
-		quantidadeTxtField = new JTextField();
+		quantidadeTxtField = new JTextField("1");
 		camadas.setLayer(quantidadeTxtField, 1);
 		quantidadeTxtField.setColumns(10);
-		quantidadeTxtField.setBounds(370, 588, 45, 32);
+		quantidadeTxtField.setBounds(300, 588, 45, 32);
 		camadas.add(quantidadeTxtField);
 
 		{
