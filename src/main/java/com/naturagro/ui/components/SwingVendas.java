@@ -181,7 +181,7 @@ public class SwingVendas extends JFrame {
 					produtos.add(produto);
 
 					// todo acredito que isso devia sair daqui e ser feito automatico na parte de vendas
-					produtoService.atualizarEstoque(id,quantidadeVendida);
+					//produtoService.atualizarEstoque(id,quantidadeVendida);
 				}
 
 				// Cria a venda e salva no BD
