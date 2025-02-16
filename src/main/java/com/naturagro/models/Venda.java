@@ -44,14 +44,14 @@ public class Venda {
         return qtd;
     }
 
-    public void atualizarEstoqueVenda(List<Produto> produtos) {
-        ProdutoService pS = new ProdutoService();
-        int qtd = 0;
-        for (Produto produto : produtos) {
-            qtd = freqProdutoVenda(produto.getId(), produtos);
-            pS.atualizarEstoque(produto.getId(), qtd);
-        }
-    }
+//    public void atualizarEstoqueVenda(List<Produto> produtos) {
+//        ProdutoService pS = new ProdutoService();
+//        int qtd = 0;
+//        for (Produto produto : produtos) {
+//            qtd = freqProdutoVenda(produto.getId(), produtos);
+//            pS.atualizarEstoque(produto.getId(), qtd);
+//        }
+//    }
 
     public Double obterValorTotal() {
         Double soma = this.produto.stream().map(p -> p.getPreco() ).reduce(0.0, Double::sum);
