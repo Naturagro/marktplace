@@ -1,20 +1,25 @@
 package com.naturagro.ui.components;
 
+import com.naturagro.models.Produto;
+import com.naturagro.service.ProdutoService;
 import com.naturagro.ui.ControladorSwing;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class SwingControleEstoque extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private ControladorSwing controlador;
 	private JLabel backgroundLabel;
+	private JTable EstoqueTable;
 
 	// Tela
 	public SwingControleEstoque(ControladorSwing controladorDeTela) {
-		this.controlador = controladorDeTela;
+		ProdutoService produtoService = new ProdutoService();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Controle de Estoque");
 		setBounds(0, 0, 1280, 720);
@@ -66,32 +71,82 @@ public class SwingControleEstoque extends JFrame {
 		innerGbc.gridwidth = 4;
 		panel.add(ControleEstoqueLabel, innerGbc);
 
+		// Definindo o modelo de dados da tabela
+		DefaultTableModel model = new DefaultTableModel() {
+			// Definindo quais colunas serão editaveis
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+
+		// Adiciona ao modelo de dados as colunas que vão aparecer
+		model.addColumn("ID");
+		model.addColumn("Descrição");
+		model.addColumn("Nome");
+		model.addColumn("Quantidade em Estoque:");
+
+		// Armazenando a consulta do BD na variavel
+		List<Produto> consulta = produtoService.buscarProduto();
+
+		// Armazenando a consulta do BD na variavel
+		for (Produto linha : consulta) {
+			model.addRow(new Object[]{
+					linha.getId(),
+					linha.getDescricao(),
+					linha.getNome(),
+					linha.getQuantidadeEmEstoque()
+			});
+		}
+
+		// Tabela
+		JTable EstoqueTable = new JTable(model);
+		JScrollPane scrollPane = new JScrollPane(EstoqueTable);
+
+		// Colocando a tabela dentro de um JScrollPane
+		innerGbc.gridx = 0;
+		innerGbc.gridy = 2;
+		innerGbc.gridwidth = 4;
+		innerGbc.fill = GridBagConstraints.BOTH;
+		innerGbc.weightx = 1;
+		innerGbc.weighty = 1;
+		panel.add(scrollPane, innerGbc);
+
 		// Botões
 		JButton AdicionarButton = new JButton("Adicionar");
 		AdicionarButton.setBackground(new Color(83, 131, 5));
 		AdicionarButton.setForeground(new Color(255, 255, 255));
 		AdicionarButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+		AdicionarButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				boolean isAdding = true;
+				JDialogControleEstoque dialog = new JDialogControleEstoque(isAdding);
+				dialog.setVisible(true);
+			}
+		});
 
 		JButton RemoverButton = new JButton("Remover");
 		RemoverButton.setForeground(Color.WHITE);
 		RemoverButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
 		RemoverButton.setBackground(new Color(83, 131, 5));
+		RemoverButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				boolean isAdding = false;
+				JDialogControleEstoque dialog = new JDialogControleEstoque(isAdding);
+				dialog.setVisible(true);
+			}
+		});
 
 		JButton BotaoVoltar = new JButton("Voltar");
 		BotaoVoltar.setForeground(Color.WHITE);
 		BotaoVoltar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
 		BotaoVoltar.setBackground(new Color(83, 131, 5));
-
 		// Função do botão Voltar
 		BotaoVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controladorDeTela.abrirJanela("menuPrincipal");
 			}
 		});
-
-		// Tabela
-		JTable EstoqueTable = new JTable();
-		JScrollPane scrollPane = new JScrollPane(EstoqueTable);
 
 		// Colocando os botões
 		innerGbc.gridwidth = 1;
@@ -105,15 +160,6 @@ public class SwingControleEstoque extends JFrame {
 		innerGbc.gridx = 2;
 		innerGbc.weightx = 1;
 		panel.add(BotaoVoltar, innerGbc);
-
-		// Colocando a tabela dentro de um JScrollPane
-		innerGbc.gridx = 0;
-		innerGbc.gridy = 2;
-		innerGbc.gridwidth = 4;
-		innerGbc.fill = GridBagConstraints.BOTH;
-		innerGbc.weightx = 1;
-		innerGbc.weighty = 1;
-		panel.add(scrollPane, innerGbc);
 
 		// Listener para redimensionar a imagem de fundo quando a janela for redimensionada
 		addComponentListener(new java.awt.event.ComponentAdapter() {

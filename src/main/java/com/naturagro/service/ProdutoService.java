@@ -85,4 +85,8 @@ public class ProdutoService extends DAO<Produto> {
         TypedQuery<Object[]> query = em.createQuery(jpql, Object[].class);
         return query.getResultList();
     }
+
+    public List<Produto> buscarProduto() {
+        return obterTodos(Integer.MAX_VALUE, 0);
+    }
 }

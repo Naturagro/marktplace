@@ -57,7 +57,6 @@ public class SwingCadastroProdutos extends JFrame {
 			public boolean isCellEditable(int row, int column) {
 				if (column == 0) {
 					return false;
-					// todo eu botei as categorias como não editaveis pq não tive saco pra pensar em como botar JComboBox lá e nem exceções pra validar as categorias
 				} if (column == 1) {
 					return false;
 				} else {
@@ -72,19 +71,24 @@ public class SwingCadastroProdutos extends JFrame {
 		model.addColumn("Descrição");
 		model.addColumn("Nome");
 		model.addColumn("Preço");
-		model.addColumn("Quantidade em Estoque:");
 
 		// Armazenando a consulta do BD na variavel
-		List<Object[]> consulta = produtoService.buscarPerfilProduto();
+		List<Produto> consulta = produtoService.buscarProduto();
 
 		// Definindo um ScrollPane para colocar a tabela
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(122, 125, 1014, 433);
 		camadas.add(scrollPane);
 
-		// Colocando as rows no modelo de dados
-		for (Object[] linha : consulta) {
-			model.addRow(linha);
+		// Armazenando a consulta do BD na variavel
+		for (Produto linha : consulta) {
+			model.addRow(new Object[]{
+					linha.getId(),
+					linha.getCategoria(),
+					linha.getDescricao(),
+					linha.getNome(),
+					linha.getPreco(),
+			});
 		}
 
 		// Criando tabela com o modelo e setando como visivel
@@ -227,9 +231,19 @@ public class SwingCadastroProdutos extends JFrame {
 
 				model.setRowCount(0); // Remove todas as linhas
 
-				List<Object[]> consulta = produtoService.buscarPerfilProduto();
-				for (Object[] linha : consulta) {
-					model.addRow(linha);
+				// Armazenando a consulta do BD na variavel
+				List<Produto> consulta = produtoService.buscarProduto();
+
+				// Armazenando a consulta do BD na variavel
+				for (Produto linha : consulta) {
+					model.addRow(new Object[]{
+							linha.getId(),
+							linha.getCategoria(),
+							linha.getDescricao(),
+							linha.getNome(),
+							linha.getPreco(),
+							linha.getQuantidadeEmEstoque()
+					});
 				}
 
 				// Reinsere o listener depois de atualizar os dados
