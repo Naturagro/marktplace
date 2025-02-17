@@ -108,7 +108,7 @@ public class JDialogVendas extends JDialog {
 		model.addColumn("Quantidade em Estoque:");
 
 		// Armazenando a consulta do BD na variavel
-		List<Produto> consulta = produtoService.buscarProduto();
+		List<Produto> consulta = produtoService.obterTodos();
 
 		// Armazenando a consulta do BD na variavel
 		for (Produto linha : consulta) {
@@ -118,7 +118,6 @@ public class JDialogVendas extends JDialog {
 					linha.getDescricao(),
 					linha.getNome(),
 					linha.getPreco(),
-					linha.getQuantidadeEmEstoque()
 			});
 		}
 
@@ -175,7 +174,6 @@ public class JDialogVendas extends JDialog {
 							produto.getDescricao(),
 							produto.getNome(),
 							produto.getPreco(),
-							produto.getQuantidadeEmEstoque()
 					};
 					model.addRow(linha);
 
