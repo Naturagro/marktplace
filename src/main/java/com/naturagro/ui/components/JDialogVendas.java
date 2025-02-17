@@ -100,15 +100,14 @@ public class JDialogVendas extends JDialog {
 		camadas.add(scrollPane);
 
 		// Adiciona ao modelo de dados as colunas que vão aparecer
-		model.addColumn("ID");
+		model.addColumn("Código");
 		model.addColumn("Categoria");
 		model.addColumn("Descrição");
 		model.addColumn("Nome");
 		model.addColumn("Preço");
-		model.addColumn("Quantidade em Estoque:");
 
 		// Armazenando a consulta do BD na variavel
-		List<Produto> consulta = produtoService.obterTodos();
+		List<Produto> consulta = produtoService.obterTodos(Integer.MAX_VALUE, 0);
 
 		// Armazenando a consulta do BD na variavel
 		for (Produto linha : consulta) {
@@ -191,7 +190,7 @@ public class JDialogVendas extends JDialog {
 		camadas.add(filtrarLabel);
 
 		JComboBox<String> filtroBox = new JComboBox();
-		filtroBox.setModel(new DefaultComboBoxModel<>(new String[] {"Nome","ID"}));
+		filtroBox.setModel(new DefaultComboBoxModel<>(new String[] {"Nome","Código"}));
 		filtroBox.setBackground(new Color(83, 131, 5));
 		filtroBox.setFont(new Font("Comic Sans MS", Font.PLAIN, 24));
 		filtroBox.setForeground(Color.WHITE);

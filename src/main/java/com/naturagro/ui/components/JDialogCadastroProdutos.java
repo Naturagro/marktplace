@@ -46,13 +46,11 @@ public class JDialogCadastroProdutos extends JDialog {
 		JTextField nomeProduto = new JTextField();
 		JTextField preco = new JTextField();
 		JTextField descricao = new JTextField();
-		JTextField quantidade = new JTextField();
 
 		// depois é só preencher o Map com o objeto JComponent criado e a string das labels que vai explicar eles.
 		campos.put(categoria,"Categorias:");
 		campos.put(nomeProduto, "Nome do Produto:");
 		campos.put(descricao,"Descrição do produto:");
-		campos.put(quantidade, "Quantidade em Estoque:");
 		campos.put(preco,"Preço:");
 
 		// Monta a configuração de exibição da janela com base nos que setado acima
@@ -100,7 +98,6 @@ public class JDialogCadastroProdutos extends JDialog {
 							nomeProduto.setText("");
 							descricao.setText("");
 							preco.setText("");
-							quantidade.setText("");
 
 						} catch (ControlException exception) {
 							JOptionPane.showMessageDialog(salvarButton, exception.getMessage());

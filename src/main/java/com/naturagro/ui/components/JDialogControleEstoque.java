@@ -3,7 +3,9 @@ package com.naturagro.ui.components;
 import com.naturagro.controllers.CadastroProdutoController;
 import com.naturagro.controllers.ControlException;
 import com.naturagro.models.CategoriaProduto;
+import com.naturagro.models.Lote;
 import com.naturagro.models.Produto;
+import com.naturagro.service.LoteService;
 import com.naturagro.service.ProdutoService;
 
 import javax.swing.*;
@@ -11,6 +13,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,9 +22,8 @@ public class JDialogControleEstoque extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField;
 	private Map<JTextField, String> campos = new HashMap<>();
-	private boolean isAdding;
 
-	public JDialogControleEstoque(boolean isAdding) {
+	public JDialogControleEstoque() {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setLayout(new FlowLayout());
@@ -68,46 +70,18 @@ public class JDialogControleEstoque extends JDialog {
 				getRootPane().setDefaultButton(salvarButton);
 				salvarButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-//                       //todo
-//                        if (isAdding) {
-//                            ProdutoService produtoService = new ProdutoService();
-//
-//                            long codigoBarrasResult = Long.parseLong(codigoDeBarrasTxtField.getText());
-//                            int quantidadeAdd = Integer.valueOf(quantidadeTxtField.getText());
-//
-//                            Produto produtoAlterar = produtoService.obterPorID(codigoBarrasResult);
-//                            int quantidadeAtual = produtoAlterar.getQuantidadeEmEstoque();
-//
-//                            produtoAlterar.setQuantidadeEmEstoque(quantidadeAtual+quantidadeAdd);
-//
-//                            produtoService.abrirT();
-//                            produtoService.mesclar(produtoAlterar);
-//                            produtoService.fecharT();
-//
-//                            System.out.println("Quantidade atual: "+quantidadeAtual+" /Quantidade Add: "+quantidadeAdd+" /Quantidade Final: "+(quantidadeAtual+quantidadeAdd));
-//
-//                            JOptionPane.showMessageDialog(null, "Estoque adicionado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-//                        } else {
-//							ProdutoService produtoService = new ProdutoService();
-//
-//							long codigoBarrasResult = Long.parseLong(codigoDeBarrasTxtField.getText());
-//							int quantidadeRemove = Integer.valueOf(quantidadeTxtField.getText());
-//
-//							Produto produtoAlterar = produtoService.obterPorID(codigoBarrasResult);
-//							int quantidadeAtual = produtoAlterar.getQuantidadeEmEstoque();
-//
-//							produtoAlterar.setQuantidadeEmEstoque(quantidadeAtual-quantidadeRemove);
-//
-//							produtoService.abrirT();
-//							produtoService.mesclar(produtoAlterar);
-//							produtoService.fecharT();
-//
-//							System.out.println("Quantidade atual: "+quantidadeAtual+" /Quantidade Removida: "+quantidadeRemove+" /Quantidade Final: "+(quantidadeAtual+quantidadeRemove));
-//
-//							JOptionPane.showMessageDialog(null, "Estoque removido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-//						}
+							ProdutoService produtoService = new ProdutoService();
+							LoteService loteService = new LoteService();
 
-                    }
+							long codigoBarrasResult = Long.parseLong(codigoDeBarrasTxtField.getText());
+							int quantidadeAdd = Integer.valueOf(quantidadeTxtField.getText());
+
+							Lote lote = new Lote(produtoService.obterPorID(codigoBarrasResult), LocalDate.now(), quantidadeAdd);
+
+							loteService.incluirAtomico(lote);
+
+							JOptionPane.showMessageDialog(null, "Lote adicionado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+					}
 				});
 			}
 
@@ -123,6 +97,5 @@ public class JDialogControleEstoque extends JDialog {
 			}
 		}
 	}
-
 }
 

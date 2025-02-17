@@ -1,7 +1,9 @@
 
 package com.naturagro.ui.components;
 
+import com.naturagro.models.Lote;
 import com.naturagro.models.Produto;
+import com.naturagro.service.LoteService;
 import com.naturagro.service.ProdutoService;
 import com.naturagro.ui.ControladorSwing;
 
@@ -66,14 +68,14 @@ public class SwingCadastroProdutos extends JFrame {
 		};
 
 		// Adiciona ao modelo de dados as colunas que vão aparecer
-		model.addColumn("ID");
+		model.addColumn("Código");
 		model.addColumn("Categoria");
 		model.addColumn("Descrição");
 		model.addColumn("Nome");
 		model.addColumn("Preço");
 
 		// Armazenando a consulta do BD na variavel
-		List<Produto> consulta = produtoService.obterTodos();
+		List<Produto> consulta = produtoService.obterTodos(Integer.MAX_VALUE, 0);
 
 		// Definindo um ScrollPane para colocar a tabela
 		JScrollPane scrollPane = new JScrollPane();
@@ -138,20 +140,21 @@ public class SwingCadastroProdutos extends JFrame {
 		CadastroProdutosLabel.setBounds(123, 46, 362, 44);
 		camadas.add(CadastroProdutosLabel,Integer.valueOf(1));
 
-		// Função do botão adicionar
-		JButton AdicionarButton = new JButton("Adicionar");
-		AdicionarButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JDialogCadastroProdutos dialog = new JDialogCadastroProdutos();
-				dialog.setVisible(true);
-			}
-		});
 		// Botão adicionar
+		JButton AdicionarButton = new JButton("Adicionar");
 		AdicionarButton.setBackground(new Color(83, 131, 5));
 		AdicionarButton.setForeground(new Color(255,255,255));
 		AdicionarButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
 		AdicionarButton.setBounds(119, 595, 240, 50);
 		camadas.add(AdicionarButton, Integer.valueOf(3));
+		// Função do botão adicionar
+		AdicionarButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JDialogCadastroProdutos dialog = new JDialogCadastroProdutos();
+				dialog.setVisible(true);
+				atualizarTabela();
+			}
+		});
 
 		// Botão Editar
 		JButton EditarButton = new JButton("Editar");
@@ -169,6 +172,8 @@ public class SwingCadastroProdutos extends JFrame {
 					produtoService.mesclar(produto);
 				}
 				produtoService.fecharT();
+
+				atualizarTabela();
 			}
 		});
 
@@ -194,6 +199,8 @@ public class SwingCadastroProdutos extends JFrame {
 				Produto produto = produtoService.obterPorID(id);
 				// Remove o objeto
 				produtoService.remover(produto);
+
+				atualizarTabela();
 			}
 		});
 
@@ -249,10 +256,46 @@ public class SwingCadastroProdutos extends JFrame {
 				model.addTableModelListener(listener);
 			}
 		});
-
 		ImageIcon background2 = new ImageIcon(getClass().getResource("/images/background2edit.png"));
 		JLabel backgroundLabel = new JLabel(background2);
 		backgroundLabel.setBounds(0, 0, 1270, 681);
 		camadas.add(backgroundLabel,Integer.valueOf(0));
+	}
+
+	private void atualizarTabela() {
+		ProdutoService produtoService = new ProdutoService();
+
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+		// Remover todos os listeners antes de atualizar a tabela
+		TableModelListener[] listeners = model.getTableModelListeners();
+		for (TableModelListener listener : listeners) {
+			model.removeTableModelListener(listener);
+		}
+
+		// Limpar todas as linhas da tabela
+		model.setRowCount(0);
+
+		// Reconsulta o banco de dados para obter os dados atualizados
+		List<Produto> consultaAtualizada = produtoService.obterTodos(Integer.MAX_VALUE, 0);
+
+		// Preenche a tabela com os novos dados
+		for (Produto linha : consultaAtualizada) {
+			model.addRow(new Object[]{
+					linha.getId(),
+					linha.getCategoria(),
+					linha.getDescricao(),
+					linha.getNome(),
+					linha.getPreco()
+			});
+		}
+
+		// Re-adicionar os listeners
+		for (TableModelListener listener : listeners) {
+			model.addTableModelListener(listener);
+		}
+
+		// Notifica a tabela que os dados mudaram
+		model.fireTableDataChanged();
 	}
 }

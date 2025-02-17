@@ -1,10 +1,13 @@
 package com.naturagro.ui.components;
 
+import com.naturagro.models.Lote;
 import com.naturagro.models.Produto;
+import com.naturagro.service.LoteService;
 import com.naturagro.service.ProdutoService;
 import com.naturagro.ui.ControladorSwing;
 
 import javax.swing.*;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,11 +18,12 @@ public class SwingControleEstoque extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private ControladorSwing controlador;
 	private JLabel backgroundLabel;
-	private JTable EstoqueTable;
+	private JTable estoqueTable;
 
 	// Tela
 	public SwingControleEstoque(ControladorSwing controladorDeTela) {
 		ProdutoService produtoService = new ProdutoService();
+		LoteService loteService = new LoteService();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Controle de Estoque");
 		setBounds(0, 0, 1280, 720);
@@ -82,25 +86,32 @@ public class SwingControleEstoque extends JFrame {
 
 		// Adiciona ao modelo de dados as colunas que vão aparecer
 		model.addColumn("ID");
-		model.addColumn("Descrição");
-		model.addColumn("Nome");
+		model.addColumn("Data de Entrada");
+		model.addColumn("Data de Vencimento");
 		model.addColumn("Quantidade em Estoque:");
+		model.addColumn("Codigo de Barras:");
+		model.addColumn("Nome do Produto:");
 
 		// Armazenando a consulta do BD na variavel
 		List<Produto> consulta = produtoService.obterTodos();
 
+		List<Lote> consultaLote = loteService.obterTodos(Integer.MAX_VALUE, 0);
+
 		// Armazenando a consulta do BD na variavel
-		for (Produto linha : consulta) {
+		for (Lote linha : consultaLote) {
 			model.addRow(new Object[]{
 					linha.getId(),
-					linha.getDescricao(),
-					linha.getNome(),
+					linha.getDataEntrada(),
+					linha.getDataVencimento(),
+					linha.getQuantidade(),
+					linha.getProduto().getId(),
+					linha.getProduto().getNome()
 			});
 		}
 
 		// Tabela
-		JTable EstoqueTable = new JTable(model);
-		JScrollPane scrollPane = new JScrollPane(EstoqueTable);
+		estoqueTable = new JTable(model);
+		JScrollPane scrollPane = new JScrollPane(estoqueTable);
 
 		// Colocando a tabela dentro de um JScrollPane
 		innerGbc.gridx = 0;
@@ -118,9 +129,10 @@ public class SwingControleEstoque extends JFrame {
 		AdicionarButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
 		AdicionarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				boolean isAdding = true;
-				JDialogControleEstoque dialog = new JDialogControleEstoque(isAdding);
+				JDialogControleEstoque dialog = new JDialogControleEstoque();
 				dialog.setVisible(true);
+
+				atualizarTabela();
 			}
 		});
 
@@ -130,9 +142,19 @@ public class SwingControleEstoque extends JFrame {
 		RemoverButton.setBackground(new Color(83, 131, 5));
 		RemoverButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				boolean isAdding = false;
-				JDialogControleEstoque dialog = new JDialogControleEstoque(isAdding);
-				dialog.setVisible(true);
+				// Pega o id do objeto selecionado
+				int linha = estoqueTable.getSelectedRow();
+				String celula = estoqueTable.getValueAt(linha,0).toString();
+				long id = Long.parseLong(celula);
+
+				LoteService loteService = new LoteService();
+				// Obtem o objeto inteiro com base no id
+				Lote lote = loteService.obterPorID(id);
+				// Remove o objeto
+				loteService.remover(lote);
+
+				atualizarTabela();
+
 			}
 		});
 
@@ -171,5 +193,32 @@ public class SwingControleEstoque extends JFrame {
 
 		// Centralizando a tela
 		setLocationRelativeTo(null);
+	}
+
+	private void atualizarTabela() {
+		LoteService loteService = new LoteService();
+
+		DefaultTableModel model = (DefaultTableModel) estoqueTable.getModel();
+
+		// Limpa todas as linhas da tabela
+		model.setRowCount(0);
+
+		// Reconsulta o banco de dados para obter os dados atualizados
+		List<Lote> consultaAtualizada = loteService.obterTodos(Integer.MAX_VALUE, 0);
+
+		// Preenche a tabela com os novos dados
+		for (Lote linha : consultaAtualizada) {
+			model.addRow(new Object[]{
+					linha.getId(),
+					linha.getDataEntrada(),
+					linha.getDataVencimento(),
+					linha.getQuantidade(),
+					linha.getProduto() != null ? linha.getProduto().getId() : "Sem produto",
+					linha.getProduto() != null ? linha.getProduto().getNome() : "Sem produto"
+			});
+		}
+
+		// Notifica a tabela que os dados mudaram
+		model.fireTableDataChanged();
 	}
 }

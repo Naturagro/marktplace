@@ -109,7 +109,7 @@ public class SwingVendas extends JFrame {
 		};
 
 		// Adiciona ao modelo de dados as colunas que vão aparecer
-		model.addColumn("Código de Barras");
+		model.addColumn("Código");
 		model.addColumn("Produto");
 		model.addColumn("Preço em R$ P/Unidade");
 		model.addColumn("Quantidade");
