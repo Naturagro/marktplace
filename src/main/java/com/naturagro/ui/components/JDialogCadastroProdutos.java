@@ -88,7 +88,6 @@ public class JDialogCadastroProdutos extends JDialog {
 							Produto produto = new Produto(
 									nomeProduto.getText(),
 									descricao.getText(),
-									Integer.parseInt(quantidade.getText()),
 									Double.parseDouble(preco.getText()),
 									(CategoriaProduto) categoria.getSelectedItem());
 
