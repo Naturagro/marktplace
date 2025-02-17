@@ -22,7 +22,7 @@ public class LoteExemplo {
         ProdutoService produtoService = new ProdutoService();
         List<Produto> produtos = produtoService.obterTodos();
 
-        Lote lote = new Lote(produtos.get(1), LocalDate.now(), 50);
+        Lote lote = new Lote(produtos.get(1), LocalDate.now(), 0);
 
         LoteService loteService = new LoteService();
         loteService.incluirAtomico(lote);
