@@ -87,7 +87,7 @@ public class SwingControleEstoque extends JFrame {
 		model.addColumn("Quantidade em Estoque:");
 
 		// Armazenando a consulta do BD na variavel
-		List<Produto> consulta = produtoService.buscarProduto();
+		List<Produto> consulta = produtoService.obterTodos();
 
 		// Armazenando a consulta do BD na variavel
 		for (Produto linha : consulta) {
@@ -95,7 +95,6 @@ public class SwingControleEstoque extends JFrame {
 					linha.getId(),
 					linha.getDescricao(),
 					linha.getNome(),
-					linha.getQuantidadeEmEstoque()
 			});
 		}
 
