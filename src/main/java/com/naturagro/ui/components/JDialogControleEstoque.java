@@ -68,43 +68,44 @@ public class JDialogControleEstoque extends JDialog {
 				getRootPane().setDefaultButton(salvarButton);
 				salvarButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-                        if (isAdding) {
-                            ProdutoService produtoService = new ProdutoService();
-
-                            long codigoBarrasResult = Long.parseLong(codigoDeBarrasTxtField.getText());
-                            int quantidadeAdd = Integer.valueOf(quantidadeTxtField.getText());
-
-                            Produto produtoAlterar = produtoService.obterPorID(codigoBarrasResult);
-                            int quantidadeAtual = produtoAlterar.getQuantidadeEmEstoque();
-
-                            produtoAlterar.setQuantidadeEmEstoque(quantidadeAtual+quantidadeAdd);
-
-                            produtoService.abrirT();
-                            produtoService.mesclar(produtoAlterar);
-                            produtoService.fecharT();
-
-                            System.out.println("Quantidade atual: "+quantidadeAtual+" /Quantidade Add: "+quantidadeAdd+" /Quantidade Final: "+(quantidadeAtual+quantidadeAdd));
-
-                            JOptionPane.showMessageDialog(null, "Estoque adicionado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                        } else {
-							ProdutoService produtoService = new ProdutoService();
-
-							long codigoBarrasResult = Long.parseLong(codigoDeBarrasTxtField.getText());
-							int quantidadeRemove = Integer.valueOf(quantidadeTxtField.getText());
-
-							Produto produtoAlterar = produtoService.obterPorID(codigoBarrasResult);
-							int quantidadeAtual = produtoAlterar.getQuantidadeEmEstoque();
-
-							produtoAlterar.setQuantidadeEmEstoque(quantidadeAtual-quantidadeRemove);
-
-							produtoService.abrirT();
-							produtoService.mesclar(produtoAlterar);
-							produtoService.fecharT();
-
-							System.out.println("Quantidade atual: "+quantidadeAtual+" /Quantidade Removida: "+quantidadeRemove+" /Quantidade Final: "+(quantidadeAtual+quantidadeRemove));
-
-							JOptionPane.showMessageDialog(null, "Estoque removido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-						}
+//                       //todo
+//                        if (isAdding) {
+//                            ProdutoService produtoService = new ProdutoService();
+//
+//                            long codigoBarrasResult = Long.parseLong(codigoDeBarrasTxtField.getText());
+//                            int quantidadeAdd = Integer.valueOf(quantidadeTxtField.getText());
+//
+//                            Produto produtoAlterar = produtoService.obterPorID(codigoBarrasResult);
+//                            int quantidadeAtual = produtoAlterar.getQuantidadeEmEstoque();
+//
+//                            produtoAlterar.setQuantidadeEmEstoque(quantidadeAtual+quantidadeAdd);
+//
+//                            produtoService.abrirT();
+//                            produtoService.mesclar(produtoAlterar);
+//                            produtoService.fecharT();
+//
+//                            System.out.println("Quantidade atual: "+quantidadeAtual+" /Quantidade Add: "+quantidadeAdd+" /Quantidade Final: "+(quantidadeAtual+quantidadeAdd));
+//
+//                            JOptionPane.showMessageDialog(null, "Estoque adicionado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+//                        } else {
+//							ProdutoService produtoService = new ProdutoService();
+//
+//							long codigoBarrasResult = Long.parseLong(codigoDeBarrasTxtField.getText());
+//							int quantidadeRemove = Integer.valueOf(quantidadeTxtField.getText());
+//
+//							Produto produtoAlterar = produtoService.obterPorID(codigoBarrasResult);
+//							int quantidadeAtual = produtoAlterar.getQuantidadeEmEstoque();
+//
+//							produtoAlterar.setQuantidadeEmEstoque(quantidadeAtual-quantidadeRemove);
+//
+//							produtoService.abrirT();
+//							produtoService.mesclar(produtoAlterar);
+//							produtoService.fecharT();
+//
+//							System.out.println("Quantidade atual: "+quantidadeAtual+" /Quantidade Removida: "+quantidadeRemove+" /Quantidade Final: "+(quantidadeAtual+quantidadeRemove));
+//
+//							JOptionPane.showMessageDialog(null, "Estoque removido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+//						}
 
                     }
 				});
