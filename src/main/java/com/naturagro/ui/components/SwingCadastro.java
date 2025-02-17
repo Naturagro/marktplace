@@ -2,7 +2,6 @@ package com.naturagro.ui.components;
 
 import com.naturagro.controllers.AccessControlController;
 import com.naturagro.controllers.ControlException;
-import com.naturagro.models.Cargo;
 import com.naturagro.models.Funcionario;
 import com.naturagro.service.FuncionarioService;
 import com.naturagro.ui.ControladorSwing;
@@ -30,7 +29,6 @@ public class SwingCadastro extends JFrame {
 
 		JPanel painelPrincipal = new JPanel() {
 			private static final long serialVersionUID = 1L;
-
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				ImageIcon background = new ImageIcon(getClass().getResource("/images/background1edit.png"));
@@ -71,8 +69,7 @@ public class SwingCadastro extends JFrame {
 		painelPrincipal.add(usuarioLabel, gbc);
 
 		RegisterUserTextField = new JTextField(30);
-		RegisterUserTextField.setPreferredSize(new Dimension(202, 23));  // Definindo altura similar ao código de login
-		RegisterUserTextField.setMinimumSize(new Dimension(202, 23));  // Tamanho mínimo igual
+		RegisterUserTextField.setPreferredSize(new Dimension(202, 23));
 		gbc.gridx = 1;
 		gbc.anchor = GridBagConstraints.LINE_START;
 		painelPrincipal.add(RegisterUserTextField, gbc);
@@ -81,103 +78,85 @@ public class SwingCadastro extends JFrame {
 		JLabel CpfLabel = new JLabel("CPF:");
 		CpfLabel.setForeground(Color.WHITE);
 		CpfLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		gbc.gridwidth = 1;
-		gbc.anchor = GridBagConstraints.LINE_END;
 		gbc.gridy = 3;
 		gbc.gridx = 0;
 		painelPrincipal.add(CpfLabel, gbc);
 
 		CpfTextField = new JTextField(30);
-		CpfTextField.setPreferredSize(new Dimension(202, 23));  // Definindo altura similar ao código de login
-		CpfTextField.setMinimumSize(new Dimension(202, 23));  // Tamanho mínimo igual
+		CpfTextField.setPreferredSize(new Dimension(202, 23));
 		gbc.gridx = 1;
-		gbc.anchor = GridBagConstraints.LINE_START;
 		painelPrincipal.add(CpfTextField, gbc);
 
 		// Senha
 		JLabel senhaLabel = new JLabel("Senha:");
 		senhaLabel.setForeground(Color.WHITE);
 		senhaLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		gbc.gridx = 0;
 		gbc.gridy = 4;
-		gbc.anchor = GridBagConstraints.LINE_END;
+		gbc.gridx = 0;
 		painelPrincipal.add(senhaLabel, gbc);
 
 		RegisterSenhaPasswordField = new JPasswordField(30);
-		RegisterSenhaPasswordField.setPreferredSize(new Dimension(202, 23));  // Ajuste para altura igual
-		RegisterSenhaPasswordField.setMinimumSize(new Dimension(202, 23));  // Ajuste para altura igual
+		RegisterSenhaPasswordField.setPreferredSize(new Dimension(202, 23));
 		gbc.gridx = 1;
-		gbc.anchor = GridBagConstraints.LINE_START;
 		painelPrincipal.add(RegisterSenhaPasswordField, gbc);
+
+		// Confirmar senha
+		JLabel confirmarSenhaLabel = new JLabel("Confirmar Senha:");
+		confirmarSenhaLabel.setForeground(Color.WHITE);
+		confirmarSenhaLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		gbc.gridy = 5;
+		gbc.gridx = 0;
+		painelPrincipal.add(confirmarSenhaLabel, gbc);
+
+		passwordField = new JPasswordField(20);
+		passwordField.setPreferredSize(new Dimension(202, 23));
+		gbc.gridx = 1;
+		painelPrincipal.add(passwordField, gbc);
 
 		// ComboBox
 		JComboBox<String> cargoComboBox = new JComboBox<>();
 		cargoComboBox.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		cargoComboBox.setForeground(Color.WHITE);
 		cargoComboBox.setBackground(new Color(133, 179, 58));
-
 		cargoComboBox.addItem("GERENTE");
 		cargoComboBox.addItem("ESTOQUISTA");
 		cargoComboBox.addItem("OPERADOR");
-
-		gbc.gridx = 0;
 		gbc.gridy = 6;
-		gbc.gridwidth = 2;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		painelPrincipal.add(cargoComboBox, gbc);
-
-		// Confirmar senha
-		JLabel confirmarSenhaLabel = new JLabel("Confirmar Senha:");
-		confirmarSenhaLabel.setForeground(Color.WHITE);  // Cor da fonte
-		confirmarSenhaLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));  // Fonte maior
 		gbc.gridx = 0;
-		gbc.gridy = 5;
-		gbc.anchor = GridBagConstraints.LINE_END;
-		painelPrincipal.add(confirmarSenhaLabel, gbc);
-
-		passwordField = new JPasswordField(20);
-		passwordField.setPreferredSize(new Dimension(202, 23));  // Ajuste para altura igual
-		passwordField.setMinimumSize(new Dimension(202, 23));  // Ajuste para altura igual
-		gbc.gridx = 1;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		painelPrincipal.add(passwordField, gbc);
+		gbc.gridwidth = 2;
+		painelPrincipal.add(cargoComboBox, gbc);
 
 		// Botão cadastro
 		JButton cadastrarButton = new JButton("Cadastrar");
 		cadastrarButton.setBackground(new Color(124, 188, 52));
 		cadastrarButton.setForeground(Color.WHITE);
-		gbc.gridx = 0;
 		gbc.gridy = 7;
-		gbc.gridwidth = 2;
-		gbc.anchor = GridBagConstraints.CENTER;
 		painelPrincipal.add(cadastrarButton, gbc);
 
-		// Ação do botão cadastro
-		cadastrarButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// action listener pra pegar as informações preenchidas nos campos
-				String nomeUser = SwingCadastro.this.RegisterUserTextField.getText();
-				String cpf = SwingCadastro.this.CpfTextField.getText();
-				String password = String.valueOf(SwingCadastro.this.RegisterSenhaPasswordField.getPassword()).trim();
-				String confirmacaopassword = String.valueOf(SwingCadastro.this.passwordField.getPassword()).trim();
-				String cargoSelecionado = (String) cargoComboBox.getSelectedItem();
-				//try catch pra validar campos, e caso tenha algum erro, mostra uma janela com a exceção
-				try {
-					AccessControlController controller = new AccessControlController();
-					controller.registerUser(nomeUser, cpf, password, confirmacaopassword);
-					JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-
-
-					FuncionarioService cadastrar = new FuncionarioService();
-					cadastrar.incluirAtomico(new Funcionario(nomeUser, cpf, password, cargoSelecionado));
-					//todo: ajeitar tabela funcionario no banco de dados (nomeusuario e nome são a mesma coisa, e no banco está duplciado)
-
-					controladorDeTela.abrirJanela(("login"));
-				} catch (ControlException exception) {
-					//vai mostrar o erro que foi tratado lá no access control
-					JOptionPane.showMessageDialog(cadastrarButton, exception.getMessage());
-				}
+		cadastrarButton.addActionListener(e -> {
+			String nomeUser = RegisterUserTextField.getText();
+			String cpf = CpfTextField.getText();
+			String password = String.valueOf(RegisterSenhaPasswordField.getPassword()).trim();
+			String confirmacaopassword = String.valueOf(passwordField.getPassword()).trim();
+			String cargoSelecionado = (String) cargoComboBox.getSelectedItem();
+			try {
+				AccessControlController controller = new AccessControlController();
+				controller.registerUser(nomeUser, cpf, password, confirmacaopassword);
+				JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+				funcionarioService.incluirAtomico(new Funcionario(nomeUser, cpf, password, cargoSelecionado));
+				controladorDeTela.abrirJanela("login");
+			} catch (ControlException exception) {
+				JOptionPane.showMessageDialog(cadastrarButton, exception.getMessage());
 			}
 		});
+
+		// Botão voltar
+		JButton voltarButton = new JButton("Voltar");
+		voltarButton.setBackground(new Color(168, 29, 29));
+		voltarButton.setForeground(Color.WHITE);
+		gbc.gridy = 8;
+		painelPrincipal.add(voltarButton, gbc);
+
+		voltarButton.addActionListener(e -> controladorDeTela.abrirJanela("menuPrincipal"));
 	}
 }

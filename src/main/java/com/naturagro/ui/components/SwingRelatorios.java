@@ -116,7 +116,7 @@ public class SwingRelatorios extends JFrame {
 		JButton botaoVoltar = new JButton("Voltar");
 		botaoVoltar.setForeground(Color.WHITE);
 		botaoVoltar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-		botaoVoltar.setBackground(new Color(83, 131, 5));
+		botaoVoltar.setBackground(new Color(168, 29, 29));
 		gbc.gridx = 2;
 		gbc.gridy = 5;
 		gbc.gridwidth = 1;  // Botão ocupa toda a largura

@@ -208,7 +208,7 @@ public class SwingCadastroProdutos extends JFrame {
 		JButton BotaoVoltar = new JButton("Voltar");
 		BotaoVoltar.setForeground(Color.WHITE);
 		BotaoVoltar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-		BotaoVoltar.setBackground(new Color(83, 131, 5));
+		BotaoVoltar.setBackground(new Color(168, 29, 29));
 		BotaoVoltar.setBounds(896, 595, 240, 50);
 		camadas.add(BotaoVoltar);
 		// Função do botão Voltar

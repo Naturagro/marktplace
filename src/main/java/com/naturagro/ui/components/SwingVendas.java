@@ -203,7 +203,7 @@ public class SwingVendas extends JFrame {
 
 		// Botão Voltar
 		JButton BotaoVoltar = new JButton("Voltar");
-		BotaoVoltar.setBackground(new Color(83, 131, 5));;
+		BotaoVoltar.setBackground(new Color(168, 29, 29));
 		BotaoVoltar.setForeground(new Color(255, 255, 255));
 		BotaoVoltar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
 		// Função do botão voltar
