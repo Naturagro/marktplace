@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.naturagro.models.Funcionario;
+import com.naturagro.models.FuncionarioFactory;
 import com.naturagro.models.Produto;
 import com.naturagro.models.Venda;
 import com.naturagro.service.ProdutoService;
@@ -170,7 +171,6 @@ public class SwingVendas extends JFrame {
 				Double totalAcumulado = 0.0;
 				List<Produto> produtos = new ArrayList<>();
 				Funcionario teste = new Funcionario();// todo funcionario teste, só até ter o metodo de pegar funcionario logado
-
 				// Cria Lista de produtos a serem vendidos (para a venda), e da Baixa no estoque
 				for (int i = 0; i < model.getRowCount(); i++) {
 
