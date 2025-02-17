@@ -73,7 +73,7 @@ public class SwingCadastroProdutos extends JFrame {
 		model.addColumn("Preço");
 
 		// Armazenando a consulta do BD na variavel
-		List<Produto> consulta = produtoService.buscarProduto();
+		List<Produto> consulta = produtoService.obterTodos();
 
 		// Definindo um ScrollPane para colocar a tabela
 		JScrollPane scrollPane = new JScrollPane();
@@ -232,7 +232,7 @@ public class SwingCadastroProdutos extends JFrame {
 				model.setRowCount(0); // Remove todas as linhas
 
 				// Armazenando a consulta do BD na variavel
-				List<Produto> consulta = produtoService.buscarProduto();
+				List<Produto> consulta = produtoService.obterTodos();
 
 				// Armazenando a consulta do BD na variavel
 				for (Produto linha : consulta) {
@@ -242,7 +242,6 @@ public class SwingCadastroProdutos extends JFrame {
 							linha.getDescricao(),
 							linha.getNome(),
 							linha.getPreco(),
-							linha.getQuantidadeEmEstoque()
 					});
 				}
 
