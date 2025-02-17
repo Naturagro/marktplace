@@ -19,7 +19,7 @@ public class Produto {
     private Double preco;
     @Enumerated(EnumType.STRING)
     private CategoriaProduto categoria;
-
+    private int quantidadeEmEstoque;
     @ManyToMany(mappedBy = "produto", fetch = FetchType.EAGER)
     private List<Venda> venda = new ArrayList<>();
 
@@ -87,6 +87,10 @@ public class Produto {
     public void setVenda(List<Venda> vendas) {
         this.venda = vendas;
     }
-}
 
+    public int getQuantidadeEmEstoque() {return quantidadeEmEstoque;}
+
+    public void setQuantidadeEmEstoque(int quantidadeEmEstoque) {this.quantidadeEmEstoque = quantidadeEmEstoque;}
+
+}
 
