@@ -230,30 +230,7 @@ public class SwingCadastroProdutos extends JFrame {
 		// Função do botão recarregar
 		atualizarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DefaultTableModel model = (DefaultTableModel) table.getModel();
-
-				// Remove o listener antes de modificar a tabela para evitar exceções
-				TableModelListener listener = model.getTableModelListeners()[0];
-				model.removeTableModelListener(listener);
-
-				model.setRowCount(0); // Remove todas as linhas
-
-				// Armazenando a consulta do BD na variavel
-				List<Produto> consulta = produtoService.obterTodos();
-
-				// Armazenando a consulta do BD na variavel
-				for (Produto linha : consulta) {
-					model.addRow(new Object[]{
-							linha.getId(),
-							linha.getCategoria(),
-							linha.getDescricao(),
-							linha.getNome(),
-							linha.getPreco(),
-					});
-				}
-
-				// Reinsere o listener depois de atualizar os dados
-				model.addTableModelListener(listener);
+				atualizarTabela();
 			}
 		});
 		ImageIcon background2 = new ImageIcon(getClass().getResource("/images/background2edit.png"));
