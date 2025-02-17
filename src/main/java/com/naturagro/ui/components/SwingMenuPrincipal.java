@@ -1,11 +1,11 @@
 package com.naturagro.ui.components;
 
+import com.naturagro.ui.ControladorSwing;
+
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import com.naturagro.ui.ControladorSwing;
 
 public class SwingMenuPrincipal extends JFrame {
 
@@ -13,6 +13,7 @@ public class SwingMenuPrincipal extends JFrame {
 	private JPanel contentPane;
 	private ControladorSwing controlador;
 	private JLabel backgroundLabel;
+	private JPanel panel;
 
 	public SwingMenuPrincipal(ControladorSwing controlador) {
 		this.controlador = controlador;
@@ -23,7 +24,6 @@ public class SwingMenuPrincipal extends JFrame {
 
 		contentPane = new JPanel(new GridBagLayout());
 		contentPane.setBackground(new Color(124, 188, 52));
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -42,7 +42,7 @@ public class SwingMenuPrincipal extends JFrame {
 		contentPane.add(backgroundLabel, gbc);
 
 		// Painel de componentes
-		JPanel panel = new JPanel(new GridBagLayout());
+		panel = new JPanel(new GridBagLayout());
 		panel.setOpaque(false);
 		gbc.gridx = 0;
 		gbc.gridy = 0;
@@ -50,6 +50,25 @@ public class SwingMenuPrincipal extends JFrame {
 		gbc.gridheight = 1;
 		backgroundLabel.add(panel, gbc);
 
+		// Usa o tipo de usuário armazenado no ControladorSwing
+		configurarBotoes(controlador.getTipoUsuario());
+
+		// Listener para redimensionar a imagem
+		addComponentListener(new java.awt.event.ComponentAdapter() {
+			public void componentResized(java.awt.event.ComponentEvent componentEvent) {
+				ImageIcon imageIcon = new ImageIcon(getClass().getResource("/images/background2edit.png"));
+				Image img = imageIcon.getImage();
+				Image newImg = img.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
+				backgroundLabel.setIcon(new ImageIcon(newImg));
+			}
+		});
+	}
+
+	public void atualizarTipoUsuario(String tipoUsuario) {
+		configurarBotoes(tipoUsuario); // Reconfigura os botões com o novo tipo de usuário
+	}
+
+	private void configurarBotoes(String tipoUsuario) {
 		GridBagConstraints innerGbc = new GridBagConstraints();
 		innerGbc.insets = new Insets(10, 10, 10, 10);
 		innerGbc.fill = GridBagConstraints.BOTH;
@@ -75,15 +94,29 @@ public class SwingMenuPrincipal extends JFrame {
 		innerGbc.anchor = GridBagConstraints.CENTER;
 		panel.add(menuLabel, innerGbc);
 
-		// Botões
-		String[] botoes = {"Cadastro de Produtos", "Vendas", "Controle de Estoque", "Relatórios", "Cadastrar", "Sair"};
-		String[] acoes = {"cadastroProdutos", "vendas", "controleEstoque", "relatorios", "cadastrar", "sair"};
+		// Botões específicos para o tipo de usuário
+		String[] botoes;
+		String[] acoes;
 
+		if ("GERENTE".equals(tipoUsuario)) {
+			botoes = new String[]{"Vendas", "Relatórios", "Controle de Estoque", "Cadastrar","sair"};
+			acoes = new String[]{"vendas", "relatorios", "controleEstoque", "cadastrar","sair"};
+		} else if ("OPERADOR".equals(tipoUsuario)) {
+			botoes = new String[]{"Vendas", "Relatórios","sair"};
+			acoes = new String[]{"vendas", "relatorios","sair"};
+		} else if ("ESTOQUISTA".equals(tipoUsuario)) {
+			botoes = new String[]{"Relatórios", "Controle de Estoque","sair"};
+			acoes = new String[]{"relatorios", "controleEstoque", "sair"};
+		} else {
+			botoes = new String[]{};
+			acoes = new String[]{};
+		}
+
+		// Adicionando os botões
 		innerGbc.gridwidth = 1;
 		innerGbc.anchor = GridBagConstraints.CENTER;
 		innerGbc.fill = GridBagConstraints.BOTH;
 
-		// Botoes adicionados em sequencia
 		for (int i = 0; i < botoes.length; i++) {
 			JButton button = new JButton(botoes[i]);
 			button.setBackground(new Color(83, 131, 5));
@@ -96,16 +129,6 @@ public class SwingMenuPrincipal extends JFrame {
 			innerGbc.gridy = (i / 2) + 1;
 			panel.add(button, innerGbc);
 		}
-
-		// Listener para redimensionar a imagem
-		addComponentListener(new java.awt.event.ComponentAdapter() {
-			public void componentResized(java.awt.event.ComponentEvent componentEvent) {
-				ImageIcon imageIcon = new ImageIcon(getClass().getResource("/images/background2edit.png"));
-				Image img = imageIcon.getImage();
-				Image newImg = img.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
-				backgroundLabel.setIcon(new ImageIcon(newImg));
-			}
-		});
 	}
 
 	private class BotaoListener implements ActionListener {
@@ -117,11 +140,8 @@ public class SwingMenuPrincipal extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if ("sair".equals(acao)) {
-				System.exit(0);  // Encerra a aplicação completamente
-			} else {
-				controlador.abrirJanela(acao);
-			}
+			controlador.abrirJanela(acao);
 		}
 	}
-}
+
+	}

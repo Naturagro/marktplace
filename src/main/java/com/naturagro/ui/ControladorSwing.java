@@ -1,12 +1,17 @@
 package com.naturagro.ui;
+
+import com.naturagro.ui.components.SwingMenuPrincipal;
+
 import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
+
 
 public class ControladorSwing {
     // HashMap tem valores String e JFrame, servindo pra identificar o frame e setar ele como visivel
     private Map<String, JFrame> janelas = new HashMap<>();
     private JFrame janelaAtual;
+    private String tipoUsuario; // Variável para armazenar o tipo de usuário
 
     // Método para adicionar todas as Janelas existentes no main
     public void adicionarJanela(String nome, JFrame janela) {
@@ -15,21 +20,35 @@ public class ControladorSwing {
 
     // Método para trocar as janelas durante a execução do programa
     public void abrirJanela(String nome) {
-        // se a variavel já tiver uma janela (ou seja, se o programa já tiver mostrando algo) ele escondera a janela atual
+        // Se a variável já tiver uma janela (ou seja, se o programa já tiver mostrando algo), ele esconderá a janela atual
         if (janelaAtual != null) {
             janelaAtual.setVisible(false);
         }
-        // depois define o nome da janela que foi adicionada no main como parametro
+        // Depois define o nome da janela que foi adicionada no main como parâmetro
         janelaAtual = janelas.get(nome);
 
         // Abre a janela
         if (janelaAtual != null) {
+            // Passa o tipo de usuário para a tela de menu principal
+            if (janelaAtual instanceof SwingMenuPrincipal) {
+                ((SwingMenuPrincipal) janelaAtual).atualizarTipoUsuario(tipoUsuario);
+            }
             janelaAtual.setVisible(true);
         }
     }
 
-    public void limparCampo(JTextField campo) {
-       campo.setText("");
+    // Método para definir o tipo de usuário
+    public void definirTipoUsuario(String tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
     }
 
+    // Método para obter o tipo de usuário
+    public String getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    // Método para limpar o campo de texto
+    public void limparCampo(JTextField campo) {
+        campo.setText("");
+    }
 }

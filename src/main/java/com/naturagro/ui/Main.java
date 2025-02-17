@@ -36,7 +36,10 @@ public class Main extends JFrame {
                     controladorDeTela.adicionarJanela("relatorios", relatorios);
                     controladorDeTela.adicionarJanela("vendas", vendas);
 
+
                     // Inicie a tela colocando o nome da tela que você quer na String
+                    // Não é possivel mais abrir diretamente a tela de menu principal diretamente ja que ele recebe a o tipo de usuario para carregar os botoes
+                    // abra a tela de cadastro e crie seu usuario como gerente para ter acesso a todas as telas
                      controladorDeTela.abrirJanela("login");
 
 

@@ -23,6 +23,7 @@ public class SwingLogin extends JFrame {
 
 		JPanel painelPrincipal = new JPanel() {
 			private static final long serialVersionUID = 1L;
+
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				ImageIcon background = new ImageIcon(getClass().getResource("/images/background1edit.png"));
@@ -94,8 +95,8 @@ public class SwingLogin extends JFrame {
 		gbc.gridwidth = 2;
 		gbc.anchor = GridBagConstraints.CENTER;
 		painelPrincipal.add(loginButton, gbc);
+
 		// Ação do botão login
-		JButton LoginJButton = new JButton("Entrar");
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -107,19 +108,21 @@ public class SwingLogin extends JFrame {
 					controller.loginUser(cpf, password);
 
 					LoginService login = new LoginService();
-					login.validarLogin(cpf, password);
+					String tipoUsuario = login.validarLogin(cpf, password); // Obtém o tipo de usuário
+
+					controladorDeTela.definirTipoUsuario(tipoUsuario); // Armazena no controlador
+
 					JOptionPane.showMessageDialog(null, "Login realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 
-					ControladorSwing limpar = new ControladorSwing();
-					limpar.limparCampo(LoginUserTextField);
-					limpar.limparCampo(LoginSenhaPasswordField);
+					// Limpa os campos
+					controladorDeTela.limparCampo(LoginUserTextField);
+					controladorDeTela.limparCampo(LoginSenhaPasswordField);
 
-					controladorDeTela.abrirJanela("menuPrincipal");
+					controladorDeTela.abrirJanela("menuPrincipal"); // Abre o menu principal
 				} catch (ControlException exception) {
 					JOptionPane.showMessageDialog(loginButton, exception.getMessage());
 				}
 			}
 		});
 	}
-
 }

@@ -10,23 +10,24 @@ public class LoginService extends DAO {
         super(Funcionario.class);
     }
 
-    private boolean existeLogin(String cpf, String senha) {
+    private Funcionario obterFuncionario(String cpf, String senha) {
         String jpql = "SELECT f FROM Funcionario f WHERE f.cpf = :cpf AND f.senha = :senha";
-        Funcionario funcionario = getEntityManager()
+        return getEntityManager()
                 .createQuery(jpql, Funcionario.class)
                 .setParameter("cpf", cpf)
                 .setParameter("senha", senha)
                 .getResultStream()
                 .findFirst()
                 .orElse(null);
-
-        return funcionario != null;
     }
 
-    public void validarLogin(String cpf, String senha) throws ControlException{
-        if(!(existeLogin(cpf, senha))){
+    public String validarLogin(String cpf, String senha) throws ControlException {
+        Funcionario funcionario = obterFuncionario(cpf, senha);
+
+        if (funcionario == null) {
             throw new ControlException("CPF ou senha não encontrada no sistema.");
         }
-    }
 
+        return funcionario.getCargo().name();
+    }
 }
