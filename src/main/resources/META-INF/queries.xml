@@ -13,6 +13,10 @@
     <named-query name="Produto.buscarPorCategoria">
         <query>SELECT distinct p FROM Produto p WHERE p.categoria = :categoria</query>
     </named-query>
+    <named-query name="Produto.buscarPorId">
+        <query>SELECT p FROM Produto p WHERE p.id = :id</query>
+    </named-query>
+
 
     <!-- Queries para Funcionario -->
     <named-query name="Funcionario.buscarPorCpf">

@@ -5,6 +5,7 @@ import com.naturagro.models.CategoriaProduto;
 import com.naturagro.models.Produto;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.time.LocalDate;
 import java.util.List;
@@ -39,6 +40,20 @@ public class ProdutoService extends DAO<Produto> {
         query.setParameter("nome", "%" + nome + "%");
         return query.getResultList();
     }
+
+    // Buscar produto por ID
+    public Produto buscarPorId(int id) {
+        EntityManager em = getEntityManager();
+        TypedQuery<Produto> query = em.createNamedQuery("Produto.buscarPorId", Produto.class);
+        query.setParameter("id", id);
+
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null; // Retorna null caso não encontre o produto
+        }
+    }
+
 
     //  Buscar produtos por categoria
     public List<Produto> buscarPorCategoria(CategoriaProduto categoria) {
