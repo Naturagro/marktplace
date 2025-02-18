@@ -55,6 +55,12 @@
             <artifactId>javase</artifactId>
             <version>3.5.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20210307</version> <!-- Verifique se esta é a versão mais recente -->
+        </dependency>
+
 
     </dependencies>
 </project>

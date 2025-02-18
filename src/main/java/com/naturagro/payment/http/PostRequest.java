@@ -11,7 +11,8 @@ import java.time.Duration;
 
 public class PostRequest {
 
-    public static final String URL_POST = "http://httpbin.org/post";
+
+    public static final String URL_POST = "http://localhost:8080/pagar";
     public static final String FILE_JSON = "src/main/java/com/naturagro/payment/http/pedido.json";
 
     public static void main(String[] args) {
@@ -21,23 +22,25 @@ public class PostRequest {
             Path filePath = Path.of(FILE_JSON);
 
             if (!Files.exists(filePath)) {
-                throw new IOException("arquivo JSON não encontrado: " + FILE_JSON);
+                throw new IOException("Arquivo JSON não encontrado: " + FILE_JSON);
             }
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .POST(HttpRequest.BodyPublishers.ofFile(filePath))
+                    .POST(HttpRequest.BodyPublishers.ofFile(filePath))  // Lê o JSON do arquivo
                     .timeout(Duration.ofSeconds(10))
-                    .uri(URI.create(URL_POST))
-                    .header("Content-Type", "application/json")
+                    .uri(URI.create(URL_POST))  // URL do servidor local
+                    .header("Content-Type", "application/json")  // Define o tipo do conteúdo como JSON
                     .build();
 
             client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                    .thenApply(HttpResponse::body)
-                    .thenAccept(System.out::println)
+                    .thenApply(HttpResponse::body)  // Extrai o corpo da resposta
+                    .thenAccept(response -> {
+                        System.out.println("Resposta da API de pagamento: " + response);
+                    })
                     .join();
 
         } catch (IOException e) {
-            System.err.println("erro ao carregar o arquivo JSON: " + e.getMessage());
+            System.err.println("Erro ao carregar o arquivo JSON: " + e.getMessage());
         }
     }
 }

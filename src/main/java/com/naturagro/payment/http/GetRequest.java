@@ -9,23 +9,22 @@ import java.time.Duration;
 
 public class GetRequest {
 
-    public static final String URL_GET = "http://httpbin.org/get";
+    public static final String URL_GET = "http://localhost:8080/status";
 
-        public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws IOException, InterruptedException {
 
         HttpClient client = HttpClient.newHttpClient();
 
         HttpRequest request = HttpRequest
-            .newBuilder()
-            .GET()
-            .timeout(Duration.ofSeconds(10))
-            .uri(URI.create(URL_GET))
-            .build();
-
+                .newBuilder()
+                .GET()
+                .timeout(Duration.ofSeconds(10))
+                .uri(URI.create(URL_GET))
+                .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        System.out.println(response.statusCode());
-        System.out.println(response.body());
+        System.out.println("Código de status: " + response.statusCode());
+        System.out.println("Corpo da resposta: " + response.body());
     }
 }

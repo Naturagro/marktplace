@@ -1,18 +1,6 @@
-[
-  {
-    "args": {},
-    "data": "",
-    "files": {},
-    "form": {
-      "comments": "Nenhuma",
-      "custemail": "algo@gmail.com",
-      "custname": "Maria",
-      "custtel": "90908028",
-      "delivery": "",
-      "size": "large",
-      "topping": [
-        "bacon",
-        "cheese"
-      ]
-    }
-    ]
+{
+  "id": "12345",
+  "tipo": "cartão",
+  "valor": 150.75
+}
+
