@@ -2,6 +2,7 @@ package com.naturagro.ui.components;
 
 import com.naturagro.controllers.AccessControlController;
 import com.naturagro.controllers.ControlException;
+import com.naturagro.models.Funcionario;
 import com.naturagro.service.LoginService;
 import com.naturagro.ui.ControladorSwing;
 
@@ -111,6 +112,7 @@ public class SwingLogin extends JFrame {
 					String tipoUsuario = login.validarLogin(cpf, password); // Obtém o tipo de usuário
 
 					controladorDeTela.definirTipoUsuario(tipoUsuario); // Armazena no controlador
+					controladorDeTela.definirFuncionarioLogado(login.obterFuncionario(cpf,password));
 
 					JOptionPane.showMessageDialog(null, "Login realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 

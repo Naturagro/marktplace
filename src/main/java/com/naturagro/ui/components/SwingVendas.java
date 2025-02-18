@@ -170,7 +170,7 @@ public class SwingVendas extends JFrame {
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
 				Double totalAcumulado = 0.0;
 				List<Produto> produtos = new ArrayList<>();
-				Funcionario teste = new Funcionario();// todo funcionario teste, só até ter o metodo de pegar funcionario logado
+				Funcionario funcionario = controladorDeTela.getFuncionarioLogado();
 				// Cria Lista de produtos a serem vendidos (para a venda), e da Baixa no estoque
 				for (int i = 0; i < model.getRowCount(); i++) {
 
@@ -185,7 +185,7 @@ public class SwingVendas extends JFrame {
 				}
 
 				// Cria a venda e salva no BD
-				Venda venda = new Venda(teste,produtos);
+				Venda venda = new Venda(funcionario,produtos);
 				vendaService.salvarVenda(venda);
 
 				model.setRowCount(0); // Remove todas as linhas

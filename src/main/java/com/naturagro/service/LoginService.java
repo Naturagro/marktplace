@@ -10,7 +10,7 @@ public class LoginService extends DAO {
         super(Funcionario.class);
     }
 
-    private Funcionario obterFuncionario(String cpf, String senha) {
+    public Funcionario obterFuncionario(String cpf, String senha) {
         String jpql = "SELECT f FROM Funcionario f WHERE f.cpf = :cpf AND f.senha = :senha";
         return getEntityManager()
                 .createQuery(jpql, Funcionario.class)

@@ -1,5 +1,6 @@
 package com.naturagro.ui;
 
+import com.naturagro.models.Funcionario;
 import com.naturagro.ui.components.SwingMenuPrincipal;
 
 import javax.swing.*;
@@ -12,6 +13,7 @@ public class ControladorSwing {
     private Map<String, JFrame> janelas = new HashMap<>();
     private JFrame janelaAtual;
     private String tipoUsuario; // Variável para armazenar o tipo de usuário
+    private Funcionario funcionarioLogado;
 
     // Método para adicionar todas as Janelas existentes no main
     public void adicionarJanela(String nome, JFrame janela) {
@@ -37,18 +39,22 @@ public class ControladorSwing {
         }
     }
 
-    // Método para definir o tipo de usuário
+    // Méto_do para definir o tipo de usuário
     public void definirTipoUsuario(String tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
     }
 
-    // Método para obter o tipo de usuário
+    // Méto_do para obter o tipo de usuário
     public String getTipoUsuario() {
         return tipoUsuario;
     }
 
-    // Método para limpar o campo de texto
+    // Méto_do para limpar o campo de texto
     public void limparCampo(JTextField campo) {
         campo.setText("");
     }
+
+    public void definirFuncionarioLogado(Funcionario funcionarioLogado) {this.funcionarioLogado = funcionarioLogado; }
+
+    public Funcionario getFuncionarioLogado() {return funcionarioLogado; }
 }
