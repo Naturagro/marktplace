@@ -79,21 +79,21 @@ public class ProdutoService extends DAO<Produto> {
         TypedQuery<Object[]> query = em.createQuery(jpql, Object[].class);
         return query.getResultList();
     }
-    public String verificarStatusEstoque(Long id) {
-        EntityManager em = getEntityManager();
-        Produto produto = em.find(Produto.class, id);
 
-        if (produto == null) {
-            return "❌ Produto não encontrado!";
-        }
 
-        return produto.getQuantidadeEmEstoque() > 0
-                ? "✅ O produto '" + produto.getNome() + "' tem estoque disponível (" + produto.getQuantidadeEmEstoque() + " unidades)."
-                : "⚠️ O produto '" + produto.getNome() + "' está sem estoque!";
-    }
-
-    }
-
+//    public String verificarStatusEstoque(Long id) {
+//        EntityManager em = getEntityManager();
+//        Produto produto = em.find(Produto.class, id);
+//
+//        if (produto == null) {
+//            return "❌ Produto não encontrado!";
+//        }
+//
+//        return produto.getQuantidadeEmEstoque() > 0
+//                ? "✅ O produto '" + produto.getNome() + "' tem estoque disponível (" + produto.getQuantidadeEmEstoque() + " unidades)."
+//                : "⚠️ O produto '" + produto.getNome() + "' está sem estoque!";
+//    }
+}
 
 
 //    //  Atualizar Estoque após Venda
