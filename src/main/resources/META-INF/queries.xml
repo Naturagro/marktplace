@@ -14,7 +14,7 @@
         <query>SELECT distinct p FROM Produto p WHERE p.categoria = :categoria</query>
     </named-query>
     <named-query name="Produto.buscarPorId">
-        <query>SELECT p FROM Produto p WHERE p.id = :id</query>
+        <query>SELECT p FROM Produto p WHERE CAST(p.id AS string) LIKE :id</query>
     </named-query>
 
 

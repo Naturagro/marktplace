@@ -43,6 +43,7 @@ public class JDialogVendas extends JDialog {
 	private JTextField pesquisaTxtField;
 	private JTextField quantidadeTxtField;
 	private static ProdutoSelecionadoListener listener;
+	JComboBox<String> filtroBox = new JComboBox();
 
 	/**
 	 * Launch the application.
@@ -155,31 +156,8 @@ public class JDialogVendas extends JDialog {
 			// mé_todo chamado na mudança
 			private void onTextChanged() {
 				System.out.println("Texto atualizado: " + pesquisaTxtField.getText());
-
-				DefaultTableModel model = (DefaultTableModel) table.getModel();
-
-				// Remove o listener antes de modificar a tabela para evitar exceções
-				TableModelListener listener = model.getTableModelListeners()[0];
-				model.removeTableModelListener(listener);
-
-				model.setRowCount(0); // Remove todas as linhas
-
-				List<Produto> consultaNome = produtoService.buscarPorNome(pesquisaTxtField.getText());
-
-				for (Produto produto : consultaNome) {
-					Object[] linha = {
-							produto.getId(),
-							produto.getCategoria(),
-							produto.getDescricao(),
-							produto.getNome(),
-							produto.getPreco(),
-					};
-					model.addRow(linha);
-
-					// Reinsere o listener depois de atualizar os dados
-					model.addTableModelListener(listener);
+				atualizarTabela();
 				}
-			}
 		});
 
 		JLabel filtrarLabel = new JLabel("Filtrar Pesquisa Por:");
@@ -189,7 +167,7 @@ public class JDialogVendas extends JDialog {
 		filtrarLabel.setBounds(690, 44, 272, 25);
 		camadas.add(filtrarLabel);
 
-		JComboBox<String> filtroBox = new JComboBox();
+		// ComboBox
 		filtroBox.setModel(new DefaultComboBoxModel<>(new String[] {"Nome","Código"}));
 		filtroBox.setBackground(new Color(83, 131, 5));
 		filtroBox.setFont(new Font("Comic Sans MS", Font.PLAIN, 24));
@@ -254,5 +232,53 @@ public class JDialogVendas extends JDialog {
 				});
 			}
 		}
+	}
+
+	private void atualizarTabela() {
+		ProdutoService produtoService = new ProdutoService();
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+		// Remove o listener antes de modificar a tabela para evitar exceções
+		TableModelListener listener = model.getTableModelListeners()[0];
+		model.removeTableModelListener(listener);
+
+		model.setRowCount(0); // Remove todas as linhas
+
+        if (filtroBox.getSelectedItem() == "Nome") {
+            List<Produto> consultaNome = produtoService.buscarPorNome(pesquisaTxtField.getText());
+
+            for (Produto produto : consultaNome) {
+                Object[] linha = {
+                        produto.getId(),
+                        produto.getCategoria(),
+                        produto.getDescricao(),
+                        produto.getNome(),
+                        produto.getPreco(),
+                };
+                model.addRow(linha);
+
+                // Reinsere o listener depois de atualizar os dados
+                model.addTableModelListener(listener);
+            }
+        } else {
+			List<Produto> consultaNome = produtoService.buscarPorId(pesquisaTxtField.getText());
+
+			for (Produto produto : consultaNome) {
+				Object[] linha = {
+						produto.getId(),
+						produto.getCategoria(),
+						produto.getDescricao(),
+						produto.getNome(),
+						produto.getPreco(),
+				};
+				model.addRow(linha);
+
+				// Reinsere o listener depois de atualizar os dados
+				model.addTableModelListener(listener);
+			}
+		}
+
+        // Notifica a tabela que os dados mudaram
+		model.fireTableDataChanged();
 	}
 }

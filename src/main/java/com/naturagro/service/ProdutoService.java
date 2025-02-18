@@ -41,19 +41,14 @@ public class ProdutoService extends DAO<Produto> {
         return query.getResultList();
     }
 
-    // Buscar produto por ID
-    public Produto buscarPorId(int id) {
+    // Buscar produto por parte do ID (Código de barras)
+    public List<Produto> buscarPorId(String idParte) {
         EntityManager em = getEntityManager();
         TypedQuery<Produto> query = em.createNamedQuery("Produto.buscarPorId", Produto.class);
-        query.setParameter("id", id);
+        query.setParameter("id", "%" + idParte + "%");  // Usa LIKE para buscar parcialmente
 
-        try {
-            return query.getSingleResult();
-        } catch (NoResultException e) {
-            return null; // Retorna null caso não encontre o produto
-        }
+        return query.getResultList();
     }
-
 
     //  Buscar produtos por categoria
     public List<Produto> buscarPorCategoria(CategoriaProduto categoria) {
