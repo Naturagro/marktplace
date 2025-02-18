@@ -1,6 +1,7 @@
 package com.naturagro.models;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.time.LocalDate;
@@ -14,7 +15,7 @@ public class Lote {
     private Long id;
     private LocalDate dataEntrada;
     private LocalDate dataVencimento;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Produto produto;
     private Integer quantidade;
 
