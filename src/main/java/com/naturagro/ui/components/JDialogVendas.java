@@ -9,15 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -29,8 +21,6 @@ import com.naturagro.service.ProdutoService;
 import com.naturagro.ui.ProdutoSelecionadoListener;
 
 import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
 
 public class JDialogVendas extends JDialog {
 
@@ -214,8 +204,20 @@ public class JDialogVendas extends JDialog {
 
 							if (listener != null) {
 								// Manda pra o SwingVendas através da interface listener
-								Integer quantidade = Integer.parseInt(quantidadeTxtField.getText());
-								listener.onProdutoSelecionado(produtoAdicionado,quantidade);
+                                Integer quantidade = null;
+								try {
+									// Validando o campo de quantidade
+									quantidade = Integer.parseInt(quantidadeTxtField.getText());
+
+									if (quantidade <= 0) {
+										JOptionPane.showMessageDialog(null, "A quantidade deve ser maior que zero!", "Erro", JOptionPane.ERROR_MESSAGE);
+										return;
+									}
+
+									listener.onProdutoSelecionado(produtoAdicionado, quantidade);
+								} catch (NumberFormatException ex) {
+									JOptionPane.showMessageDialog(null, "Digite um número válido!", "Erro", JOptionPane.ERROR_MESSAGE);
+								}
 							}
 						}
 					}

@@ -169,7 +169,6 @@ public class SwingVendas extends JFrame {
 				LoteService loteService = new LoteService();
 				Double totalAcumulado = 0.0;
 				List<Produto> produtos = new ArrayList<>();
-				List<Lote> lotesDisponiveis = new ArrayList<>();
 				boolean temEstoque = false;
 				Map<Produto, Integer> mapaVendas = new HashMap<>();
 				Long id;
@@ -211,7 +210,6 @@ public class SwingVendas extends JFrame {
 
 						// Consultando e ajustando o estoque
 						Lote lote = loteService.consultarLotePorProduto(produto, quantidadeVendida);
-						System.out.println("--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 						if (lote != null) {
 							System.out.println(lote.getQuantidade());
 							lote.setQuantidade(lote.getQuantidade() - quantidadeVendida);
@@ -246,7 +244,6 @@ public class SwingVendas extends JFrame {
 					loteService.rollBackT();
 					JOptionPane.showMessageDialog(null, "Erro ao processar a venda: " + ex.getMessage());
 				} finally {
-					System.out.println("Cheguei no final");
 					loteService.fecharT(); // Encerra a transação
 				}
 			}

@@ -164,18 +164,51 @@ public class SwingCadastroProdutos extends JFrame {
 		EditarButton.setBounds(378, 595, 240, 50);
 		camadas.add(EditarButton);
 		// Função do botão editar
+		// Botão Editar
 		EditarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// todo não sei se é de boa de abrir transação aqui, se pa isso tinha que tar no método do DAO
+				// Abre transação
 				produtoService.abrirT();
-				for (Produto produto : produtosAlteradosMap.values()) {
-					produtoService.mesclar(produto);
-				}
-				produtoService.fecharT();
 
-				atualizarTabela();
+				try {
+					for (Produto produto : produtosAlteradosMap.values()) {
+						// Verifica se o preço é válido antes de salvar
+						try {
+							Double.parseDouble(produto.getPreco().toString()); // Testa a conversão
+						} catch (NumberFormatException ex) {
+							JOptionPane.showMessageDialog(null,
+									"Erro: O preço deve ser um número válido!",
+									"Erro de Entrada",
+									JOptionPane.ERROR_MESSAGE);
+
+							// Fecha a transação sem salvar e interrompe a execução
+							produtoService.fecharT();
+							return;
+						}
+
+						// Se passou nas validações, salva no banco
+						produtoService.mesclar(produto);
+					}
+
+					// Se chegou aqui sem erros, fecha a transação e atualiza a tabela
+					produtoService.fecharT();
+					JOptionPane.showMessageDialog(null,
+							"Produtos editados com sucesso!",
+							"Sucesso",
+							JOptionPane.INFORMATION_MESSAGE);
+
+					atualizarTabela();
+				} catch (Exception ex) {
+					// Em caso de erro inesperado, fecha a transação e exibe um erro genérico
+					produtoService.fecharT();
+					JOptionPane.showMessageDialog(null,
+							"Erro ao editar os produtos: " + ex.getMessage(),
+							"Erro",
+							JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
+
 
 
 		// Botão Excluir

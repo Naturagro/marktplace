@@ -91,30 +91,67 @@ public class JDialogControleEstoque extends JDialog {
                 getRootPane().setDefaultButton(salvarButton);
                 salvarButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        ProdutoService produtoService = new ProdutoService();
-                        LoteService loteService = new LoteService();
-
-                        long codigoBarrasResult = Long.parseLong(codigoDeBarrasTxtField.getText());
-                        int quantidadeAdd = Integer.valueOf(quantidadeTxtField.getText());
-                        String dataVencimentoField = dataVencimentoTxtField.getText();
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                        LocalDate dataVencimentoResult = null;
-
                         try {
-                            dataVencimentoResult = LocalDate.parse(dataVencimentoField, formatter);
-                        } catch (DateTimeParseException ex) {
-                            JOptionPane.showMessageDialog(null, "Data inválida! Use o formato dd-MM-yyyy.", "Erro", JOptionPane.ERROR_MESSAGE);
-                            return; // Sai da execução se a data for inválida
+                            ProdutoService produtoService = new ProdutoService();
+                            LoteService loteService = new LoteService();
+
+                            long codigoBarrasResult;
+                            int quantidadeAdd;
+                            LocalDate dataVencimentoResult = null;
+
+                            // Validação do código de barras
+                            try {
+                                codigoBarrasResult = Long.parseLong(codigoDeBarrasTxtField.getText());
+                            } catch (NumberFormatException ex) {
+                                JOptionPane.showMessageDialog(null, "Código de barras inválido! Digite apenas números.", "Erro", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+
+                            // Validação da quantidade
+                            try {
+                                quantidadeAdd = Integer.parseInt(quantidadeTxtField.getText());
+                                if (quantidadeAdd <= 0) {
+                                    JOptionPane.showMessageDialog(null, "A quantidade deve ser maior que zero!", "Erro", JOptionPane.ERROR_MESSAGE);
+                                    return;
+                                }
+                            } catch (NumberFormatException ex) {
+                                JOptionPane.showMessageDialog(null, "Quantidade inválida! Digite um número inteiro.", "Erro", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+
+                            // Validação da data de vencimento
+                            String dataVencimentoField = dataVencimentoTxtField.getText();
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                            try {
+                                dataVencimentoResult = LocalDate.parse(dataVencimentoField, formatter);
+                                if (dataVencimentoResult.isBefore(LocalDate.now())) {
+                                    JOptionPane.showMessageDialog(null, "A data de vencimento não pode ser no passado!", "Erro", JOptionPane.ERROR_MESSAGE);
+                                    return;
+                                }
+                            } catch (DateTimeParseException ex) {
+                                JOptionPane.showMessageDialog(null, "Data inválida! Use o formato dd-MM-yyyy.", "Erro", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+
+                            // Obter produto
+                            Produto produto = produtoService.obterPorID(codigoBarrasResult);
+                            if (produto == null) {
+                                JOptionPane.showMessageDialog(null, "Produto não encontrado!", "Erro", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+
+                            // Criar e salvar lote
+                            Lote lote = new Lote(produto, LocalDate.now(), quantidadeAdd, dataVencimentoResult);
+                            loteService.incluirAtomico(lote);
+
+                            JOptionPane.showMessageDialog(null, "Lote adicionado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
+                        } catch (Exception ex) {
+                            JOptionPane.showMessageDialog(null, "Erro ao salvar o lote: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                         }
-
-
-                        Lote lote = new Lote(produtoService.obterPorID(codigoBarrasResult), LocalDate.now(), quantidadeAdd, dataVencimentoResult);
-
-                        loteService.incluirAtomico(lote);
-
-                        JOptionPane.showMessageDialog(null, "Lote adicionado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                     }
                 });
+
             }
 
             {
