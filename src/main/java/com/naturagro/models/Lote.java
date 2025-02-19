@@ -22,13 +22,14 @@ public class Lote {
     public Lote(
             Produto produto,
             LocalDate dataEntrada,
-            Integer quantidade
+            Integer quantidade,
+            LocalDate dataVencimento
     ) {
         this.id = Long.parseLong(generateKey());
         this.dataEntrada = dataEntrada;
         this.produto = produto;
         this.quantidade = quantidade;
-        this.dataVencimento = calcularVencimento(produto);
+        this.dataVencimento = dataVencimento;
 
     }
 
@@ -36,42 +37,42 @@ public class Lote {
 
     }
 
-    private LocalDate calcularVencimento(Produto produto) {
-        LocalDate dataVencimento = LocalDate.now();
-        switch (produto.getCategoria()) {
-            case Frutas:
-                dataVencimento = dataVencimento.plusDays(7);
-                break;
-            case Carnes:
-                dataVencimento = dataVencimento.plusDays(30);
-                break;
-            case Peixes:
-                dataVencimento = dataVencimento.plusDays(20);
-                break;
-            case Bebidas:
-                dataVencimento = dataVencimento.plusDays(365);
-                break;
-            case Higiene:
-                dataVencimento = dataVencimento.plusDays(830);
-                break;
-            case Limpeza:
-                dataVencimento = dataVencimento.plusDays(830);
-                break;
-            case Verduras:
-                dataVencimento = dataVencimento.plusDays(7);
-                break;
-            case Alimentos:
-                dataVencimento = dataVencimento.plusDays(180);
-                break;
-            case Cosmeticos:
-                dataVencimento = dataVencimento.plusDays(1095);
-                break;
-            case Laticinios:
-                dataVencimento = dataVencimento.plusDays(15);
-                break;
-        }
-        return dataVencimento;
-    }
+//    private LocalDate calcularVencimento(Produto produto) {
+//        LocalDate dataVencimento = LocalDate.now();
+//        switch (produto.getCategoria()) {
+//            case Frutas:
+//                dataVencimento = dataVencimento.plusDays(7);
+//                break;
+//            case Carnes:
+//                dataVencimento = dataVencimento.plusDays(30);
+//                break;
+//            case Peixes:
+//                dataVencimento = dataVencimento.plusDays(20);
+//                break;
+//            case Bebidas:
+//                dataVencimento = dataVencimento.plusDays(365);
+//                break;
+//            case Higiene:
+//                dataVencimento = dataVencimento.plusDays(830);
+//                break;
+//            case Limpeza:
+//                dataVencimento = dataVencimento.plusDays(830);
+//                break;
+//            case Verduras:
+//                dataVencimento = dataVencimento.plusDays(7);
+//                break;
+//            case Alimentos:
+//                dataVencimento = dataVencimento.plusDays(180);
+//                break;
+//            case Cosmeticos:
+//                dataVencimento = dataVencimento.plusDays(1095);
+//                break;
+//            case Laticinios:
+//                dataVencimento = dataVencimento.plusDays(15);
+//                break;
+//        }
+//        return dataVencimento;
+//    }
 
     public Long getId() {
         return id;

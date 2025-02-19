@@ -14,7 +14,7 @@ public class GetLoteParam {
         ProdutoService produtoService = new ProdutoService();
         LoteService loteService = new LoteService();
         List<Produto> produtos = produtoService.buscarPorNome("Maçã");
-        Lote lote1 = new Lote(produtos.get(0), LocalDate.now(), 23);
+        Lote lote1 = new Lote(produtos.get(0), LocalDate.now(), 23,LocalDate.now()); // defini a data de vencimento como agr só pq eu n sei oq fazer e isso é só um exemplo
         loteService.incluirAtomico(lote1);
         Lote lote = loteService.consultarLotePorProduto(produtos.get(0), 5);
 

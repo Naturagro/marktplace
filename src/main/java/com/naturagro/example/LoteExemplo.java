@@ -22,7 +22,7 @@ public class LoteExemplo {
         ProdutoService produtoService = new ProdutoService();
         List<Produto> produtos = produtoService.obterTodos();
 
-        Lote lote = new Lote(produtos.get(2), LocalDate.now(), 0);
+        Lote lote = new Lote(produtos.get(2), LocalDate.now(), 0,LocalDate.now()); // defini a data de vencimento como agr só pq eu n sei oq fazer e isso é só um exemplo
 
         LoteService loteService = new LoteService();
         loteService.incluirAtomico(lote);
