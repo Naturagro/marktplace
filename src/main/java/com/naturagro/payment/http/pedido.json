@@ -1,6 +1,10 @@
 {
-  "id": "12345",
-  "tipo": "cartão",
-  "valor": 150.75
+  "transaction_amount": 100.00,
+  "token": "SEU_TOKEN_DO_CARTÃO",
+  "description": "Compra na Naturagro",
+  "payment_method_id": "visa",
+  "installments": 1,
+  "payer": {
+    "email": "cliente@email.com"
+  }
 }
-

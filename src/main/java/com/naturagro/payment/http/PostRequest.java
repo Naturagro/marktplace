@@ -10,10 +10,9 @@ import java.nio.file.Path;
 import java.time.Duration;
 
 public class PostRequest {
-
-
-    public static final String URL_POST = "http://localhost:8080/pagar";
-    public static final String FILE_JSON = "src/main/java/com/naturagro/payment/http/pedido.json";
+    private static final String ACCESS_TOKEN = "APP_USR-2517486585527936-021909-74d18b5986b5cb2c31df3bdd21cbb7a8-1852011805";
+    private static final String URL_POST = "https://api.mercadopago.com/v1/payments";
+    private static final String FILE_JSON = "src/main/java/com/naturagro/payment/http/pedido.json";
 
     public static void main(String[] args) {
         HttpClient client = HttpClient.newHttpClient();
@@ -26,17 +25,16 @@ public class PostRequest {
             }
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .POST(HttpRequest.BodyPublishers.ofFile(filePath))  // Lê o JSON do arquivo
+                    .POST(HttpRequest.BodyPublishers.ofFile(filePath))
                     .timeout(Duration.ofSeconds(10))
-                    .uri(URI.create(URL_POST))  // URL do servidor local
-                    .header("Content-Type", "application/json")  // Define o tipo do conteúdo como JSON
+                    .uri(URI.create(URL_POST))
+                    .header("Authorization", "Bearer " + ACCESS_TOKEN)
+                    .header("Content-Type", "application/json")
                     .build();
 
             client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                    .thenApply(HttpResponse::body)  // Extrai o corpo da resposta
-                    .thenAccept(response -> {
-                        System.out.println("Resposta da API de pagamento: " + response);
-                    })
+                    .thenApply(HttpResponse::body)
+                    .thenAccept(System.out::println)
                     .join();
 
         } catch (IOException e) {
