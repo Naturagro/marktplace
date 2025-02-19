@@ -182,6 +182,18 @@ public class SwingControleEstoque extends JFrame {
 		innerGbc.weightx = 1;
 		panel.add(BotaoVoltar, innerGbc);
 
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowOpened(java.awt.event.WindowEvent e) {
+				atualizarTabela();
+			}
+
+			@Override
+			public void windowActivated(java.awt.event.WindowEvent e) {
+				atualizarTabela();
+			}
+		});
+
 		// Listener para redimensionar a imagem de fundo quando a janela for redimensionada
 		addComponentListener(new java.awt.event.ComponentAdapter() {
 			public void componentResized(java.awt.event.ComponentEvent componentEvent) {
@@ -222,3 +234,5 @@ public class SwingControleEstoque extends JFrame {
 		model.fireTableDataChanged();
 	}
 }
+
+

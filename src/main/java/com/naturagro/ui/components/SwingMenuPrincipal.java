@@ -99,7 +99,7 @@ public class SwingMenuPrincipal extends JFrame {
 		String[] acoes;
 
 		if ("GERENTE".equals(tipoUsuario)) {
-			botoes = new String[]{"Vendas", "Relatórios", "Controle de Estoque", "Cadastrar", "Cadastrar produtos", "Sair"};
+			botoes = new String[]{"Vendas", "Relatórios", "Controle de Estoque", "Cadastrar Usuário", "Cadastrar produtos", "Sair"};
 			acoes = new String[]{"vendas", "relatorios", "controleEstoque", "cadastrar","cadastroProdutos", "sair"};
 		} else if ("OPERADOR".equals(tipoUsuario)) {
 			botoes = new String[]{"Vendas", "Relatórios","Sair"};

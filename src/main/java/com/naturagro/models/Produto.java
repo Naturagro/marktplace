@@ -35,7 +35,7 @@ public class Produto {
         this.nome = nome;
     }
 
-    protected Produto() {
+    public Produto() { // precisei deixar publico pq eu tive q criar um objeto Produto só pra usar em uma logica lá da UI, daí n podia ter id novo
     }
 
 

@@ -169,51 +169,87 @@ public class SwingVendas extends JFrame {
 				LoteService loteService = new LoteService();
 				Double totalAcumulado = 0.0;
 				List<Produto> produtos = new ArrayList<>();
+				List<Lote> lotesDisponiveis = new ArrayList<>();
 				boolean temEstoque = false;
+				Map<Produto, Integer> mapaVendas = new HashMap<>();
+				Long id;
+				Integer quantidadeVendida = 0;
+				Produto produto = null;
 
 				Funcionario funcionario = controladorDeTela.getFuncionarioLogado();
-				// Cria Lista de produtos a serem vendidos (para a venda), e da Baixa no estoque
-				for (int i = 0; i < model.getRowCount(); i++) {
 
-					Long id = (Long) table.getValueAt(i,0);
-					Integer quantidadeVendida = (int) table.getValueAt(i,3);
 
-					Produto produto = produtoService.obterPorID(id);
-					produtos.add(produto);
+				try {
+					loteService.abrirT(); // Inicia a transação
 
-					Lote loteReduzido = loteService.consultarLotePorProduto(produto,quantidadeVendida); // Retorna um lote do produto especificado com estoque
+					// Criação da lista de produtos e verificação de estoque
+					for (int i = 0; i < model.getRowCount(); i++) {
+						id = (Long) table.getValueAt(i, 0);
+						quantidadeVendida = (int) table.getValueAt(i, 3);
 
-					if (loteReduzido != null) {
-						loteReduzido.setQuantidade(loteReduzido.getQuantidade() - quantidadeVendida);
-						System.out.println(loteReduzido.getId());
-						System.out.println(loteReduzido.getQuantidade());
-						loteService.abrirT();
-						loteService.mesclar(loteReduzido);
-						loteService.fecharT();
-						temEstoque = true;
-					} else {
-						JOptionPane.showMessageDialog(null, "Não há estoque suficiente para o produto: " + produto.getNome());
-						temEstoque = false;
+						produto = produtoService.obterPorID(id);
+
+						if (!mapaVendas.containsKey(produto)) {
+							mapaVendas.put(produto, quantidadeVendida);
+						} else {
+							mapaVendas.put(produto, mapaVendas.getOrDefault(produto, 0) + quantidadeVendida);
+						}
+
+                        // Criando uma cópia pra não usar a mesma variavel produto q é usada em uma porrada de coisa diferente
+                        Produto produtoClone = new Produto();
+                        produtoClone.setId(produto.getId());  // Mantendo o ID original
+                        produtoClone.setNome(produto.getNome());
+                        produtoClone.setPreco(produto.getPreco() * quantidadeVendida); // Ajustando o preço só para a venda
+
+                        produtos.add(produtoClone);
 					}
 
+
+					for (Map.Entry<Produto, Integer> entry : mapaVendas.entrySet()) {
+						produto = entry.getKey();
+						quantidadeVendida = entry.getValue();
+
+						// Consultando e ajustando o estoque
+						Lote lote = loteService.consultarLotePorProduto(produto, quantidadeVendida);
+						System.out.println("--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+						if (lote != null) {
+							System.out.println(lote.getQuantidade());
+							lote.setQuantidade(lote.getQuantidade() - quantidadeVendida);
+							System.out.println(lote.getQuantidade());
+							loteService.mesclar(lote);
+							temEstoque = true;
+						} else {
+							JOptionPane.showMessageDialog(null, "Não há estoque suficiente para o produto: " + produto.getNome());
+							temEstoque = false;
+							break; // Interrompe o loop caso não tenha estoque
+						}
+					}
+
+					if (temEstoque) {
+						// Cria e salva a venda
+						Venda venda = new Venda(funcionario, produtos);
+						vendaService.salvarVenda(venda);
+
+						model.setRowCount(0); // Remove todas as linhas da tabela
+						// Atualiza o valor total
+						for (int i = 0; i < model.getRowCount(); i++) {
+							String valorStr = model.getValueAt(i, 4).toString().replace("R$", "").trim().replace(",", ".");
+							totalAcumulado += Double.parseDouble(valorStr);
+						}
+						valorTotalLabel.setText("R$ " + totalAcumulado.toString());
+					} else {
+						// Se não tiver estoque suficiente, faz o rollback
+						loteService.rollBackT();
+					}
+				} catch (Exception ex) {
+					// Em caso de exceção, realiza o rollback
+					loteService.rollBackT();
+					JOptionPane.showMessageDialog(null, "Erro ao processar a venda: " + ex.getMessage());
+				} finally {
+					System.out.println("Cheguei no final");
+					loteService.fecharT(); // Encerra a transação
 				}
-
-                if (temEstoque = true) { // Se tiver um lote adequado para a venda,faz ela e salva no BD
-                    // Cria a venda e salva no BD
-                    Venda venda = new Venda(funcionario,produtos);
-                    vendaService.salvarVenda(venda);
-
-                    model.setRowCount(0); // Remove todas as linhas
-
-                    // Calcular total acumulado
-                    for (int i = 0; i < model.getRowCount(); i++) {
-                        String valorStr = model.getValueAt(i, 4).toString().replace("R$", "").trim().replace(",", ".");
-                        totalAcumulado += Double.parseDouble(valorStr);
-                    }
-                    String totalAcumuladoStr = totalAcumulado.toString();
-                    valorTotalLabel.setText("R$ "+totalAcumuladoStr);
-                } else {} // Se não tiver o lote, não faz nada
-            }
+			}
 		});
 
 		// Botão Voltar

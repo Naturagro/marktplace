@@ -29,6 +29,14 @@ public class LoteService extends DAO<Lote> {
         return lotes.get(0); // Retorna o primeiro lote disponível (por exemplo, o de validade mais próxima)
     }
 
+    public LoteService rollBackT() {
+        EntityManager em = getEntityManager();
+        if (em.getTransaction().isActive()) {
+            em.getTransaction().rollback();
+        }
+        return this;
+    }
+
 //
 //        <named-query name="Lote.consultarPorProdutoQntd">
 //            <query>SELECT l FROM Lote l WHERE l.quantidade > :quantidade and l.produto_id = :produto_id ORDER BY
