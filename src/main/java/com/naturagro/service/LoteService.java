@@ -6,6 +6,7 @@ import com.naturagro.models.Produto;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.util.List;
 
 public class LoteService extends DAO<Lote> {
     public LoteService() {
@@ -13,17 +14,21 @@ public class LoteService extends DAO<Lote> {
     }
 
     public Lote consultarLotePorProduto(Produto produto, int quantidade) {
-//        Lote lote = consultarUm("Lote.consultarPorProdutoQntd", quantidade, produto.getId());
-//        return lote;
-        String consulta = "SELECT l FROM Lote l WHERE l.produto.id = :produtoId AND l.quantidade >= :quantidade";
+        String consulta = "SELECT l FROM Lote l WHERE l.produto.id = :produtoId AND l.quantidade >= :quantidade ORDER BY l.dataVencimento ASC";
         EntityManager em = getEntityManager();
         TypedQuery<Lote> query = em.createQuery(consulta, Lote.class);
         query.setParameter("quantidade", quantidade);
         query.setParameter("produtoId", produto.getId());
 
-        return query.getSingleResult();
+        List<Lote> lotes = query.getResultList();
 
+        if (lotes.isEmpty()) {
+            return null; // Nenhum lote encontrado
+        }
+
+        return lotes.get(0); // Retorna o primeiro lote disponível (por exemplo, o de validade mais próxima)
     }
+
 //
 //        <named-query name="Lote.consultarPorProdutoQntd">
 //            <query>SELECT l FROM Lote l WHERE l.quantidade > :quantidade and l.produto_id = :produto_id ORDER BY

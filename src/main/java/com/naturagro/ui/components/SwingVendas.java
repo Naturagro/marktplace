@@ -14,10 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.naturagro.models.Funcionario;
-import com.naturagro.models.FuncionarioFactory;
-import com.naturagro.models.Produto;
-import com.naturagro.models.Venda;
+import com.naturagro.models.*;
+import com.naturagro.service.LoteService;
 import com.naturagro.service.ProdutoService;
 import com.naturagro.service.VendaService;
 import com.naturagro.ui.ControladorSwing;
@@ -168,8 +166,11 @@ public class SwingVendas extends JFrame {
 		BotaoFinalizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				LoteService loteService = new LoteService();
 				Double totalAcumulado = 0.0;
 				List<Produto> produtos = new ArrayList<>();
+				boolean temEstoque = false;
+
 				Funcionario funcionario = controladorDeTela.getFuncionarioLogado();
 				// Cria Lista de produtos a serem vendidos (para a venda), e da Baixa no estoque
 				for (int i = 0; i < model.getRowCount(); i++) {
@@ -180,25 +181,39 @@ public class SwingVendas extends JFrame {
 					Produto produto = produtoService.obterPorID(id);
 					produtos.add(produto);
 
-					// todo acredito que isso devia sair daqui e ser feito automatico na parte de vendas
-					//produtoService.atualizarEstoque(id,quantidadeVendida);
+					Lote loteReduzido = loteService.consultarLotePorProduto(produto,quantidadeVendida); // Retorna um lote do produto especificado com estoque
+
+					if (loteReduzido != null) {
+						loteReduzido.setQuantidade(loteReduzido.getQuantidade() - quantidadeVendida);
+						System.out.println(loteReduzido.getId());
+						System.out.println(loteReduzido.getQuantidade());
+						loteService.abrirT();
+						loteService.mesclar(loteReduzido);
+						loteService.fecharT();
+						temEstoque = true;
+					} else {
+						JOptionPane.showMessageDialog(null, "Não há estoque suficiente para o produto: " + produto.getNome());
+						temEstoque = false;
+					}
+
 				}
 
-				// Cria a venda e salva no BD
-				Venda venda = new Venda(funcionario,produtos);
-				vendaService.salvarVenda(venda);
+                if (temEstoque = true) { // Se tiver um lote adequado para a venda,faz ela e salva no BD
+                    // Cria a venda e salva no BD
+                    Venda venda = new Venda(funcionario,produtos);
+                    vendaService.salvarVenda(venda);
 
-				model.setRowCount(0); // Remove todas as linhas
+                    model.setRowCount(0); // Remove todas as linhas
 
-				// Calcular total acumulado
-				for (int i = 0; i < model.getRowCount(); i++) {
-					String valorStr = model.getValueAt(i, 4).toString().replace("R$", "").trim().replace(",", ".");
-					totalAcumulado += Double.parseDouble(valorStr);
-				}
-				String totalAcumuladoStr = totalAcumulado.toString();
-				valorTotalLabel.setText("R$ "+totalAcumuladoStr);
-
-			}
+                    // Calcular total acumulado
+                    for (int i = 0; i < model.getRowCount(); i++) {
+                        String valorStr = model.getValueAt(i, 4).toString().replace("R$", "").trim().replace(",", ".");
+                        totalAcumulado += Double.parseDouble(valorStr);
+                    }
+                    String totalAcumuladoStr = totalAcumulado.toString();
+                    valorTotalLabel.setText("R$ "+totalAcumuladoStr);
+                } else {} // Se não tiver o lote, não faz nada
+            }
 		});
 
 		// Botão Voltar
