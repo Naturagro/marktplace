@@ -31,7 +31,7 @@
         <query>SELECT f FROM Funcionario f</query>
     </named-query>
 
-    <!--Queris for Venda -->
+    <!--Queries for Venda -->
     <!-- Busca todas as vendas em um período -->
     <named-query name="Venda.buscarPorPeriodo">
         <query>SELECT v FROM Venda v WHERE v.dataCompra BETWEEN :inicio AND :fim</query>
@@ -62,5 +62,6 @@
         <query>SELECT SUM(v.valorTotal) FROM Venda v WHERE v.dataCompra BETWEEN :inicio AND :fim</query>
     </named-query>
 
+    <!-- Queries for Lote -->
 
 </entity-mappings>
