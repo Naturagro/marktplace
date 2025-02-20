@@ -68,7 +68,10 @@ public abstract class DAO <E>{
     }
 
     public List<E> obterTodos() {
-        return this.obterTodos(10, 0);
+        String jpql = "SELECT e FROM " +classe.getName()+" e";
+        TypedQuery<E> query = em.createQuery(jpql, classe);
+
+        return query.getResultList();
     }
 
     public List<E> obterTodos(int qtde, int deslocamento) {
