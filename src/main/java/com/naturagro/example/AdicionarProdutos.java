@@ -4,12 +4,11 @@ import com.naturagro.models.CategoriaProduto;
 import com.naturagro.models.Produto;
 import com.naturagro.service.ProdutoService;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
 public class AdicionarProdutos {
-    public static void main(String[] args) {
+    public void adicionarP() {
 
         // Frutas
         Produto fruta1 = new Produto("Maçã", "Maçã vermelha fresca",2.50,  CategoriaProduto.Frutas);
