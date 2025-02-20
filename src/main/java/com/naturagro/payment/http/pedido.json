@@ -1,10 +1,8 @@
 {
-  "transaction_amount": 100.00,
-  "token": "SEU_TOKEN_DO_CARTÃO",
-  "description": "Compra na Naturagro",
-  "payment_method_id": "visa",
-  "installments": 1,
-  "payer": {
-    "email": "cliente@email.com"
-  }
+    "payment_method_id": "visa",
+    "installments": 1,
+    "transaction_amount": 100,
+    "description": "Compra de Teste",
+    "payer": {"email": "teste@gmail.com"},
+    "token": "f25e3f84450e2456f4aeeee7e1d97c19"
 }

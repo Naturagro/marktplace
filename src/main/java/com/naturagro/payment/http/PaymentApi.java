@@ -28,7 +28,7 @@ public class PaymentApi {
         server.createContext("/consultar", new GetPaymentHandler());
         server.start();
 
-        System.out.println("🚀 API de Pagamento rodando em http://localhost:" + PORT);
+        System.out.println(" API de Pagamento rodando");
     }
 
     static class PaymentHandler implements HttpHandler {
@@ -60,13 +60,13 @@ public class PaymentApi {
 
                 String idempotencyKey = "test-key-1234";
 
-                System.out.println("X-Idempotency-Key: " + idempotencyKey); // Debug para verificar
+                System.out.println("X-Idempotency-Key: " + idempotencyKey);
 
                 HttpRequest request = HttpRequest.newBuilder()
                         .uri(URI.create(BASE_URL + "/payments"))
                         .header("Authorization", "Bearer " + ACCESS_TOKEN)
                         .header("Content-Type", "application/json")
-                        .header("X-Idempotency-Key", idempotencyKey)  // ✅ Garantindo que o cabeçalho está aqui
+                        .header("X-Idempotency-Key", idempotencyKey)
                         .POST(HttpRequest.BodyPublishers.ofString(paymentData.toString()))
                         .build();
 
