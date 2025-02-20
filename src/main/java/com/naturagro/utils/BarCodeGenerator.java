@@ -24,9 +24,9 @@ public class BarCodeGenerator {
             Path baseDir;
 
             if (os.contains("win")) {
-                baseDir = Paths.get(System.getProperty("user.home"), "imagens", "barcode");
+                baseDir = Paths.get(System.getProperty("user.home"), "imagens", "naturagro", "barcode");
             } else {
-                baseDir = Paths.get(System.getProperty("user.home"), "Documents", "barcode");
+                baseDir = Paths.get(System.getProperty("user.home"), "Documents","naturagro", "barcode");
             }
 
             if (!baseDir.toFile().exists()) {
