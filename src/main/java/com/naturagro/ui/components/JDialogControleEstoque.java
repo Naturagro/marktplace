@@ -44,22 +44,6 @@ public class JDialogControleEstoque extends JDialog {
     private JTextField dataVencimentoTxtField;
     private JTextField quantidadeTxtField;
 
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        try {
-            JDialogControleEstoque dialog = new JDialogControleEstoque();
-            dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-            dialog.setVisible(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Create the dialog.
-     */
     public JDialogControleEstoque() {
         setTitle("Adicão de produtos para venda");
         setBounds(100, 100, 1280, 720);
@@ -226,6 +210,16 @@ public class JDialogControleEstoque extends JDialog {
         QuantidadeLabel.setBounds(391, 506, 222, 51);
         camadas.setLayer(QuantidadeLabel, 1);
         camadas.add(QuantidadeLabel);
+
+        table.getSelectionModel().addListSelectionListener(event -> {
+            if (!event.getValueIsAdjusting() && table.getSelectedRow() != -1) {
+                // Obtém o código da primeira coluna da linha selecionada
+                Object codigo = table.getValueAt(table.getSelectedRow(), 0);
+                if (codigo != null) {
+                    codigoDeBarrasTxtField.setText(codigo.toString());
+                }
+            }
+        });
 
         {
             JPanel buttonPane = new JPanel();
