@@ -10,7 +10,7 @@ import com.naturagro.service.VendaService;
 import java.util.List;
 
 public class AdicionarVenda {
-    public static void main(String[] args) {
+    public void adicionarV() {
 
         //A persistência das vendas no banco é provavelmente a operação mais complexa que teremos
         ProdutoService produtoService = new ProdutoService();
