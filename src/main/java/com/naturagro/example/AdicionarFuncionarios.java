@@ -37,6 +37,8 @@ public class AdicionarFuncionarios {
         Funcionario v = funcionarioFactory.criarGerente("Victor","08272635461", "123456");
         Funcionario zero = funcionarioFactory.criarGerente("Zero", "0", "0");
         Funcionario admin = funcionarioFactory.criarGerente("admin", "admin", "admin");
+        Funcionario Pedro = funcionarioFactory.criarGerente("Pedro", "15360004428","123456");
+        Funcionario Chico = funcionarioFactory.criarGerente("Chico", "12670092411", "3433");
 
         List<Funcionario> funcionarios = new ArrayList<>();
         funcionarios.add(o);
@@ -45,6 +47,8 @@ public class AdicionarFuncionarios {
         funcionarios.add(v);
         funcionarios.add(zero);
         funcionarios.add(admin);
+        funcionarios.add(Pedro);
+        funcionarios.add(Chico);
         for (Funcionario f : funcionarios) {
             funcionarioService.incluirAtomico(f);
         }
