@@ -142,9 +142,10 @@ public class SwingCadastro extends JFrame {
 			try {
 				AccessControlController controller = new AccessControlController();
 				controller.registerUser(nomeUser, cpf, password, confirmacaopassword);
+				String cpfTratado = cpf.replaceAll("[.\\- ]", "");
+				funcionarioService.incluirAtomico(new Funcionario(nomeUser, cpfTratado, password, cargoSelecionado));
 				JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-				funcionarioService.incluirAtomico(new Funcionario(nomeUser, cpf, password, cargoSelecionado));
-				controladorDeTela.abrirJanela("login");
+				controladorDeTela.abrirJanela("menuPrincipal");
 			} catch (ControlException exception) {
 				JOptionPane.showMessageDialog(cadastrarButton, exception.getMessage());
 			}
