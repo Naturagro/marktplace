@@ -27,6 +27,7 @@ public class SwingVendas extends JFrame {
 	private JLabel backgroundLabel;
 	private JTable table;
 	private DefaultTableModel model;
+	private String totalAcumuladoStr;
 
 	public SwingVendas(ControladorSwing controladorDeTela) {
 		ProdutoService produtoService = new ProdutoService();
@@ -149,7 +150,7 @@ public class SwingVendas extends JFrame {
 							totalAcumulado += Double.parseDouble(valorStr);
 						}
 
-						String totalAcumuladoStr = totalAcumulado.toString();
+						totalAcumuladoStr = totalAcumulado.toString();
 						valorTotalLabel.setText("R$ "+totalAcumuladoStr);
 
 					}
@@ -159,7 +160,7 @@ public class SwingVendas extends JFrame {
 		});
 
 		// Botão Finalizar
-		JButton BotaoFinalizar = new JButton("Finalizar");
+		JButton BotaoFinalizar = new JButton("Pagamento");
 		BotaoFinalizar.setBackground(new Color(83, 131, 5));
 		BotaoFinalizar.setForeground(new Color(255, 255, 255));
 		BotaoFinalizar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
@@ -174,9 +175,9 @@ public class SwingVendas extends JFrame {
 				Long id;
 				Integer quantidadeVendida = 0;
 				Produto produto = null;
+				JDialogPagamento dialog = new JDialogPagamento(totalAcumuladoStr);
 
 				Funcionario funcionario = controladorDeTela.getFuncionarioLogado();
-
 
 				try {
 					loteService.abrirT(); // Inicia a transação
@@ -224,6 +225,7 @@ public class SwingVendas extends JFrame {
 					}
 
 					if (temEstoque) {
+						dialog.setVisible(true); // Vai pra parte de pagamento
 						// Cria e salva a venda
 						Venda venda = new Venda(funcionario, produtos);
 						vendaService.salvarVenda(venda);
