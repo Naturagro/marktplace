@@ -1,311 +1,220 @@
-
 package com.naturagro.ui.components;
 
-import com.naturagro.models.Lote;
 import com.naturagro.models.Produto;
-import com.naturagro.service.LoteService;
 import com.naturagro.service.ProdutoService;
 import com.naturagro.ui.ControladorSwing;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
-
 import java.awt.*;
-import java.awt.event.ActionEvent;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 public class SwingCadastroProdutos extends JFrame {
 	private static final long serialVersionUID = 1L;
-	private JTextField textField;
-	private JLabel label;
 	private JTable table;
 	private ControladorSwing controlador;
-	ProdutoService produtoService = new ProdutoService();
-	TableModelListener model;
-	private Map<Long, Produto> produtosAlteradosMap = new HashMap<>();  // Atributo da classe
+	private ProdutoService produtoService = new ProdutoService();
+	private Map<Long, Produto> produtosAlteradosMap = new HashMap<>();
 
-	// Criando a Tela
 	public SwingCadastroProdutos(ControladorSwing controladorDeTela) {
+		this.controlador = controladorDeTela;
+		setTitle("Cadastro de Produtos");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Menu Inicial");
-		setBounds(0, 0, 1280, 720);
-		JPanel contentPane = new JPanel();
-		contentPane.setBackground(new Color(124, 188, 52));
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
+		setSize(1280, 720);
 		setLocationRelativeTo(null);
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		// Cria o painel principal com GridBagLayout
+		JPanel mainPanel = new JPanel(new GridBagLayout());
+		mainPanel.setBackground(new Color(124, 188, 52));
+		mainPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(mainPanel);
 
-		JLayeredPane camadas = new JLayeredPane();
-		contentPane.add(camadas);
-		camadas.setBounds(0,0,1280,720);
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.insets = new Insets(5, 5, 5, 5);
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.weightx = 1.0;
+		gbc.weighty = 1.0;
 
-		ImageIcon logo = new ImageIcon(getClass().getResource("/images/logo.png"));
-		JLabel logoLabel = new JLabel(logo);
-		logoLabel.setBounds(15,23,98,100);
-		camadas.add(logoLabel,Integer.valueOf(1));
+		// Adiciona o label que contém a imagem de fundo (usando a mesma imagem do SwingVendas)
+		ImageIcon backgroundIcon = new ImageIcon(getClass().getResource("/images/background2edit.png"));
+		JLabel backgroundLabel = new JLabel(backgroundIcon);
+		backgroundLabel.setLayout(new GridBagLayout());
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		mainPanel.add(backgroundLabel, gbc);
 
-		// Definindo o modelo de dados da tabela
-		DefaultTableModel model = new DefaultTableModel() {
-			// Definindo quais colunas serão editaveis
-			@Override
-			public boolean isCellEditable(int row, int column) {
-				if (column == 0) {
-					return false;
-				} if (column == 1) {
-					return false;
-				} else {
-					return true;
-				}
-			}
-		};
+		// Painel sobreposto (transparente) para adicionar os componentes
+		JPanel overlayPanel = new JPanel(new GridBagLayout());
+		overlayPanel.setOpaque(false); // Permite visualizar o fundo
+		GridBagConstraints overlayGbc = new GridBagConstraints();
+		overlayGbc.insets = new Insets(5, 5, 5, 5);
+		overlayGbc.fill = GridBagConstraints.BOTH;
+		overlayGbc.weightx = 1.0;
+		overlayGbc.weighty = 1.0;
+		overlayGbc.gridx = 0;
+		overlayGbc.gridy = 0;
+		backgroundLabel.add(overlayPanel, overlayGbc);
 
-		// Adiciona ao modelo de dados as colunas que vão aparecer
-		model.addColumn("Código");
-		model.addColumn("Categoria");
-		model.addColumn("Descrição");
-		model.addColumn("Nome");
-		model.addColumn("Preço");
+		// --- Componentes adicionados no overlayPanel ---
+		// Logo
+		overlayGbc = new GridBagConstraints();
+		overlayGbc.insets = new Insets(5, 5, 5, 5);
+		overlayGbc.fill = GridBagConstraints.BOTH;
+		overlayGbc.gridx = 0;
+		overlayGbc.gridy = 0;
+		overlayGbc.gridwidth = 1;
+		JLabel logoLabel = new JLabel(new ImageIcon(getClass().getResource("/images/logo.png")));
+		overlayPanel.add(logoLabel, overlayGbc);
 
-		// Armazenando a consulta do BD na variavel
+		// Título
+		overlayGbc = new GridBagConstraints();
+		overlayGbc.insets = new Insets(5, 5, 5, 5);
+		overlayGbc.fill = GridBagConstraints.BOTH;
+		overlayGbc.gridx = 1;
+		overlayGbc.gridy = 0;
+		overlayGbc.gridwidth = 2;
+		JLabel titleLabel = new JLabel("Cadastro de Produtos");
+		titleLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 36));
+		titleLabel.setForeground(Color.WHITE);
+		overlayPanel.add(titleLabel, overlayGbc);
+
+		// Tabela de produtos
+		DefaultTableModel model = new DefaultTableModel(new Object[]{"Código", "Categoria", "Descrição", "Nome", "Preço"}, 0);
+		table = new JTable(model);
+		table.setPreferredScrollableViewportSize(new Dimension(1000, 400));
+		JScrollPane scrollPane = new JScrollPane(table);
+		overlayGbc = new GridBagConstraints();
+		overlayGbc.insets = new Insets(5, 5, 5, 5);
+		overlayGbc.fill = GridBagConstraints.BOTH;
+		overlayGbc.gridx = 0;
+		overlayGbc.gridy = 1;
+		overlayGbc.gridwidth = 3;
+		overlayGbc.weightx = 1.0;
+		overlayGbc.weighty = 1.0;
+		overlayPanel.add(scrollPane, overlayGbc);
+
+		// Preenche a tabela com os dados dos produtos
 		List<Produto> consulta = produtoService.obterTodos(Integer.MAX_VALUE, 0);
-
-		// Definindo um ScrollPane para colocar a tabela
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(122, 125, 1014, 433);
-		camadas.add(scrollPane);
-
-		// Armazenando a consulta do BD na variavel
 		for (Produto linha : consulta) {
-			model.addRow(new Object[]{
-					linha.getId(),
-					linha.getCategoria(),
-					linha.getDescricao(),
-					linha.getNome(),
-					linha.getPreco(),
-			});
+			model.addRow(new Object[]{linha.getId(), linha.getCategoria(), linha.getDescricao(), linha.getNome(), linha.getPreco()});
 		}
 
-		// Criando tabela com o modelo e setando como visivel
-		table = new JTable(model);
-		scrollPane.setViewportView(table);
-
-		// Senhor, o que eu fiz pra ter que escrever o codigo disso
+		// Listener para alterações na tabela (para atualizar os produtos modificados)
 		table.getModel().addTableModelListener(e -> {
-
-			int row = e.getFirstRow(); // Detecta qual linha foi alterada
+			int row = e.getFirstRow();
 			int column = e.getColumn();
-			String celula = table.getValueAt(row,0).toString();
-			long id = Long.parseLong(celula); // Com base na linha alterada pega o id do produto que o usuario alterou
+			long id = Long.parseLong(table.getValueAt(row, 0).toString());
+			Produto produtoOrg = produtosAlteradosMap.getOrDefault(id, produtoService.obterPorID(id));
+			produtosAlteradosMap.put(id, produtoOrg);
 
-			// Verifica se o produto já ta no Map,se tiver, ignora
-			Produto produtoOrg = produtosAlteradosMap.get(id);
-			if (produtoOrg == null) {
-				// Se não tiver, adiciona ao map
-				produtoOrg = produtoService.obterPorID(id); // depois de pegar o id do produto q tu alterou, pega o produto do jeito que ta no banco, com base nesse id
-				produtosAlteradosMap.put(id, produtoOrg); // e salva no map
-			}
-
-			// Ve qual coluna houve alteração
 			if (column != -1) {
-				// Pega a alteração que foi feita e armazena em "novoValor"
 				String novoValor = table.getValueAt(row, column).toString();
-
 				switch (column) {
-					case 2:  // se foi coluna 2, seta a descrição do produto que antes era o produto do jeito que tava no banco, e altera
-						produtoOrg.setDescricao(novoValor);
-						break;
-					case 3:  // Nome
-						produtoOrg.setNome(novoValor);
-						break;
-					case 4:  // Preço
-						produtoOrg.setPreco(Double.parseDouble(novoValor));
-						break;
-					default:
-						break;
+					case 2 -> produtoOrg.setDescricao(novoValor);
+					case 3 -> produtoOrg.setNome(novoValor);
+					case 4 -> produtoOrg.setPreco(Double.parseDouble(novoValor));
 				}
 			}
 		});
 
-		JLabel CadastroProdutosLabel = new JLabel("Cadastro de Produtos");
-		CadastroProdutosLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 36));
-		CadastroProdutosLabel.setForeground(new Color(255, 255, 255));
-		CadastroProdutosLabel.setBounds(123, 46, 362, 44);
-		camadas.add(CadastroProdutosLabel,Integer.valueOf(1));
-
-		// Botão adicionar
-		JButton AdicionarButton = new JButton("Adicionar");
-		AdicionarButton.setBackground(new Color(83, 131, 5));
-		AdicionarButton.setForeground(new Color(255,255,255));
-		AdicionarButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-		AdicionarButton.setBounds(119, 595, 240, 50);
-		camadas.add(AdicionarButton, Integer.valueOf(3));
-		// Função do botão adicionar
-		AdicionarButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JDialogCadastroProdutos dialog = new JDialogCadastroProdutos();
-				dialog.setVisible(true);
-				atualizarTabela();
-			}
+		// Criação dos botões mantendo as mesmas posições originais
+		JButton adicionarButton = criarBotao("Adicionar", e -> {
+			new JDialogCadastroProdutos().setVisible(true);
+			atualizarTabela();
 		});
+		JButton editarButton = criarBotao("Editar", e -> salvarAlteracoes());
+		JButton excluirButton = criarBotao("Excluir", e -> excluirProduto());
+		JButton voltarButton = criarBotao("Voltar", e -> controladorDeTela.abrirJanela("menuPrincipal"));
 
-		// Botão Editar
-		JButton EditarButton = new JButton("Editar");
-		EditarButton.setForeground(Color.WHITE);
-		EditarButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-		EditarButton.setBackground(new Color(83, 131, 5));
-		EditarButton.setBounds(378, 595, 240, 50);
-		camadas.add(EditarButton);
-		// Função do botão editar
-		// Botão Editar
-		EditarButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// Abre transação
-				produtoService.abrirT();
-
-				try {
-					for (Produto produto : produtosAlteradosMap.values()) {
-						// Verifica se o preço é válido antes de salvar
-						try {
-							Double.parseDouble(produto.getPreco().toString()); // Testa a conversão
-						} catch (NumberFormatException ex) {
-							JOptionPane.showMessageDialog(null,
-									"Erro: O preço deve ser um número válido!",
-									"Erro de Entrada",
-									JOptionPane.ERROR_MESSAGE);
-
-							// Fecha a transação sem salvar e interrompe a execução
-							produtoService.fecharT();
-							return;
-						}
-
-						// Se passou nas validações, salva no banco
-						produtoService.mesclar(produto);
-					}
-
-					// Se chegou aqui sem erros, fecha a transação e atualiza a tabela
-					produtoService.fecharT();
-					JOptionPane.showMessageDialog(null,
-							"Produtos editados com sucesso!",
-							"Sucesso",
-							JOptionPane.INFORMATION_MESSAGE);
-
-					atualizarTabela();
-				} catch (Exception ex) {
-					// Em caso de erro inesperado, fecha a transação e exibe um erro genérico
-					produtoService.fecharT();
-					JOptionPane.showMessageDialog(null,
-							"Erro ao editar os produtos: " + ex.getMessage(),
-							"Erro",
-							JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
-
-
-
-		// Botão Excluir
-		JButton ExcluirButton = new JButton("Excluir");
-		ExcluirButton.setForeground(Color.WHITE);
-		ExcluirButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-		ExcluirButton.setBackground(new Color(83, 131, 5));
-		ExcluirButton.setBounds(637, 595, 240, 50);
-		camadas.add(ExcluirButton);
-		// Função do botão excluir
-		ExcluirButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				// Pega o id do objeto selecionado
-				int linha = table.getSelectedRow();
-				String celula = table.getValueAt(linha,0).toString();
-				long id = Long.parseLong(celula);
-
-				ProdutoService produtoService = new ProdutoService();
-				// Obtem o objeto inteiro com base no id
-				Produto produto = produtoService.obterPorID(id);
-				// Remove o objeto
-				produtoService.remover(produto);
-
-				atualizarTabela();
-			}
-		});
-
-		// Botão Voltar
-		JButton BotaoVoltar = new JButton("Voltar");
-		BotaoVoltar.setForeground(Color.WHITE);
-		BotaoVoltar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-		BotaoVoltar.setBackground(new Color(168, 29, 29));
-		BotaoVoltar.setBounds(896, 595, 240, 50);
-		camadas.add(BotaoVoltar);
-		// Função do botão Voltar
-		BotaoVoltar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controladorDeTela.abrirJanela("menuPrincipal");
-			}
-		});
-
-		// Botão de recarregar
-		ImageIcon reloadIcon = new ImageIcon(getClass().getResource("/images/reloadIcon50.png"));
-		JButton atualizarButton = new JButton(reloadIcon);
-		atualizarButton.setForeground(Color.WHITE);
-		atualizarButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+		// Botão Atualizar com mesmo estilo dos demais botões
+		JButton atualizarButton = new JButton(new ImageIcon(getClass().getResource("/images/reloadIcon50.png")));
+		atualizarButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
 		atualizarButton.setBackground(new Color(83, 131, 5));
-		atualizarButton.setBounds(1155, 595, 50, 50);
-		camadas.add(atualizarButton);
+		atualizarButton.setForeground(Color.WHITE);
+		atualizarButton.addActionListener(e -> atualizarTabela());
 
-		// Função do botão recarregar
-		atualizarButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				atualizarTabela();
+		// Linha de botões: configurando weightx = 1.0 para igualar o tamanho
+		overlayGbc = new GridBagConstraints();
+		overlayGbc.insets = new Insets(5, 5, 5, 5);
+		overlayGbc.fill = GridBagConstraints.BOTH;
+		overlayGbc.gridy = 2;
+		overlayGbc.gridwidth = 1;
+		overlayGbc.weightx = 1.0;
+
+		overlayGbc.gridx = 0;
+		overlayPanel.add(adicionarButton, overlayGbc);
+
+		overlayGbc.gridx = 1;
+		overlayPanel.add(editarButton, overlayGbc);
+
+		overlayGbc.gridx = 2;
+		overlayPanel.add(excluirButton, overlayGbc);
+
+		overlayGbc.gridx = 3;
+		overlayPanel.add(voltarButton, overlayGbc);
+
+		overlayGbc.gridx = 4;
+		overlayPanel.add(atualizarButton, overlayGbc);
+
+		// Redimensiona a imagem de fundo quando a janela é redimensionada
+		addComponentListener(new ComponentAdapter() {
+			public void componentResized(ComponentEvent componentEvent) {
+				Image img = backgroundIcon.getImage();
+				Image newImg = img.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
+				backgroundLabel.setIcon(new ImageIcon(newImg));
 			}
 		});
-		ImageIcon background2 = new ImageIcon(getClass().getResource("/images/background2edit.png"));
-		JLabel backgroundLabel = new JLabel(background2);
-		backgroundLabel.setBounds(0, 0, 1270, 681);
-		camadas.add(backgroundLabel,Integer.valueOf(0));
+	}
+
+	private JButton criarBotao(String texto, ActionListener action) {
+		JButton botao = new JButton(texto);
+		botao.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
+		botao.setBackground(new Color(83, 131, 5));
+		botao.setForeground(Color.WHITE);
+		botao.addActionListener(action);
+		return botao;
+	}
+
+	private void salvarAlteracoes() {
+		produtoService.abrirT();
+		try {
+			for (Produto produto : produtosAlteradosMap.values()) {
+				produtoService.mesclar(produto);
+			}
+			produtoService.fecharT();
+			JOptionPane.showMessageDialog(null, "Produtos editados com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+			atualizarTabela();
+		} catch (Exception ex) {
+			produtoService.fecharT();
+			JOptionPane.showMessageDialog(null, "Erro ao editar produtos: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	private void excluirProduto() {
+		int linha = table.getSelectedRow();
+		if (linha != -1) {
+			long id = Long.parseLong(table.getValueAt(linha, 0).toString());
+			Produto produto = produtoService.obterPorID(id);
+			produtoService.remover(produto);
+			atualizarTabela();
+		} else {
+			JOptionPane.showMessageDialog(null, "Selecione um produto para excluir.", "Aviso", JOptionPane.WARNING_MESSAGE);
+		}
 	}
 
 	private void atualizarTabela() {
-		ProdutoService produtoService = new ProdutoService();
-
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
-
-		// Remover todos os listeners antes de atualizar a tabela
-		TableModelListener[] listeners = model.getTableModelListeners();
-		for (TableModelListener listener : listeners) {
-			model.removeTableModelListener(listener);
-		}
-
-		// Limpar todas as linhas da tabela
 		model.setRowCount(0);
-
-		// Reconsulta o banco de dados para obter os dados atualizados
 		List<Produto> consultaAtualizada = produtoService.obterTodos(Integer.MAX_VALUE, 0);
-
-		// Preenche a tabela com os novos dados
 		for (Produto linha : consultaAtualizada) {
-			model.addRow(new Object[]{
-					linha.getId(),
-					linha.getCategoria(),
-					linha.getDescricao(),
-					linha.getNome(),
-					linha.getPreco()
-			});
+			model.addRow(new Object[]{linha.getId(), linha.getCategoria(), linha.getDescricao(), linha.getNome(), linha.getPreco()});
 		}
-
-		// Re-adicionar os listeners
-		for (TableModelListener listener : listeners) {
-			model.addTableModelListener(listener);
-		}
-
-		// Notifica a tabela que os dados mudaram
 		model.fireTableDataChanged();
 	}
 }
