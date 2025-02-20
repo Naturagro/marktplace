@@ -1,6 +1,8 @@
 package com.naturagro.models;
 
 
+import com.naturagro.service.ProdutoService;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -28,7 +30,7 @@ public class Produto {
             Double preco,
             CategoriaProduto categoriaProduto
     ) {
-        this.id = Long.parseLong(generateKey());
+        this.id = validarId();
         this.preco = preco;
         this.categoria = categoriaProduto;
         this.descricao = descricao;
@@ -38,6 +40,22 @@ public class Produto {
     public Produto() { // precisei deixar publico pq eu tive q criar um objeto Produto só pra usar em uma logica lá da UI, daí n podia ter id novo
     }
 
+    public Long validarId() {
+        Long id = Long.parseLong(generateKey());
+        ProdutoService produtoService = new ProdutoService();
+        Long idBanco = null;
+        try {
+            idBanco = produtoService.obterPorID(id).getId();
+
+        } catch (Exception e) {
+            if (idBanco == null) {
+                this.id = id;
+            } else {
+                this.id = Long.parseLong(generateKey());
+            }
+        }
+        return id;
+    }
 
     public Long getId() {
         return id;
