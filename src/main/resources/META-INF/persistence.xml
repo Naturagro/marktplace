@@ -9,11 +9,10 @@
         <mapping-file>META-INF/queries.xml</mapping-file>
 
 
-
         <class>com.naturagro.models.Produto</class>
         <class>com.naturagro.models.Venda</class>
         <class>com.naturagro.models.Funcionario</class>
-
+        <class>com.naturagro.models.Lote</class>
 
 
         <properties>
@@ -25,12 +24,14 @@
                       value="root"/>
             <property name="javax.persistence.jdbc.password"
                       value="123456"/>
+
             <property name="hibernate.dialect"
                       value="org.hibernate.dialect.MySQL8Dialect"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
-            <property name="javax.persistence.schema-generation.create-script-source" value="META-INF/import.sql"/>
+
+
         </properties>
     </persistence-unit>
 </persistence>
