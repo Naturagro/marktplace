@@ -34,7 +34,7 @@ public class GetRequest {
         }
     }
 
-    public static void main(String[] args) {
-        consultarPagamento();
-    }
+//    public static void main(String[] args) {
+//        consultarPagamento();
+//    }
 }

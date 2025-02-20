@@ -20,31 +20,26 @@ public class PostRequest {
 
     public static void realizarPagamento() {
         try {
-            // 1️⃣ Gera o Token do Cartão
             String token = gerarToken();
             if (token == null) {
                 System.err.println("Erro ao gerar token!");
                 return;
             }
 
-            // 2️⃣ Atualiza o pedido.json com o token gerado
             boolean tokenAtualizado = atualizarArquivoPedido(token);
             if (!tokenAtualizado) {
                 System.err.println("Erro ao atualizar o arquivo pedido.json.");
                 return;
             }
 
-            // 3️⃣ Lê o arquivo pedido.json com o token atualizado
             JSONObject pedido = lerArquivoPedido();
             if (pedido == null) {
                 System.err.println("Erro ao ler o arquivo de pedido.");
                 return;
             }
 
-            // 4️⃣ Gera um UUID para o cabeçalho X-Idempotency-Key
             String idempotencyKey = UUID.randomUUID().toString();
 
-            // 5️⃣ Envia a requisição de pagamento
             enviarPagamento(pedido.toString(), idempotencyKey);
 
         } catch (Exception e) {
@@ -52,7 +47,7 @@ public class PostRequest {
         }
     }
 
-    // Método para ler o conteúdo do arquivo pedido.json
+    // metodo para ler o conteúdo do arquivo pedido.json
     private static JSONObject lerArquivoPedido() {
         try {
             Path path = Path.of(FILE_PATH);
@@ -64,23 +59,19 @@ public class PostRequest {
         }
     }
 
-// Método para atualizar o arquivo pedido.json com o token gerado
+// metodo para atualizar o arquivo pedido.json com o token gerado
 private static boolean atualizarArquivoPedido(String token) {
     try {
         Path path = Path.of(FILE_PATH);
 
-        // Lê o arquivo JSON existente
         String content = Files.readString(path);
         JSONObject pedido = new JSONObject(content);
 
-        // Atualiza o token no pedido
         pedido.put("token", token);
 
-        // Reestruturar o "payer" para garantir que o "email" fique dentro do objeto payer
         JSONObject payer = pedido.getJSONObject("payer");
         payer.put("email", "teste@gmail.com");
 
-        // Escreve o arquivo atualizado
         Files.writeString(path, pedido.toString(4), StandardOpenOption.TRUNCATE_EXISTING);
         System.out.println("Arquivo pedido.json atualizado com sucesso!");
 
@@ -92,7 +83,7 @@ private static boolean atualizarArquivoPedido(String token) {
 }
 
 
-    // Método para enviar o pagamento usando os dados lidos do arquivo
+    // metodo para enviar o pagamento usando os dados lidos do arquivo
     private static void enviarPagamento(String jsonContent, String idempotencyKey) {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
@@ -112,7 +103,7 @@ private static boolean atualizarArquivoPedido(String token) {
         }
     }
 
-    // Método para gerar Token do Cartão
+    // metodo para gerar Token do Cartão
     private static String gerarToken() throws IOException, InterruptedException {
         JSONObject cartao = new JSONObject();
         cartao.put("card_number", "4235647728025682");
@@ -151,7 +142,7 @@ private static boolean atualizarArquivoPedido(String token) {
         }
     }
 
-    public static void main(String[] args) {
-        realizarPagamento();
-    }
+//    public static void main(String[] args) {
+//        realizarPagamento();
+//    }
 }
