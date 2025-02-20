@@ -1,5 +1,7 @@
 package com.naturagro.DAO;
 
+import com.naturagro.bd.CreateSchema;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -14,7 +16,9 @@ public abstract class DAO <E>{
             emf = Persistence
                     .createEntityManagerFactory("naturagro");
         } catch (Exception e) {
-            e.printStackTrace();
+            CreateSchema createSchema = new CreateSchema();
+            createSchema.createSchema();
+            //e.printStackTrace();
         }
     }
 
@@ -23,6 +27,9 @@ public abstract class DAO <E>{
     }
 
     public DAO(Class<E> classe) {
+        if (emf == null) {
+            emf = Persistence.createEntityManagerFactory("naturagro");
+        }
         this.classe = classe;
         em = emf.createEntityManager();
     }
