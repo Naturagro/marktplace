@@ -112,6 +112,10 @@ public class SwingRelatorios extends JFrame {
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		contentPane.add(gerarRelatorioButton, gbc);
 
+		gerarRelatorioButton.addActionListener(e -> {
+			//todo: pegar informações da data e do tipo de relatório
+		});
+
 		// Botão Voltar
 		JButton botaoVoltar = new JButton("Voltar");
 		botaoVoltar.setForeground(Color.WHITE);
