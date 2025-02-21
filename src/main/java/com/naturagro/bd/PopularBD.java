@@ -1,9 +1,5 @@
 package com.naturagro.bd;
 
-import com.naturagro.example.AdicionarLote;
-import com.naturagro.example.AdicionarProdutos;
-import com.naturagro.example.AdicionarFuncionarios;
-import com.naturagro.example.AdicionarVenda;
 import com.naturagro.models.Funcionario;
 import com.naturagro.models.Lote;
 import com.naturagro.models.Produto;
