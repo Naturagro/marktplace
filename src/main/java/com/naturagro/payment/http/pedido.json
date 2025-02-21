@@ -1,8 +1,8 @@
 {
     "payment_method_id": "visa",
     "installments": 1,
-    "transaction_amount": 156,
+    "transaction_amount": 150,
     "description": "Compra de Teste",
     "payer": {"email": "teste@gmail.com"},
-    "token": "25a4389970866e774a3c3b993d21afc1"
+    "token": "f96032fd2ed4c1bea1f42c63be7f1679"
 }
