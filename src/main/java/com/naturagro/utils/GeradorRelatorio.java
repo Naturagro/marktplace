@@ -142,9 +142,6 @@ public class GeradorRelatorio {
             pastaDownloads.mkdirs(); // Cria a pasta e quaisquer pastas pai necessárias
         }
 
-        ProdutoService produtoService = new ProdutoService();
-        Object[] produtos = produtoService.encontrarProdutoMaisVendido(LocalDate.from(data.atStartOfDay()));
-
 
         try {
             // Cria o PDF no caminho especificado
@@ -166,25 +163,38 @@ public class GeradorRelatorio {
             document.add(new Paragraph("_____________________________________________________________________________")).setBold();
             document.add(new Paragraph("PRODUTOS MAIS VENDIDOS NO DIA:  " + data));
 
-            if (produtos.length == 0) {
-                document.add(new Paragraph("Nenhuma entrada de lote encontrada para a data selecionada."));
-            } else {
-                Table table3 = new Table(3); // Definindo proporções das colunas
-                table3.setWidth(UnitValue.createPercentValue(100));
+            VendaService vendaService = new VendaService();
+            ProdutoService produtoService = new ProdutoService();
 
-                // Cabeçalhos da tabela
-                table3.addHeaderCell(new Cell().add(new Paragraph("ID")).setBold());
-                table3.addHeaderCell(new Cell().add(new Paragraph("Nome")).setBold());
-                table3.addHeaderCell(new Cell().add(new Paragraph("Categoria")).setBold());
-                table3.addHeaderCell(new Cell().add(new Paragraph("Valor (R$)")).setBold());
-                table3.addHeaderCell(new Cell().add(new Paragraph("Vendas")).setBold());
+            Table table = new Table(4);
 
-                for (Object produto : produtos) {
-                    // todo
-                }
+            table.setWidth(UnitValue.createPercentValue(100));
 
-                document.add(table3);
+            // Cabeçalhos da tabela
+            table.addHeaderCell(new Cell().add(new Paragraph("ID")).setBold());
+            table.addHeaderCell(new Cell().add(new Paragraph("Nome")).setBold());
+            table.addHeaderCell(new Cell().add(new Paragraph("Número de Vendas")).setBold());
+            table.addHeaderCell(new Cell().add(new Paragraph("Valor Total(R$)")).setBold());
+
+            List<Object[]> resultados = vendaService.obterItensMaisVendidos();
+
+            for (Object[] resultado : resultados) {
+                Long produtoId = (Long) resultado[0];
+                Long vendas = (Long) resultado[1];
+
+                Produto produto = produtoService.obterPorID(produtoId); // Evita múltiplas chamadas
+
+                double valorTotal = produto.getPreco() * vendas;
+
+                table.addCell(String.valueOf(produtoId));
+                table.addCell(produto.getNome());
+                table.addCell(String.valueOf(vendas));
+                table.addCell(String.valueOf(valorTotal));
             }
+            document.add(table);
+
+
+
 
             // Fecha o documento
             document.close();
