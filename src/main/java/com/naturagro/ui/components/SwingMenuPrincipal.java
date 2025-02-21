@@ -23,7 +23,7 @@ public class SwingMenuPrincipal extends JFrame {
 		setLocationRelativeTo(null);
 
 		contentPane = new JPanel(new GridBagLayout());
-		contentPane.setBackground(new Color(88, 161, 6));
+		contentPane.setBackground(new Color(124, 188, 52));
 		setContentPane(contentPane);
 
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -86,7 +86,7 @@ public class SwingMenuPrincipal extends JFrame {
 
 		// Título
 		JLabel menuLabel = new JLabel("Menu Principal");
-		menuLabel.setFont(new Font("SansSerif", Font.BOLD, 50));
+		menuLabel.setFont(new Font("Tahoma", Font.BOLD, 50));
 		menuLabel.setForeground(Color.WHITE);
 		innerGbc.gridx = 1;
 		innerGbc.gridy = 0;

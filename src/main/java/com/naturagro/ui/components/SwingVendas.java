@@ -167,6 +167,14 @@ public class SwingVendas extends JFrame {
 		BotaoFinalizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+				// Verifica se a tabela está vazia antes de prosseguir
+				if (model.getRowCount() == 0) {
+					JOptionPane.showMessageDialog(null, "Nenhum produto adicionado! Adicione um produto antes de finalizar a venda.",
+							"Erro", JOptionPane.WARNING_MESSAGE);
+					return; // Sai do méto_do sem continuar a execução
+				}
+
 				LoteService loteService = new LoteService();
 				Double totalAcumulado = 0.0;
 				List<Produto> produtos = new ArrayList<>();
@@ -226,21 +234,20 @@ public class SwingVendas extends JFrame {
 
 					if (temEstoque) {
 						dialog.setVisible(true); // Vai pra parte de pagamento
-						// Cria e salva a venda
-						Venda venda = new Venda(funcionario, produtos);
-						vendaService.salvarVenda(venda);
+						if (dialog.isPagamentoConfirmado()) { // Só salva a venda se o pagamento foi confirmado
+							Venda venda = new Venda(funcionario, produtos);
+							vendaService.salvarVenda(venda);
 
-						model.setRowCount(0); // Remove todas as linhas da tabela
-						// Atualiza o valor total
-						for (int i = 0; i < model.getRowCount(); i++) {
-							String valorStr = model.getValueAt(i, 4).toString().replace("R$", "").trim().replace(",", ".");
-							totalAcumulado += Double.parseDouble(valorStr);
+							model.setRowCount(0); // Limpa a tabela
+							totalAcumulado = 0.0; // Reseta o total acumulado
+							valorTotalLabel.setText("R$ " + totalAcumulado.toString());
+						} else {
+							// Se o pagamento foi cancelado, faz rollback para restaurar o estoque
+							loteService.rollBackT();
+							JOptionPane.showMessageDialog(null, "Venda cancelada. O pagamento não foi concluído.", "Pagamento Cancelado", JOptionPane.WARNING_MESSAGE);
 						}
-						valorTotalLabel.setText("R$ " + totalAcumulado.toString());
-					} else {
-						// Se não tiver estoque suficiente, faz o rollback
-						loteService.rollBackT();
 					}
+
 				} catch (Exception ex) {
 					// Em caso de exceção, realiza o rollback
 					loteService.rollBackT();
