@@ -16,7 +16,7 @@ public class KeyGenerator {
         long timeComponent = timestamp % 1000;
 
         // Gera um número aleatório de 3 dígitos
-        int randomComponent = random.nextInt(100, 900) + 100; // Gera um número entre 100 e 999
+        int randomComponent = random.nextInt(100, 999) + 100; // Gera um número entre 100 e 999
 
         // Combina os componentes para formar uma chave única de 6 dígitos
         return String.format("%03d%03d", randomComponent, timeComponent);
