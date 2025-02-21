@@ -8,10 +8,14 @@ package com.naturagro.service;
 import com.naturagro.DAO.DAO;
 import com.naturagro.models.Produto;
 import com.naturagro.models.Venda;
+
+import javax.management.Query;
+import javax.persistence.TypedQuery;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -46,8 +50,17 @@ public class VendaService extends DAO<Venda> {
         fecharT();
 //        fechar();
 
-
     }
+
+    public List<Object[]> obterItensMaisVendidos() {
+        String sql = "SELECT p.id, COUNT(v) AS totalVendas FROM Venda v JOIN v.produto p GROUP BY p.id ORDER BY totalVendas DESC";
+
+
+        TypedQuery<Object[]> query = getEntityManager().createQuery(sql, Object[].class);
+        List<Object[]> resultados = query.getResultList();
+        return resultados;
+    }
+
     // Busca vendas dentro de um intervalo de datas
     public List<Venda> buscarPorPeriodo(LocalDateTime inicio, LocalDateTime fim) {
         return consultar("Venda.buscarPorPeriodo", "inicio", inicio, "fim", fim);

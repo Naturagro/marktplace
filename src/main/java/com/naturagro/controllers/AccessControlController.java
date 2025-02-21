@@ -1,7 +1,6 @@
 package com.naturagro.controllers;
 
 import com.naturagro.service.FuncionarioService;
-import com.naturagro.models.Funcionario;
 import com.naturagro.utils.ValidadorCPF;
 
 //lança a exceção de cadastro

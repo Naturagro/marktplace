@@ -1,7 +1,6 @@
 package com.naturagro.models;
 
 
-import com.naturagro.service.ProdutoService;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
