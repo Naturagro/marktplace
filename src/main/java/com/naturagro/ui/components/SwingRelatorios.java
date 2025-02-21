@@ -1,10 +1,9 @@
 package com.naturagro.ui.components;
 
 import com.naturagro.ui.ControladorSwing;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.*;
+import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,46 +14,60 @@ public class SwingRelatorios extends JFrame {
 	private ControladorSwing controlador;
 	private JLabel backgroundLabel;
 
-	// Tela
+	// Tamanho mínimo, preferido e máximo para os componentes
+	private final int fixedWidth = 400;
+
 	public SwingRelatorios(ControladorSwing controladorDeTela) {
 		this.controlador = controladorDeTela;
 
 		// Configurações da janela
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Relatórios");
-		setSize(900, 600);
-
-		// Centralizar a janela na tela
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(1280, 720);
 		setLocationRelativeTo(null);
 
-		// Painel principal
-		JPanel contentPane = new JPanel();
+		// Painel principal com background customizado
+		JPanel contentPane = new JPanel() {
+			private static final long serialVersionUID = 1L;
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				ImageIcon background = new ImageIcon(getClass().getResource("/images/background2edit.png"));
+				g.drawImage(background.getImage(), 0, 0, getWidth(), getHeight(), this);
+			}
+		};
 		contentPane.setBackground(new Color(124, 188, 52));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-
 		contentPane.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.insets = new Insets(10, 10, 10, 10);  // Espaçamento entre os componentes
-		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.insets = new Insets(10,10,10,10);
+		gbc.anchor = GridBagConstraints.CENTER;
 
 		// Logo
 		ImageIcon logo = new ImageIcon(getClass().getResource("/images/logo.png"));
 		JLabel logoLabel = new JLabel(logo);
-		gbc.gridx = 2;
+		logoLabel.setMinimumSize(new Dimension(fixedWidth, 150));
+		logoLabel.setPreferredSize(new Dimension(fixedWidth, 150));
+		logoLabel.setMaximumSize(new Dimension(fixedWidth, 150));
+		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.gridwidth = 3;
-		gbc.anchor = GridBagConstraints.CENTER;
+		// Usamos HORIZONTAL para o caso de a janela aumentar, mas ele nunca ultrapassará fixedWidth
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.weightx = 0;
 		contentPane.add(logoLabel, gbc);
 
 		// Título
-		JLabel relatoriosLabel = new JLabel("Relatórios");
-		relatoriosLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 36));
+		JLabel relatoriosLabel = new JLabel("Relatórios", SwingConstants.CENTER);
+		relatoriosLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 50));
 		relatoriosLabel.setForeground(Color.WHITE);
-		gbc.gridx = 2;
+		relatoriosLabel.setMinimumSize(new Dimension(fixedWidth, 80));
+		relatoriosLabel.setPreferredSize(new Dimension(fixedWidth, 80));
+		relatoriosLabel.setMaximumSize(new Dimension(fixedWidth, 80));
+		gbc.gridx = 0;
 		gbc.gridy = 1;
 		gbc.gridwidth = 3;
-		gbc.anchor = GridBagConstraints.CENTER;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
 		contentPane.add(relatoriosLabel, gbc);
 
 		// ComboBox de Seleção de Relatório
@@ -62,39 +75,36 @@ public class SwingRelatorios extends JFrame {
 		comboBox.setBackground(new Color(83, 131, 5));
 		comboBox.setFont(new Font("Comic Sans MS", Font.PLAIN, 24));
 		comboBox.setForeground(Color.WHITE);
-		comboBox.setModel(new DefaultComboBoxModel<>(new String[] {"Movimentação de Estoque", "Produtos Mais Vendidos"}));
-		gbc.gridx = 2;
+		comboBox.setModel(new DefaultComboBoxModel<>(new String[] {
+				"Movimentação de Estoque", "Produtos Mais Vendidos"
+		}));
+		comboBox.setMinimumSize(new Dimension(fixedWidth, 50));
+		comboBox.setPreferredSize(new Dimension(fixedWidth, 50));
+		comboBox.setMaximumSize(new Dimension(fixedWidth, 50));
+		gbc.gridx = 0;
 		gbc.gridy = 2;
-		gbc.gridwidth = 1;
+		gbc.gridwidth = 3;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		contentPane.add(comboBox, gbc);
 
-		// Campo de Data
-		JLabel dataLabel = new JLabel("Data:");
-		dataLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-		dataLabel.setForeground(Color.WHITE);
-		gbc.gridx = 2;
-		gbc.gridy = 3;
-		gbc.gridwidth = 1;
-		gbc.anchor = GridBagConstraints.EAST;
-		contentPane.add(dataLabel, gbc);
-
+		// Campo de data com máscara
 		try {
-			// Mascara de data
 			MaskFormatter dateMask = new MaskFormatter("##/##/####");
 			dateMask.setPlaceholderCharacter('_');
 			dateMask.setAllowsInvalid(false);
 			dateMask.setOverwriteMode(true);
-
 			JFormattedTextField formattedTextField = new JFormattedTextField(dateMask);
 			formattedTextField.setBackground(new Color(83, 131, 5));
 			formattedTextField.setForeground(Color.WHITE);
 			formattedTextField.setHorizontalAlignment(SwingConstants.CENTER);
 			formattedTextField.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-			formattedTextField.setText("__/__/__");
-			gbc.gridx = 2;
+			formattedTextField.setText("__/__/____");
+			formattedTextField.setMinimumSize(new Dimension(fixedWidth, 50));
+			formattedTextField.setPreferredSize(new Dimension(fixedWidth, 50));
+			formattedTextField.setMaximumSize(new Dimension(fixedWidth, 50));
+			gbc.gridx = 0;
 			gbc.gridy = 3;
-			gbc.gridwidth = 2;
+			gbc.gridwidth = 3;
 			gbc.fill = GridBagConstraints.HORIZONTAL;
 			contentPane.add(formattedTextField, gbc);
 		} catch (ParseException e) {
@@ -106,57 +116,40 @@ public class SwingRelatorios extends JFrame {
 		gerarRelatorioButton.setBackground(new Color(83, 131, 5));
 		gerarRelatorioButton.setForeground(Color.WHITE);
 		gerarRelatorioButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-		gbc.gridx = 2;
+		gerarRelatorioButton.setMinimumSize(new Dimension(fixedWidth, 60));
+		gerarRelatorioButton.setPreferredSize(new Dimension(fixedWidth, 60));
+		gerarRelatorioButton.setMaximumSize(new Dimension(fixedWidth, 60));
+		gbc.gridx = 0;
 		gbc.gridy = 4;
-		gbc.gridwidth = 1;  // Botão ocupa toda a largura
+		gbc.gridwidth = 3;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		contentPane.add(gerarRelatorioButton, gbc);
 
 		gerarRelatorioButton.addActionListener(e -> {
-			//todo: pegar informações da data e do tipo de relatório
+			// TODO: pegar informações da data e do tipo de relatório
 		});
 
 		// Botão Voltar
 		JButton botaoVoltar = new JButton("Voltar");
+		botaoVoltar.setBackground(new Color(163, 43, 43));
 		botaoVoltar.setForeground(Color.WHITE);
 		botaoVoltar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-		botaoVoltar.setBackground(new Color(168, 29, 29));
-		gbc.gridx = 2;
+		botaoVoltar.setMinimumSize(new Dimension(fixedWidth, 60));
+		botaoVoltar.setPreferredSize(new Dimension(fixedWidth, 60));
+		botaoVoltar.setMaximumSize(new Dimension(fixedWidth, 60));
+		gbc.gridx = 0;
 		gbc.gridy = 5;
-		gbc.gridwidth = 1;  // Botão ocupa toda a largura
+		gbc.gridwidth = 3;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		contentPane.add(botaoVoltar, gbc);
 
-		// Função do botão voltar
 		botaoVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controladorDeTela.abrirJanela("menuPrincipal");
+				controlador.abrirJanela("menuPrincipal");
 			}
 		});
 
-		// Adicionando a imagem de fundo
-		ImageIcon background2 = new ImageIcon(getClass().getResource("/images/background2edit.png"));
-		backgroundLabel = new JLabel(background2);
-		contentPane.add(backgroundLabel, new GridBagConstraints() {{
-			gridx = 0;
-			gridy = 0;
-			gridwidth = 3;
-			gridheight = 6;
-			weightx = 1.0;
-			weighty = 1.0;
-			fill = GridBagConstraints.BOTH;
-		}});
-
-		// Listener para redimensionar a imagem
-		addComponentListener(new java.awt.event.ComponentAdapter() {
-			public void componentResized(java.awt.event.ComponentEvent componentEvent) {
-				Image img = background2.getImage();
-				Image newImg = img.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
-				backgroundLabel.setIcon(new ImageIcon(newImg));
-			}
-		});
-
-		// Ajustar o tamanho da imagem para preencher toda a tela
+		contentPane.revalidate();
 		contentPane.repaint();
 	}
 }
