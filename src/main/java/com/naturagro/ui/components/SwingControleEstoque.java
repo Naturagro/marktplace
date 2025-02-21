@@ -7,7 +7,6 @@ import com.naturagro.service.ProdutoService;
 import com.naturagro.ui.ControladorSwing;
 
 import javax.swing.*;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -161,7 +160,7 @@ public class SwingControleEstoque extends JFrame {
 		JButton BotaoVoltar = new JButton("Voltar");
 		BotaoVoltar.setForeground(Color.WHITE);
 		BotaoVoltar.setFont(new Font("SansSerif", Font.PLAIN, 30));
-		BotaoVoltar.setBackground(new Color(168, 29, 29));
+		BotaoVoltar.setBackground(new Color(163, 43, 43)); // Cor alterada
 		// Função do botão Voltar
 		BotaoVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -181,27 +180,6 @@ public class SwingControleEstoque extends JFrame {
 		innerGbc.gridx = 2;
 		innerGbc.weightx = 1;
 		panel.add(BotaoVoltar, innerGbc);
-
-		addWindowListener(new java.awt.event.WindowAdapter() {
-			@Override
-			public void windowOpened(java.awt.event.WindowEvent e) {
-				atualizarTabela();
-			}
-
-			@Override
-			public void windowActivated(java.awt.event.WindowEvent e) {
-				atualizarTabela();
-			}
-		});
-
-		// Listener para redimensionar a imagem de fundo quando a janela for redimensionada
-		addComponentListener(new java.awt.event.ComponentAdapter() {
-			public void componentResized(java.awt.event.ComponentEvent componentEvent) {
-				Image img = backgroundIcon.getImage();
-				Image newImg = img.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
-				backgroundLabel.setIcon(new ImageIcon(newImg));
-			}
-		});
 
 		// Centralizando a tela
 		setLocationRelativeTo(null);
@@ -234,5 +212,3 @@ public class SwingControleEstoque extends JFrame {
 		model.fireTableDataChanged();
 	}
 }
-
-

@@ -29,19 +29,19 @@ public class SwingCadastroProdutos extends JFrame {
 		setSize(1280, 720);
 		setLocationRelativeTo(null);
 
-		// Cria o painel principal com GridBagLayout
+		// Painel principal com borda aumentada
 		JPanel mainPanel = new JPanel(new GridBagLayout());
 		mainPanel.setBackground(new Color(124, 188, 52));
-		mainPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		setContentPane(mainPanel);
 
 		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.insets = new Insets(5, 5, 5, 5);
+		gbc.insets = new Insets(10, 10, 10, 10);
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 1.0;
 		gbc.weighty = 1.0;
 
-		// Adiciona o label que contém a imagem de fundo (usando a mesma imagem do SwingVendas)
+		// Imagem de fundo
 		ImageIcon backgroundIcon = new ImageIcon(getClass().getResource("/images/background2edit.png"));
 		JLabel backgroundLabel = new JLabel(backgroundIcon);
 		backgroundLabel.setLayout(new GridBagLayout());
@@ -49,11 +49,11 @@ public class SwingCadastroProdutos extends JFrame {
 		gbc.gridy = 0;
 		mainPanel.add(backgroundLabel, gbc);
 
-		// Painel sobreposto (transparente) para adicionar os componentes
+		// Painel sobreposto para os componentes
 		JPanel overlayPanel = new JPanel(new GridBagLayout());
-		overlayPanel.setOpaque(false); // Permite visualizar o fundo
+		overlayPanel.setOpaque(false);
 		GridBagConstraints overlayGbc = new GridBagConstraints();
-		overlayGbc.insets = new Insets(5, 5, 5, 5);
+		overlayGbc.insets = new Insets(10, 10, 10, 10);
 		overlayGbc.fill = GridBagConstraints.BOTH;
 		overlayGbc.weightx = 1.0;
 		overlayGbc.weighty = 1.0;
@@ -61,54 +61,79 @@ public class SwingCadastroProdutos extends JFrame {
 		overlayGbc.gridy = 0;
 		backgroundLabel.add(overlayPanel, overlayGbc);
 
-		// --- Componentes adicionados no overlayPanel
-		// Título
+		// Título alinhado à esquerda
 		overlayGbc = new GridBagConstraints();
-		overlayGbc.insets = new Insets(5, 5, 5, 5);
+		overlayGbc.insets = new Insets(10, 10, 10, 10);
 		overlayGbc.fill = GridBagConstraints.BOTH;
 		overlayGbc.gridx = 0;
 		overlayGbc.gridy = 0;
-		overlayGbc.gridwidth = 2;
+		overlayGbc.gridwidth = 4;
 		JLabel titleLabel = new JLabel("Cadastro de Produtos");
 		titleLabel.setFont(new Font("SansSerif", Font.BOLD, 50));
 		titleLabel.setForeground(Color.WHITE);
+		titleLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		overlayPanel.add(titleLabel, overlayGbc);
+
+		// Criação dos botões com a mesma formatação
+		JButton adicionarButton = criarBotao("Adicionar", e -> {
+			new JDialogCadastroProdutos().setVisible(true);
+			atualizarTabela();
+		});
+		JButton editarButton = criarBotao("Editar", e -> salvarAlteracoes());
+		JButton excluirButton = criarBotao("Excluir", e -> excluirProduto());
+		JButton voltarButton = criarBotao("Voltar", e -> controladorDeTela.abrirJanela("menuPrincipal"));
+		// Apenas alterando a cor do botão "Voltar"
+		voltarButton.setBackground(new Color(163, 43, 43));
+
+		// Linha de botões: posicionada mais abaixo do título com expansão
+		overlayGbc = new GridBagConstraints();
+		overlayGbc.insets = new Insets(20, 10, 10, 10); // espaço superior aumentado
+		overlayGbc.fill = GridBagConstraints.BOTH;
+		overlayGbc.gridy = 1;
+		overlayGbc.gridwidth = 1;
+		overlayGbc.weightx = 1.0;
+		overlayGbc.weighty = 0.1;
+		overlayGbc.ipady = 30; // aumenta a altura dos botões
+
+		overlayGbc.gridx = 0;
+		overlayPanel.add(adicionarButton, overlayGbc);
+		overlayGbc.gridx = 1;
+		overlayPanel.add(editarButton, overlayGbc);
+		overlayGbc.gridx = 2;
+		overlayPanel.add(excluirButton, overlayGbc);
+		overlayGbc.gridx = 3;
+		overlayPanel.add(voltarButton, overlayGbc);
 
 		// Tabela de produtos
 		DefaultTableModel model = new DefaultTableModel(new Object[]{"Código", "Categoria", "Descrição", "Nome", "Preço"}, 0);
 		table = new JTable(model);
 		table.setPreferredScrollableViewportSize(new Dimension(1000, 400));
 		JScrollPane scrollPane = new JScrollPane(table);
+
 		overlayGbc = new GridBagConstraints();
-		overlayGbc.insets = new Insets(5, 5, 5, 5);
+		overlayGbc.insets = new Insets(10, 10, 10, 10);
 		overlayGbc.fill = GridBagConstraints.BOTH;
 		overlayGbc.gridx = 0;
-		overlayGbc.gridy = 1;
-		overlayGbc.gridwidth = 3;
+		overlayGbc.gridy = 2;
+		overlayGbc.gridwidth = 4;
 		overlayGbc.weightx = 1.0;
 		overlayGbc.weighty = 1.0;
 		overlayPanel.add(scrollPane, overlayGbc);
 
-		// Preenche a tabela com os dados dos produtos
 		List<Produto> consulta = produtoService.obterTodos(Integer.MAX_VALUE, 0);
 		for (Produto linha : consulta) {
 			model.addRow(new Object[]{linha.getId(), linha.getCategoria(), linha.getDescricao(), linha.getNome(), linha.getPreco()});
 		}
 
-		// Listener para alterações na tabela (para atualizar os produtos modificados)
 		table.getModel().addTableModelListener(e -> {
 			int row = e.getFirstRow();
 			int column = e.getColumn();
-
-			// Verifica se a linha existe antes de acessar os dados
 			if (row < 0 || row >= table.getRowCount()) {
-				return; // Evita exceção
+				return;
 			}
-
 			long id = Long.parseLong(table.getValueAt(row, 0).toString());
 			Produto produtoOrg = produtosAlteradosMap.getOrDefault(id, produtoService.obterPorID(id));
 			produtosAlteradosMap.put(id, produtoOrg);
-
 			if (column != -1) {
 				String novoValor = table.getValueAt(row, column).toString();
 				switch (column) {
@@ -119,39 +144,6 @@ public class SwingCadastroProdutos extends JFrame {
 			}
 		});
 
-
-		// Criação dos botões mantendo as mesmas posições originais
-		JButton adicionarButton = criarBotao("Adicionar", e -> {
-			new JDialogCadastroProdutos().setVisible(true);
-			atualizarTabela();
-		});
-		JButton editarButton = criarBotao("Editar", e -> salvarAlteracoes());
-		JButton excluirButton = criarBotao("Excluir", e -> excluirProduto());
-		JButton voltarButton = criarBotao("Voltar", e -> controladorDeTela.abrirJanela("menuPrincipal"));
-
-		// Linha de botões: configurando weightx = 1.0 para igualar o tamanho
-		overlayGbc = new GridBagConstraints();
-		overlayGbc.insets = new Insets(5, 5, 5, 5);
-		overlayGbc.fill = GridBagConstraints.BOTH;
-		overlayGbc.gridy = 2;
-		overlayGbc.gridwidth = 1;
-		overlayGbc.weightx = 1.0;
-
-		overlayGbc.gridx = 0;
-		overlayPanel.add(adicionarButton, overlayGbc);
-
-		overlayGbc.gridx = 1;
-		overlayPanel.add(editarButton, overlayGbc);
-
-		overlayGbc.gridx = 2;
-		overlayPanel.add(excluirButton, overlayGbc);
-
-		overlayGbc.gridx = 3;
-		overlayPanel.add(voltarButton, overlayGbc);
-
-
-
-		// Redimensiona a imagem de fundo quando a janela é redimensionada
 		addComponentListener(new ComponentAdapter() {
 			public void componentResized(ComponentEvent componentEvent) {
 				Image img = backgroundIcon.getImage();
@@ -163,10 +155,13 @@ public class SwingCadastroProdutos extends JFrame {
 
 	private JButton criarBotao(String texto, ActionListener action) {
 		JButton botao = new JButton(texto);
-		botao.setFont(new Font("SansSerif", Font.PLAIN, 20));
+		botao.setFont(new Font("SansSerif", Font.PLAIN, 30));
 		botao.setBackground(new Color(83, 131, 5));
 		botao.setForeground(Color.WHITE);
 		botao.addActionListener(action);
+		botao.setPreferredSize(new Dimension(200, 50));
+		botao.setMinimumSize(new Dimension(150, 40));
+		botao.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
 		return botao;
 	}
 
