@@ -26,6 +26,7 @@ public class JDialogPagamento extends JDialog {
 	private Map<JComponent, String> dinheiro = new LinkedHashMap<>();
 	private Map<JComponent, String> cartao = new LinkedHashMap<>();
 	private String valorTotal;
+	private boolean pagamentoConfirmado = false;
 
 	public static void main(String[] args) {
 		JDialogPagamento teste = new JDialogPagamento("115");
@@ -46,7 +47,11 @@ public class JDialogPagamento extends JDialog {
 		tipoPagamento = new JComboBox<>(new String[]{"Dinheiro", "Cartão"});
 		dinheiroPago = new JTextField();
 		totalPagar = new JLabel(valorTotal);
+		totalPagar.setFont(new Font("Comic Sans MS", Font.PLAIN, 24));
+		totalPagar.setForeground(Color.white);
 		troco = new JLabel("0.0");
+		troco.setFont(new Font("Comic Sans MS", Font.PLAIN, 24));
+		troco.setForeground(Color.white);
 		status = new JLabel("Aguardando...");
 
 		// Configurando os mapas de pagamento
@@ -100,7 +105,10 @@ public class JDialogPagamento extends JDialog {
 
 	private void atualizarCampos() {
 		contentPanel.removeAll(); // Remove os componentes antigos
-		contentPanel.add(new JLabel("Forma de Pagamento:"));
+		JLabel formaPagamento = new JLabel("Forma de Pagamento:");
+		formaPagamento.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
+		formaPagamento.setForeground(Color.WHITE);
+		contentPanel.add(formaPagamento);
 		contentPanel.add(tipoPagamento);
 
 		// Determina quais componentes adicionar
@@ -108,7 +116,7 @@ public class JDialogPagamento extends JDialog {
 
 		for (Map.Entry<JComponent, String> entry : camposAtuais.entrySet()) {
 			JLabel lbl = new JLabel(entry.getValue());
-			lbl.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
+			lbl.setFont(new Font("Comic Sans MS", Font.PLAIN, 24));
 			lbl.setForeground(Color.WHITE);
 			contentPanel.add(lbl);
 			contentPanel.add(entry.getKey());
@@ -147,6 +155,7 @@ public class JDialogPagamento extends JDialog {
 						salvarPedido();
 						PostRequest.realizarPagamento();
 						JOptionPane.showMessageDialog(null, "Pagamento realizado com sucesso!");
+						confirmarPagamento();
 						dispose();
 					} catch (Exception ex) {
 						JOptionPane.showMessageDialog(null, "Erro ao processar pagamento: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -159,6 +168,7 @@ public class JDialogPagamento extends JDialog {
 					JOptionPane.showMessageDialog(null, "O dinheiro pago é menor que o valor da compra!");
 				} else {
 					JOptionPane.showMessageDialog(null, "Pagamento realizado com sucesso!");
+					confirmarPagamento();
 					dispose();
 				}
 			}
@@ -189,4 +199,14 @@ public class JDialogPagamento extends JDialog {
 			System.err.println("Erro ao salvar pedido.json: " + e.getMessage());
 		}
 	}
+
+	public boolean isPagamentoConfirmado() {
+		return pagamentoConfirmado;
+	}
+
+	private void confirmarPagamento() {
+		pagamentoConfirmado = true; // Seta como confirmado ao finalizar o pagamento
+		dispose(); // Fecha o diálogo
+	}
+
 }
