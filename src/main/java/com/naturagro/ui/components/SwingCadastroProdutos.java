@@ -80,7 +80,7 @@ public class SwingCadastroProdutos extends JFrame {
 		overlayGbc.gridy = 0;
 		overlayGbc.gridwidth = 2;
 		JLabel titleLabel = new JLabel("Cadastro de Produtos");
-		titleLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 36));
+		titleLabel.setFont(new Font("SansSerif", Font.PLAIN, 50));
 		titleLabel.setForeground(Color.WHITE);
 		overlayPanel.add(titleLabel, overlayGbc);
 
@@ -173,7 +173,7 @@ public class SwingCadastroProdutos extends JFrame {
 
 	private JButton criarBotao(String texto, ActionListener action) {
 		JButton botao = new JButton(texto);
-		botao.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
+		botao.setFont(new Font("SansSerif", Font.PLAIN, 20));
 		botao.setBackground(new Color(83, 131, 5));
 		botao.setForeground(Color.WHITE);
 		botao.addActionListener(action);

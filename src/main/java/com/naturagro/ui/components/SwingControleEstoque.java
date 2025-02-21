@@ -68,7 +68,7 @@ public class SwingControleEstoque extends JFrame {
 
 		// Título "Controle de Estoque"
 		JLabel ControleEstoqueLabel = new JLabel("Controle de Estoque");
-		ControleEstoqueLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 36));
+		ControleEstoqueLabel.setFont(new Font("SansSerif", Font.PLAIN, 50));
 		ControleEstoqueLabel.setForeground(new Color(255, 255, 255)); // Cor branca para contraste
 		innerGbc.gridx = 0;
 		innerGbc.gridy = 0;
@@ -126,7 +126,7 @@ public class SwingControleEstoque extends JFrame {
 		JButton AdicionarButton = new JButton("Adicionar");
 		AdicionarButton.setBackground(new Color(83, 131, 5));
 		AdicionarButton.setForeground(new Color(255, 255, 255));
-		AdicionarButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+		AdicionarButton.setFont(new Font("SansSerif", Font.PLAIN, 30));
 		AdicionarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JDialogControleEstoque dialog = new JDialogControleEstoque();
@@ -138,7 +138,7 @@ public class SwingControleEstoque extends JFrame {
 
 		JButton RemoverButton = new JButton("Remover");
 		RemoverButton.setForeground(Color.WHITE);
-		RemoverButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+		RemoverButton.setFont(new Font("SansSerif", Font.PLAIN, 30));
 		RemoverButton.setBackground(new Color(83, 131, 5));
 		RemoverButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -160,7 +160,7 @@ public class SwingControleEstoque extends JFrame {
 
 		JButton BotaoVoltar = new JButton("Voltar");
 		BotaoVoltar.setForeground(Color.WHITE);
-		BotaoVoltar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+		BotaoVoltar.setFont(new Font("SansSerif", Font.PLAIN, 30));
 		BotaoVoltar.setBackground(new Color(168, 29, 29));
 		// Função do botão Voltar
 		BotaoVoltar.addActionListener(new ActionListener() {

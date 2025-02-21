@@ -125,7 +125,7 @@ public class SwingVendas extends JFrame {
 		JButton BotaoAdcionar = new JButton("Adicionar");
 		BotaoAdcionar.setBackground(new Color(83, 131, 5));
 		BotaoAdcionar.setForeground(new Color(255, 255, 255));
-		BotaoAdcionar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+		BotaoAdcionar.setFont(new Font("SansSerif", Font.PLAIN, 30));
 		BotaoAdcionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JDialogVendas dialog = new JDialogVendas(new ProdutoSelecionadoListener() {
@@ -163,7 +163,7 @@ public class SwingVendas extends JFrame {
 		JButton BotaoFinalizar = new JButton("Pagamento");
 		BotaoFinalizar.setBackground(new Color(83, 131, 5));
 		BotaoFinalizar.setForeground(new Color(255, 255, 255));
-		BotaoFinalizar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+		BotaoFinalizar.setFont(new Font("SansSerif", Font.PLAIN, 30));
 		BotaoFinalizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) table.getModel();

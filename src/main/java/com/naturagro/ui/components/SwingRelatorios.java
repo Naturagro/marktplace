@@ -59,7 +59,7 @@ public class SwingRelatorios extends JFrame {
 
 		// Título
 		JLabel relatoriosLabel = new JLabel("Relatórios", SwingConstants.CENTER);
-		relatoriosLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 50));
+		relatoriosLabel.setFont(new Font("SansSerif", Font.PLAIN, 50));
 		relatoriosLabel.setForeground(Color.WHITE);
 		relatoriosLabel.setMinimumSize(new Dimension(fixedWidth, 80));
 		relatoriosLabel.setPreferredSize(new Dimension(fixedWidth, 80));
@@ -73,7 +73,7 @@ public class SwingRelatorios extends JFrame {
 		// ComboBox de Seleção de Relatório
 		JComboBox<String> comboBox = new JComboBox<>();
 		comboBox.setBackground(new Color(83, 131, 5));
-		comboBox.setFont(new Font("Comic Sans MS", Font.PLAIN, 24));
+		comboBox.setFont(new Font("SansSerif", Font.PLAIN, 24));
 		comboBox.setForeground(Color.WHITE);
 		comboBox.setModel(new DefaultComboBoxModel<>(new String[] {
 				"Movimentação de Estoque", "Produtos Mais Vendidos"
@@ -97,7 +97,7 @@ public class SwingRelatorios extends JFrame {
 			formattedTextField.setBackground(new Color(83, 131, 5));
 			formattedTextField.setForeground(Color.WHITE);
 			formattedTextField.setHorizontalAlignment(SwingConstants.CENTER);
-			formattedTextField.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+			formattedTextField.setFont(new Font("SansSerif", Font.PLAIN, 30));
 			formattedTextField.setText("__/__/____");
 			formattedTextField.setMinimumSize(new Dimension(fixedWidth, 50));
 			formattedTextField.setPreferredSize(new Dimension(fixedWidth, 50));
@@ -133,7 +133,7 @@ public class SwingRelatorios extends JFrame {
 		JButton botaoVoltar = new JButton("Voltar");
 		botaoVoltar.setBackground(new Color(163, 43, 43));
 		botaoVoltar.setForeground(Color.WHITE);
-		botaoVoltar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+		botaoVoltar.setFont(new Font("SansSerif", Font.PLAIN, 30));
 		botaoVoltar.setMinimumSize(new Dimension(fixedWidth, 60));
 		botaoVoltar.setPreferredSize(new Dimension(fixedWidth, 60));
 		botaoVoltar.setMaximumSize(new Dimension(fixedWidth, 60));
