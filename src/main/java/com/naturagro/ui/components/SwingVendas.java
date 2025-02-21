@@ -78,7 +78,7 @@ public class SwingVendas extends JFrame {
 
 		// Label do "Total a Pagar"
 		JLabel totalPagarLabel = new JLabel("Total a Pagar:");
-		totalPagarLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 36));
+		totalPagarLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 36));
 		totalPagarLabel.setForeground(new Color(255, 255, 255));  // Cor branca para contraste
 		innerGbc.gridx = 0;
 		innerGbc.gridy = 3;
@@ -87,7 +87,7 @@ public class SwingVendas extends JFrame {
 
 		// Label do valor total em reais
 		JLabel valorTotalLabel = new JLabel("R$ 00.00");
-		valorTotalLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 36));
+		valorTotalLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 36));
 		valorTotalLabel.setForeground(new Color(255, 255, 255));  // Cor branca para contraste
 		innerGbc.gridx = 3;
 		innerGbc.gridy = 3;

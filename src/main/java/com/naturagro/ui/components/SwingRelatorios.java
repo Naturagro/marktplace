@@ -59,7 +59,7 @@ public class SwingRelatorios extends JFrame {
 
 		// Título
 		JLabel relatoriosLabel = new JLabel("Relatórios", SwingConstants.CENTER);
-		relatoriosLabel.setFont(new Font("SansSerif", Font.PLAIN, 50));
+		relatoriosLabel.setFont(new Font("SansSerif", Font.BOLD, 50));
 		relatoriosLabel.setForeground(Color.WHITE);
 		relatoriosLabel.setMinimumSize(new Dimension(fixedWidth, 80));
 		relatoriosLabel.setPreferredSize(new Dimension(fixedWidth, 80));
