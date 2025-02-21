@@ -1,17 +1,16 @@
 package com.naturagro.ui;
 
-import com.naturagro.controllers.AccessControlController;
 import com.naturagro.service.FuncionarioService;
 import com.naturagro.ui.components.*;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class Main extends JFrame {
+public class UI extends JFrame {
     private static final long serialVersionUID = 1L;
     private JTextField textField;
 
-    public static void main(String[] args) {
+    public void GUIIInit() {
         EventQueue.invokeLater(new Runnable() {
             // Todos os testes do swing devem ser realizados aqui
             public void run() {
