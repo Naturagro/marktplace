@@ -16,6 +16,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class JDialogCadastroProdutos extends JDialog {
@@ -39,7 +40,7 @@ public class JDialogCadastroProdutos extends JDialog {
 		contentPanel.setLayout(new GridLayout(campos.size(), 2, 10, 10));
 		setModal(true);
 
-		Map<JComponent, String> campos = new HashMap<>();
+		Map<JComponent, String> campos = new LinkedHashMap<>();
 
 		// Instanciar todos os JComponents que a tela vai ter
 		JComboBox<CategoriaProduto> categoria = new JComboBox<>(CategoriaProduto.values());
