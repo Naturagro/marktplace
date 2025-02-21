@@ -2,6 +2,7 @@ package com.naturagro.models;
 
 
 import com.naturagro.service.ProdutoService;
+import com.naturagro.utils.BarCodeGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -35,6 +36,8 @@ public class Produto {
         this.categoria = categoriaProduto;
         this.descricao = descricao;
         this.nome = nome;
+        BarCodeGenerator generator = new BarCodeGenerator();
+        generator.gerarCodigoProduto(this);
     }
 
     public Produto() { // precisei deixar publico pq eu tive q criar um objeto Produto só pra usar em uma logica lá da UI, daí n podia ter id novo
