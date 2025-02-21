@@ -3,9 +3,12 @@ package com.naturagro.service;
 import com.naturagro.DAO.DAO;
 import com.naturagro.models.Lote;
 import com.naturagro.models.Produto;
+import com.naturagro.models.Venda;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class LoteService extends DAO<Lote> {
@@ -35,6 +38,17 @@ public class LoteService extends DAO<Lote> {
             em.getTransaction().rollback();
         }
         return this;
+    }
+
+    public List<Lote> consultarLotePorData(LocalDate data){
+
+        String consulta = "SELECT l FROM Lote l WHERE l.dataEntrada = :data";
+        EntityManager em = getEntityManager();
+        TypedQuery<Lote> query = em.createQuery(consulta, Lote.class);
+        query.setParameter("data", data);
+
+        List<Lote> lotes = query.getResultList();
+        return lotes;
     }
 
 //

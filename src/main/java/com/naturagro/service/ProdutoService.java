@@ -5,7 +5,7 @@ import com.naturagro.models.CategoriaProduto;
 import com.naturagro.models.Produto;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.time.LocalDate;
 import java.util.List;
@@ -73,6 +73,22 @@ public class ProdutoService extends DAO<Produto> {
         String jpql = "SELECT p.id, p.categoria, p.descricao, p.nome, p.preco FROM Produto p";
         TypedQuery<Object[]> query = em.createQuery(jpql, Object[].class);
         return query.getResultList();
+    }
+
+    // todo ajeitar essa query
+    public Object[] encontrarProdutoMaisVendido(LocalDate from) {
+        String consulta = "SELECT vp.produto_id, COUNT(vp.produto_id) AS totalVendido " +
+                "FROM venda_produto vp " +
+                "GROUP BY vp.produto_id " +
+                "ORDER BY totalVendido DESC " +
+                "LIMIT 1";
+
+        EntityManager em = getEntityManager();
+        Query query = em.createNativeQuery(consulta);
+
+        Object[] resultado = (Object[]) query.getSingleResult();
+
+        return resultado;
     }
 
 

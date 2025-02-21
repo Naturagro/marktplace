@@ -3,18 +3,29 @@ package com. naturagro. utils;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.properties.UnitValue;
+import com.naturagro.models.Lote;
+import com.naturagro.models.Produto;
+import com.naturagro.models.Venda;
+import com.naturagro.service.LoteService;
+import com.naturagro.service.ProdutoService;
+import com.naturagro.service.VendaService;
 
 import java.io.FileNotFoundException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.nio.file.Paths;
+import java.util.List;
 
 public class GeradorRelatorio {
-    public static void main(String[] args) {
+
+    public static void gerarRelatorioDia(LocalDate data) {
         // Define o caminho da pasta de Downloads
         String caminhoDownloads = Paths.get(System.getProperty("user.home"), "Downloads").toString();
 
@@ -28,6 +39,13 @@ public class GeradorRelatorio {
             pastaDownloads.mkdirs(); // Cria a pasta e quaisquer pastas pai necessárias
         }
 
+
+        VendaService vendaService = new VendaService();
+        List<Venda> vendas = vendaService.buscarPorPeriodo(data.atStartOfDay(), data.plusDays(1).atStartOfDay());
+
+        LoteService loteService = new LoteService();
+        List<Lote> lotes = loteService.consultarLotePorData(LocalDate.from(data.atStartOfDay()));
+
         try {
             // Cria o PDF no caminho especificado
             PdfWriter writer = new PdfWriter(caminhoPDF);
@@ -40,20 +58,133 @@ public class GeradorRelatorio {
 
             // Obtém a data e hora atuais
             LocalDateTime dataHoraAtual = LocalDateTime.now();
-
-            // Formata a data e hora
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
             String dataHoraFormatada = dataHoraAtual.format(formatter);
 
             // Adiciona a data e hora ao PDF
             document.add(new Paragraph("Data de emissão: " + dataHoraFormatada));
-            document.add(new Paragraph("________________________________________________________________________________"));
+            document.add(new Paragraph("_____________________________________________________________________________")).setBold();
+            document.add(new Paragraph("HISTÓRICO DE VENDAS DO DIA:  " + data));
 
-            //todo: pegar a data passada no front e usá-lá de parametro aqui
+            if (vendas.isEmpty()) {
+                document.add(new Paragraph("Nenhuma venda encontrada para a data selecionada."));
+            } else {
+                // Criar tabela
+                Table table = new Table(3); // Definindo proporções das colunas
+                table.setWidth(UnitValue.createPercentValue(100));
 
-            //todo: query que consulta do banco todas as vendas a partir da data escolhida
+                // Cabeçalhos da tabela
+                table.addHeaderCell(new Cell().add(new Paragraph("ID")).setBold());
+                table.addHeaderCell(new Cell().add(new Paragraph("Data")).setBold());
+                table.addHeaderCell(new Cell().add(new Paragraph("Valor (R$)")).setBold());
 
-            //todo: query que consulta do banco todo lote a partir da data escolhida
+                for (Venda venda : vendas) {
+                    table.addCell(String.valueOf(venda.getId()));
+                    table.addCell(venda.getDataCompra().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                    table.addCell(String.format("%.2f", venda.getValorTotal()));
+                }
+
+                document.add(table);
+            }
+
+            document.add(new Paragraph("  "));
+            document.add(new Paragraph("HISTÓRICO DE ENTRADA (LOTE) DO DIA:  " + data));
+
+            if (lotes.isEmpty()) {
+                document.add(new Paragraph("Nenhuma entrada de lote encontrada para a data selecionada."));
+            } else {
+                // Criar tabela
+                Table table2 = new Table(5); // Definindo proporções das colunas
+                table2.setWidth(UnitValue.createPercentValue(100));
+
+                // Cabeçalhos da tabela
+                table2.addHeaderCell(new Cell().add(new Paragraph("ID")).setBold());
+                table2.addHeaderCell(new Cell().add(new Paragraph("Produto")).setBold());
+                table2.addHeaderCell(new Cell().add(new Paragraph("Data Entrada")).setBold());
+                table2.addHeaderCell(new Cell().add(new Paragraph("Data Vencimento")).setBold());
+                table2.addHeaderCell(new Cell().add(new Paragraph("Qtd.")).setBold());
+
+                for (Lote lote : lotes) {
+                    table2.addCell(String.valueOf(lote.getId()));
+                    table2.addCell(String.valueOf(lote.getProduto()));
+                    table2.addCell(lote.getDataEntrada().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                    table2.addCell(lote.getDataVencimento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                    table2.addCell(String.valueOf(lote.getQuantidade()));
+                }
+
+                document.add(table2);
+            }
+
+            // Fecha o documento
+            document.close();
+
+            System.out.println("PDF gerado com sucesso!");
+            System.out.println("Salvo em: " + caminhoPDF);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    //todo ajeitar esse metodo se der tempo
+    public static void gerarRelatorioVendido(LocalDate data){
+        // Define o caminho da pasta de Downloads
+        String caminhoDownloads = Paths.get(System.getProperty("user.home"), "Downloads").toString();
+
+        // Gera um nome de arquivo único
+        String nomeArquivo = gerarNomeUnico(caminhoDownloads, "Relatorio", "pdf");
+        String caminhoPDF = Paths.get(caminhoDownloads, nomeArquivo).toString();
+
+        // Cria a pasta Downloads se ela não existir
+        File pastaDownloads = new File(caminhoDownloads);
+        if (!pastaDownloads.exists()) {
+            pastaDownloads.mkdirs(); // Cria a pasta e quaisquer pastas pai necessárias
+        }
+
+        ProdutoService produtoService = new ProdutoService();
+        Object[] produtos = produtoService.encontrarProdutoMaisVendido(LocalDate.from(data.atStartOfDay()));
+
+
+        try {
+            // Cria o PDF no caminho especificado
+            PdfWriter writer = new PdfWriter(caminhoPDF);
+            PdfDocument pdf = new PdfDocument(writer);
+            Document document = new Document(pdf);
+
+            // Adiciona um parágrafo ao PDF
+            document.add(new Paragraph("Naturagro LTDA"));
+            document.add(new Paragraph("CNPJ: 80.996.492/0001-56"));
+
+            // Obtém a data e hora atuais
+            LocalDateTime dataHoraAtual = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+            String dataHoraFormatada = dataHoraAtual.format(formatter);
+
+            // Adiciona a data e hora ao PDF
+            document.add(new Paragraph("Data de emissão: " + dataHoraFormatada));
+            document.add(new Paragraph("_____________________________________________________________________________")).setBold();
+            document.add(new Paragraph("PRODUTOS MAIS VENDIDOS NO DIA:  " + data));
+
+            if (produtos.length == 0) {
+                document.add(new Paragraph("Nenhuma entrada de lote encontrada para a data selecionada."));
+            } else {
+                Table table3 = new Table(3); // Definindo proporções das colunas
+                table3.setWidth(UnitValue.createPercentValue(100));
+
+                // Cabeçalhos da tabela
+                table3.addHeaderCell(new Cell().add(new Paragraph("ID")).setBold());
+                table3.addHeaderCell(new Cell().add(new Paragraph("Nome")).setBold());
+                table3.addHeaderCell(new Cell().add(new Paragraph("Categoria")).setBold());
+                table3.addHeaderCell(new Cell().add(new Paragraph("Valor (R$)")).setBold());
+                table3.addHeaderCell(new Cell().add(new Paragraph("Vendas")).setBold());
+
+                for (Object produto : produtos) {
+                    // todo
+                }
+
+                document.add(table3);
+            }
 
             // Fecha o documento
             document.close();
@@ -68,12 +199,12 @@ public class GeradorRelatorio {
 
 
     private static String gerarNomeUnico(String diretorio, String nomeBase, String extensao) {
-        String nomeArquivo = nomeBase + "." + extensao; // Nome inicial (ex: "Relatorio.pdf")
+        String nomeArquivo = nomeBase + "." + extensao; // nome inicial
         File arquivo = new File(diretorio, nomeArquivo);
 
         int contador = 1;
         while (arquivo.exists()) {
-            // Se o arquivo já existe, adiciona um número ao nome (ex: "Relatorio(1).pdf")
+            // se o arquivo já existe, adiciona um número ao nome
             nomeArquivo = nomeBase + "(" + contador + ")." + extensao;
             arquivo = new File(diretorio, nomeArquivo);
             contador++;

@@ -1,5 +1,7 @@
 package com.naturagro.models;
 
+import com.itextpdf.layout.element.Cell;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -106,7 +108,7 @@ public class Lote {
         this.produto = produto;
     }
 
-    public Integer getQuantidade() {
+    public int getQuantidade() {
         return quantidade;
     }
 

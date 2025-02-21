@@ -86,7 +86,7 @@ public class SwingMenuPrincipal extends JFrame {
 
 		// Título
 		JLabel menuLabel = new JLabel("Menu Principal");
-		menuLabel.setFont(new Font("Tahoma", Font.BOLD, 50));
+		menuLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 50));
 		menuLabel.setForeground(Color.WHITE);
 		innerGbc.gridx = 1;
 		innerGbc.gridy = 0;
@@ -121,8 +121,8 @@ public class SwingMenuPrincipal extends JFrame {
 			JButton button = new JButton(botoes[i]);
 			button.setBackground(new Color(83, 131, 5));
 			button.setForeground(Color.WHITE);
-			button.setFont(new Font("SansSerif", Font.BOLD, 30));
-			button.setPreferredSize(new Dimension(200, 30));
+			button.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));  // Tamanho da fonte reduzido
+			button.setPreferredSize(new Dimension(200, 30));  // Tamanho fixo para os botões
 			button.addActionListener(new BotaoListener(acoes[i]));
 
 			innerGbc.gridx = i % 2;
@@ -130,6 +130,7 @@ public class SwingMenuPrincipal extends JFrame {
 			panel.add(button, innerGbc);
 		}
 	}
+
 	private class BotaoListener implements ActionListener {
 		private String acao;
 
@@ -142,4 +143,5 @@ public class SwingMenuPrincipal extends JFrame {
 			controlador.abrirJanela(acao);
 		}
 	}
-}
+
+	}
