@@ -69,7 +69,7 @@ public class SwingCadastroProdutos extends JFrame {
 		overlayGbc.gridy = 0;
 		overlayGbc.gridwidth = 4;
 		JLabel titleLabel = new JLabel("Cadastro de Produtos");
-		titleLabel.setFont(new Font("SansSerif", Font.BOLD, 50));
+		titleLabel.setFont(new Font("Tahoma", Font.BOLD, 50));
 		titleLabel.setForeground(Color.WHITE);
 		titleLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		overlayPanel.add(titleLabel, overlayGbc);

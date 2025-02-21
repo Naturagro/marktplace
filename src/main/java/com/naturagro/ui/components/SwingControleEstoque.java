@@ -67,7 +67,7 @@ public class SwingControleEstoque extends JFrame {
 
 		// Título "Controle de Estoque"
 		JLabel ControleEstoqueLabel = new JLabel("Controle de Estoque");
-		ControleEstoqueLabel.setFont(new Font("SansSerif", Font.BOLD, 50));
+		ControleEstoqueLabel.setFont(new Font("Tahoma", Font.BOLD, 50));
 		ControleEstoqueLabel.setForeground(new Color(255, 255, 255)); // Cor branca para contraste
 		innerGbc.gridx = 0;
 		innerGbc.gridy = 0;
