@@ -109,6 +109,12 @@ public class SwingCadastroProdutos extends JFrame {
 		table.getModel().addTableModelListener(e -> {
 			int row = e.getFirstRow();
 			int column = e.getColumn();
+
+			// Verifica se a linha existe antes de acessar os dados
+			if (row < 0 || row >= table.getRowCount()) {
+				return; // Evita exceção
+			}
+
 			long id = Long.parseLong(table.getValueAt(row, 0).toString());
 			Produto produtoOrg = produtosAlteradosMap.getOrDefault(id, produtoService.obterPorID(id));
 			produtosAlteradosMap.put(id, produtoOrg);
@@ -123,6 +129,7 @@ public class SwingCadastroProdutos extends JFrame {
 			}
 		});
 
+
 		// Criação dos botões mantendo as mesmas posições originais
 		JButton adicionarButton = criarBotao("Adicionar", e -> {
 			new JDialogCadastroProdutos().setVisible(true);
@@ -131,13 +138,6 @@ public class SwingCadastroProdutos extends JFrame {
 		JButton editarButton = criarBotao("Editar", e -> salvarAlteracoes());
 		JButton excluirButton = criarBotao("Excluir", e -> excluirProduto());
 		JButton voltarButton = criarBotao("Voltar", e -> controladorDeTela.abrirJanela("menuPrincipal"));
-
-		// Botão Atualizar com mesmo estilo dos demais botões
-		JButton atualizarButton = new JButton(new ImageIcon(getClass().getResource("/images/reloadIcon50.png")));
-		atualizarButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
-		atualizarButton.setBackground(new Color(83, 131, 5));
-		atualizarButton.setForeground(Color.WHITE);
-		atualizarButton.addActionListener(e -> atualizarTabela());
 
 		// Linha de botões: configurando weightx = 1.0 para igualar o tamanho
 		overlayGbc = new GridBagConstraints();
@@ -159,8 +159,7 @@ public class SwingCadastroProdutos extends JFrame {
 		overlayGbc.gridx = 3;
 		overlayPanel.add(voltarButton, overlayGbc);
 
-		overlayGbc.gridx = 4;
-		overlayPanel.add(atualizarButton, overlayGbc);
+
 
 		// Redimensiona a imagem de fundo quando a janela é redimensionada
 		addComponentListener(new ComponentAdapter() {

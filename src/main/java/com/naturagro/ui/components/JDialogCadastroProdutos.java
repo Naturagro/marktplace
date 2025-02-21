@@ -16,13 +16,14 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class JDialogCadastroProdutos extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField;
-	private Map<JTextField, String> campos = new HashMap<>();
+	private Map<JTextField, String> campos = new LinkedHashMap<>();
 
 	public static void main(String[] args) {
 		JDialogCadastroProdutos teste = new JDialogCadastroProdutos();
@@ -39,7 +40,7 @@ public class JDialogCadastroProdutos extends JDialog {
 		contentPanel.setLayout(new GridLayout(campos.size(), 2, 10, 10));
 		setModal(true);
 
-		Map<JComponent, String> campos = new HashMap<>();
+		Map<JComponent, String> campos = new LinkedHashMap<>();
 
 		// Instanciar todos os JComponents que a tela vai ter
 		JComboBox<CategoriaProduto> categoria = new JComboBox<>(CategoriaProduto.values());

@@ -13,6 +13,7 @@
         <class>com.naturagro.models.Produto</class>
         <class>com.naturagro.models.Venda</class>
         <class>com.naturagro.models.Funcionario</class>
+        <class>com.naturagro.models.Lote</class>
 
 
 
