@@ -61,22 +61,12 @@ public class SwingCadastroProdutos extends JFrame {
 		overlayGbc.gridy = 0;
 		backgroundLabel.add(overlayPanel, overlayGbc);
 
-		// --- Componentes adicionados no overlayPanel ---
-		// Logo
-		overlayGbc = new GridBagConstraints();
-		overlayGbc.insets = new Insets(5, 5, 5, 5);
-		overlayGbc.fill = GridBagConstraints.BOTH;
-		overlayGbc.gridx = 0;
-		overlayGbc.gridy = 0;
-		overlayGbc.gridwidth = 1;
-		JLabel logoLabel = new JLabel(new ImageIcon(getClass().getResource("/images/logo.png")));
-		overlayPanel.add(logoLabel, overlayGbc);
-
+		// --- Componentes adicionados no overlayPanel
 		// Título
 		overlayGbc = new GridBagConstraints();
 		overlayGbc.insets = new Insets(5, 5, 5, 5);
 		overlayGbc.fill = GridBagConstraints.BOTH;
-		overlayGbc.gridx = 1;
+		overlayGbc.gridx = 0;
 		overlayGbc.gridy = 0;
 		overlayGbc.gridwidth = 2;
 		JLabel titleLabel = new JLabel("Cadastro de Produtos");
