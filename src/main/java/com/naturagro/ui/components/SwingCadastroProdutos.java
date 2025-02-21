@@ -61,7 +61,7 @@ public class SwingCadastroProdutos extends JFrame {
 		overlayGbc.gridy = 0;
 		backgroundLabel.add(overlayPanel, overlayGbc);
 
-		// Título alinhado à esquerda
+		// Título =
 		overlayGbc = new GridBagConstraints();
 		overlayGbc.insets = new Insets(10, 10, 10, 10);
 		overlayGbc.fill = GridBagConstraints.BOTH;
@@ -85,7 +85,7 @@ public class SwingCadastroProdutos extends JFrame {
 		// Apenas alterando a cor do botão "Voltar"
 		voltarButton.setBackground(new Color(163, 43, 43));
 
-		// Linha de botões: posicionada mais abaixo do título com expansão
+		// Linha de botões
 		overlayGbc = new GridBagConstraints();
 		overlayGbc.insets = new Insets(20, 10, 10, 10); // espaço superior aumentado
 		overlayGbc.fill = GridBagConstraints.BOTH;
