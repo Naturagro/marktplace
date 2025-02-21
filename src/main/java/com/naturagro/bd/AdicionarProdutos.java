@@ -1,4 +1,4 @@
-package com.naturagro.example;
+package com.naturagro.bd;
 
 import com.naturagro.models.CategoriaProduto;
 import com.naturagro.models.Produto;
