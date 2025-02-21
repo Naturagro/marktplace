@@ -20,6 +20,10 @@ public class PostRequest {
 
     public static void realizarPagamento() {
         try {
+            if (ACCESS_TOKEN == null || ACCESS_TOKEN.isEmpty()) {
+                throw new IllegalStateException("ACCESS_TOKEN não está configurado.");
+            }
+
             String token = gerarToken();
             if (token == null) {
                 System.err.println("Erro ao gerar token!");
@@ -44,13 +48,19 @@ public class PostRequest {
 
         } catch (Exception e) {
             System.err.println("Erro ao processar pagamento: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
-    // metodo para ler o conteúdo do arquivo pedido.json
     private static JSONObject lerArquivoPedido() {
         try {
             Path path = Path.of(FILE_PATH);
+
+            if (!Files.exists(path)) {
+                System.err.println("Arquivo pedido.json não encontrado!");
+                return null;
+            }
+
             String content = Files.readString(path);
             return new JSONObject(content);
         } catch (IOException e) {
@@ -59,31 +69,39 @@ public class PostRequest {
         }
     }
 
-// metodo para atualizar o arquivo pedido.json com o token gerado
-private static boolean atualizarArquivoPedido(String token) {
-    try {
-        Path path = Path.of(FILE_PATH);
+    // atualiza o pedido.json com o token gerado
+    private static boolean atualizarArquivoPedido(String token) {
+        try {
+            Path path = Path.of(FILE_PATH);
 
-        String content = Files.readString(path);
-        JSONObject pedido = new JSONObject(content);
+            if (!Files.exists(path)) {
+                System.err.println("Arquivo pedido.json não encontrado.");
+                return false;
+            }
 
-        pedido.put("token", token);
+            String content = Files.readString(path);
+            JSONObject pedido = new JSONObject(content);
 
-        JSONObject payer = pedido.getJSONObject("payer");
-        payer.put("email", "teste@gmail.com");
+            pedido.put("token", token);
 
-        Files.writeString(path, pedido.toString(4), StandardOpenOption.TRUNCATE_EXISTING);
-        System.out.println("Arquivo pedido.json atualizado com sucesso!");
+            JSONObject payer = pedido.optJSONObject("payer");
+            if (payer == null) {
+                payer = new JSONObject();
+                pedido.put("payer", payer);
+            }
+            payer.put("email", "teste@gmail.com");
 
-        return true;
-    } catch (IOException e) {
-        System.err.println("Erro ao atualizar o arquivo pedido.json: " + e.getMessage());
-        return false;
+            Files.writeString(path, pedido.toString(4), StandardOpenOption.TRUNCATE_EXISTING);
+            System.out.println("Arquivo pedido.json atualizado com sucesso!");
+
+            return true;
+        } catch (IOException e) {
+            System.err.println("Erro ao atualizar o arquivo pedido.json: " + e.getMessage());
+            return false;
+        }
     }
-}
 
-
-    // metodo para enviar o pagamento usando os dados lidos do arquivo
+    // envia o pagamento ao Mercado Pago
     private static void enviarPagamento(String jsonContent, String idempotencyKey) {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
@@ -92,18 +110,22 @@ private static boolean atualizarArquivoPedido(String token) {
                 .uri(URI.create(URL_PAYMENT))
                 .header("Authorization", "Bearer " + ACCESS_TOKEN)
                 .header("Content-Type", "application/json")
-                .header("X-Idempotency-Key", idempotencyKey) // ✅ Adiciona o cabeçalho X-Idempotency-Key
+                .header("X-Idempotency-Key", idempotencyKey)
                 .build();
 
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println("Pagamento realizado!\nResposta: " + response.body());
+
+            System.out.println("Pagamento realizado!\nResposta formatada:");
+            System.out.println(new JSONObject(response.body()).toString(4)); // 📑 Melhor visualização
+
         } catch (IOException | InterruptedException e) {
             System.err.println("Erro ao processar pagamento: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
-    // metodo para gerar Token do Cartão
+    // gera um token de cartão no Mercado Pago
     private static String gerarToken() throws IOException, InterruptedException {
         JSONObject cartao = new JSONObject();
         cartao.put("card_number", "4235647728025682");
@@ -121,7 +143,7 @@ private static boolean atualizarArquivoPedido(String token) {
         cardholder.put("identification", identification);
         cartao.put("cardholder", cardholder);
 
-        // Enviar requisição para gerar Token
+        // Envia requisição para gerar Token
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .POST(HttpRequest.BodyPublishers.ofString(cartao.toString()))
@@ -135,14 +157,19 @@ private static boolean atualizarArquivoPedido(String token) {
 
         if (response.statusCode() == 201) {
             JSONObject jsonResponse = new JSONObject(response.body());
-            return jsonResponse.getString("id"); // Retorna o token gerado
+            if (jsonResponse.has("id")) {
+                return jsonResponse.getString("id"); // Retorna o token gerado
+            } else {
+                System.err.println("Resposta inesperada ao gerar token: " + response.body());
+                return null;
+            }
         } else {
             System.err.println("Erro ao gerar token: " + response.body());
             return null;
         }
     }
 
-//    public static void main(String[] args) {
-//        realizarPagamento();
-//    }
+    public static void main(String[] args) {
+        realizarPagamento();
+    }
 }
