@@ -27,7 +27,6 @@ public class SwingVendas extends JFrame {
 	private JLabel backgroundLabel;
 	private JTable table;
 	private DefaultTableModel model;
-	private String totalAcumuladoStr;
 
 	public SwingVendas(ControladorSwing controladorDeTela) {
 		ProdutoService produtoService = new ProdutoService();
@@ -78,7 +77,7 @@ public class SwingVendas extends JFrame {
 
 		// Label do "Total a Pagar"
 		JLabel totalPagarLabel = new JLabel("Total a Pagar:");
-		totalPagarLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 36));
+		totalPagarLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 36));
 		totalPagarLabel.setForeground(new Color(255, 255, 255));  // Cor branca para contraste
 		innerGbc.gridx = 0;
 		innerGbc.gridy = 3;
@@ -87,7 +86,7 @@ public class SwingVendas extends JFrame {
 
 		// Label do valor total em reais
 		JLabel valorTotalLabel = new JLabel("R$ 00.00");
-		valorTotalLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 36));
+		valorTotalLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 36));
 		valorTotalLabel.setForeground(new Color(255, 255, 255));  // Cor branca para contraste
 		innerGbc.gridx = 3;
 		innerGbc.gridy = 3;
@@ -125,7 +124,7 @@ public class SwingVendas extends JFrame {
 		JButton BotaoAdcionar = new JButton("Adicionar");
 		BotaoAdcionar.setBackground(new Color(83, 131, 5));
 		BotaoAdcionar.setForeground(new Color(255, 255, 255));
-		BotaoAdcionar.setFont(new Font("SansSerif", Font.PLAIN, 30));
+		BotaoAdcionar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
 		BotaoAdcionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JDialogVendas dialog = new JDialogVendas(new ProdutoSelecionadoListener() {
@@ -150,7 +149,7 @@ public class SwingVendas extends JFrame {
 							totalAcumulado += Double.parseDouble(valorStr);
 						}
 
-						totalAcumuladoStr = totalAcumulado.toString();
+						String totalAcumuladoStr = totalAcumulado.toString();
 						valorTotalLabel.setText("R$ "+totalAcumuladoStr);
 
 					}
@@ -160,21 +159,13 @@ public class SwingVendas extends JFrame {
 		});
 
 		// Botão Finalizar
-		JButton BotaoFinalizar = new JButton("Pagamento");
+		JButton BotaoFinalizar = new JButton("Finalizar");
 		BotaoFinalizar.setBackground(new Color(83, 131, 5));
 		BotaoFinalizar.setForeground(new Color(255, 255, 255));
-		BotaoFinalizar.setFont(new Font("SansSerif", Font.PLAIN, 30));
+		BotaoFinalizar.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
 		BotaoFinalizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
-
-				// Verifica se a tabela está vazia antes de prosseguir
-				if (model.getRowCount() == 0) {
-					JOptionPane.showMessageDialog(null, "Nenhum produto adicionado! Adicione um produto antes de finalizar a venda.",
-							"Erro", JOptionPane.WARNING_MESSAGE);
-					return; // Sai do méto_do sem continuar a execução
-				}
-
 				LoteService loteService = new LoteService();
 				Double totalAcumulado = 0.0;
 				List<Produto> produtos = new ArrayList<>();
@@ -183,9 +174,9 @@ public class SwingVendas extends JFrame {
 				Long id;
 				Integer quantidadeVendida = 0;
 				Produto produto = null;
-				JDialogPagamento dialog = new JDialogPagamento(totalAcumuladoStr);
 
 				Funcionario funcionario = controladorDeTela.getFuncionarioLogado();
+
 
 				try {
 					loteService.abrirT(); // Inicia a transação
@@ -233,21 +224,21 @@ public class SwingVendas extends JFrame {
 					}
 
 					if (temEstoque) {
-						dialog.setVisible(true); // Vai pra parte de pagamento
-						if (dialog.isPagamentoConfirmado()) { // Só salva a venda se o pagamento foi confirmado
-							Venda venda = new Venda(funcionario, produtos);
-							vendaService.salvarVenda(venda);
+						// Cria e salva a venda
+						Venda venda = new Venda(funcionario, produtos);
+						vendaService.salvarVenda(venda);
 
-							model.setRowCount(0); // Limpa a tabela
-							totalAcumulado = 0.0; // Reseta o total acumulado
-							valorTotalLabel.setText("R$ " + totalAcumulado.toString());
-						} else {
-							// Se o pagamento foi cancelado, faz rollback para restaurar o estoque
-							loteService.rollBackT();
-							JOptionPane.showMessageDialog(null, "Venda cancelada. O pagamento não foi concluído.", "Pagamento Cancelado", JOptionPane.WARNING_MESSAGE);
+						model.setRowCount(0); // Remove todas as linhas da tabela
+						// Atualiza o valor total
+						for (int i = 0; i < model.getRowCount(); i++) {
+							String valorStr = model.getValueAt(i, 4).toString().replace("R$", "").trim().replace(",", ".");
+							totalAcumulado += Double.parseDouble(valorStr);
 						}
+						valorTotalLabel.setText("R$ " + totalAcumulado.toString());
+					} else {
+						// Se não tiver estoque suficiente, faz o rollback
+						loteService.rollBackT();
 					}
-
 				} catch (Exception ex) {
 					// Em caso de exceção, realiza o rollback
 					loteService.rollBackT();
